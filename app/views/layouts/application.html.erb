@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>CanopyCompany</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>CanopyCompany</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= vite_javascript_tag 'application' %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'application' %>
+    <!--
+      If using a TypeScript entrypoint file:
+        vite_typescript_tag 'application'
 
-  <body>
-    <%= yield %>
-  </body>
+      If using a .jsx or .tsx entrypoint, add the extension:
+        vite_javascript_tag 'application.jsx'
+
+      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
+    -->
+
+</head>
+
+<body>
+<div class="container">
+  <% if notice %>
+    <div class="alert alert-success"><%= notice %></div>
+  <% end %>
+  <% if alert %>
+    <div class="alert alert-error"><%= alert %></div>
+  <% end %>
+
+  <%= yield %>
+</div>
+</body>
 </html>
