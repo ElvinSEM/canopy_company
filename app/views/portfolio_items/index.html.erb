@@ -1,0 +1,38 @@
+<!--<h1>Портфолио компании <%#= @company.name %></h1>-->
+<%#= link_to "Добавить элемент", new_company_portfolio_item_path(@company), class: "btn btn-primary" %>
+
+<!--<div class="row mt-4">-->
+  <%# @portfolio_items.each do |item| %>
+<!--    <div class="col-md-4 mb-4">-->
+<!--      <div class="card">-->
+        <%#= image_tag item.photo, class: "card-img-top" if item.photo.attached? %>
+<!--        <div class="card-body">-->
+<!--          <h5 class="card-title"><%#= item.title %></h5>-->
+<!--          <p class="card-text"><%#= item.description %></p>-->
+          <%#= link_to "Редактировать", edit_company_portfolio_item_path(@company, item), class: "btn btn-secondary" %>
+          <%#= link_to "Удалить", company_portfolio_item_path(@company, item), method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-danger" %>
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  <%# end %>
+<!--</div>-->
+
+
+<h1>Портфолио компании <%= @company.name %></h1>
+<%= link_to "Добавить элемент", new_company_portfolio_item_path(@company), class: "btn btn-primary mb-3" %>
+
+<div class="row mt-4">
+  <% @portfolio_items.each do |item| %>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <%= image_tag item.photo, class: "card-img-top" if item.photo.attached? %>
+        <div class="card-body">
+          <h5 class="card-title"><%= item.title %></h5>
+          <p class="card-text"><%= item.description %></p>
+          <%= link_to "Редактировать", edit_company_portfolio_item_path(@company, item), class: "btn btn-secondary" %>
+          <%= link_to "Удалить", company_portfolio_item_path(@company, item), method: :delete, data: { confirm: "Вы уверены?" }, class: "btn btn-danger" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

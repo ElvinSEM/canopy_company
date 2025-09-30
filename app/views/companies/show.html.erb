@@ -1,0 +1,10 @@
+<h1>О компании <%= @company&.name || ENV["COMPANY_NAME"] %></h1>
+
+<% if @company&.logo&.attached? %>
+  <%= image_tag url_for(@company.logo), alt: "Логотип компании", style: "max-width: 200px;" %>
+<% end %>
+
+<p><strong>Телефон:</strong> <%= @company&.phone || ENV["COMPANY_PHONE"] %></p>
+<p><strong>Email:</strong> <%= @company&.email || ENV["COMPANY_EMAIL"] %></p>
+<p><strong>Описание:</strong> <%= @company&.description || "Информация о компании скоро появится." %></p>
+<a href="<%= root_path %>" class="btn btn-primary">На главную</a>

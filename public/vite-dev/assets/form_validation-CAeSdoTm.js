@@ -1,0 +1,1 @@
+document.addEventListener("turbo:load",()=>{document.querySelectorAll(".needs-validation").forEach(e=>{e.addEventListener("submit",t=>{e.checkValidity()||(t.preventDefault(),t.stopPropagation()),e.classList.add("was-validated")},!1)})});

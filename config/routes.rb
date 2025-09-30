@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
-  root 'leads#new' # Указываем, что корневой маршрут ведет на форму заявки
-  resources :leads, only: [:new, :create] # Добавляем маршруты для LeadsController
+  # Настройка ActiveAdmin и Devise
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
+  # Главная страница – форма захвата лида
+  root "leads#new"
+
+  # Маршруты для заявок (лидов)
+  resources :leads, only: [:new, :create]
+
+  # Управление компаниями
+  resource :company, only: [:show, :edit, :update]
+  resources :companies, only: [:show, :edit, :update] do
+    resources :portfolio_items, except: [:show]  # Вложенные портфолио
+  end
 end

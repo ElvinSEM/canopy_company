@@ -1,0 +1,52 @@
+<!--<section id="lead-form" class="py-5">-->
+<!--  <div class="container">-->
+<!--    <h2 class="text-center mb-4">Оставьте заявку</h2>-->
+
+    <%# if @lead.errors.any? %>
+<!--      <div class="alert alert-danger">-->
+<!--        <h4>Ошибки при заполнении формы:</h4>-->
+<!--        <ul>-->
+          <%# @lead.errors.full_messages.each do |msg| %>
+<!--            <li><%#= msg %></li>-->
+          <%# end %>
+<!--        </ul>-->
+<!--      </div>-->
+    <%# end %>
+
+    <%#= form_with model: @lead, local: false, html: { id: "lead-form", class: "row g-3 needs-validation", novalidate: true } do |f| %>
+<!--      <div class="col-md-6">-->
+        <%#= f.label :name, "Ваше имя", class: "form-label" %>
+        <%#= f.text_field :name, class: "form-control", required: true, placeholder: "Введите ваше имя" %>
+<!--        <div class="invalid-feedback">Пожалуйста, введите ваше имя.</div>-->
+<!--      </div>-->
+
+<!--      <div class="col-md-6">-->
+        <%#= f.label :email, "Email", class: "form-label" %>
+        <%#= f.email_field :email, class: "form-control", required: true, placeholder: "Введите ваш email" %>
+<!--        <div class="invalid-feedback">Пожалуйста, введите корректный email.</div>-->
+<!--      </div>-->
+
+<!--      <div class="col-md-6">-->
+        <%#= f.label :phone, "Телефон", class: "form-label" %>
+        <%#= f.telephone_field :phone, class: "form-control", required: true, placeholder: "Введите ваш телефон" %>
+<!--        <div class="invalid-feedback">Пожалуйста, введите ваш телефон.</div>-->
+<!--      </div>-->
+
+<!--      <div class="col-12">-->
+        <%#= f.label :message, "Комментарий", class: "form-label" %>
+        <%#= f.text_area :message, class: "form-control", rows: 4, required: true, placeholder: "Введите ваше сообщение" %>
+<!--        <div class="invalid-feedback">Пожалуйста, введите ваше сообщение.</div>-->
+<!--      </div>-->
+
+<!--      <div class="col-12">-->
+        <%#= f.label :files, "Прикрепить файлы", class: "form-label" %>
+        <%#= f.file_field :files, multiple: true, class: "form-control" %>
+<!--      </div>-->
+
+<!--      <div class="col-12">-->
+        <%#= f.submit "Отправить заявку", class: "btn btn-primary w-100" %>
+<!--      </div>-->
+    <%# end %>
+<!--  </div>-->
+<!--</section>-->
+<!--</section>-->

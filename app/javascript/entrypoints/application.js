@@ -12,6 +12,20 @@ console.log('Vite ⚡️ Rails')
 //     <%= vite_javascript_tag 'application.jsx' %>
 
 console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
+import '../stylesheets/application.css'; // Путь должен быть правильным
+import './application.js'; // Импорт JS
+import "../stylesheets/application.scss";
+
+
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "./form_validation";
+import "./lead_form";
+import "./callback_form";
+import "./modal";
+
+// Остальной код вашего приложения
 
 // Example: Load Rails libraries in Vite.
 //

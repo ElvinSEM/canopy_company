@@ -1,0 +1,107 @@
+<!--<header class="bg-primary text-white py-3">-->
+<!--  <div class="container">-->
+<!--    <div class="d-flex justify-content-between align-items-center">-->
+<!--      <div class="d-flex align-items-center">-->
+        <%# company = Company.first %>
+        <%# if company&.logo&.attached? %>
+          <%#= image_tag url_for(company.logo), alt: 'Логотип компании', class: 'me-2', style: 'width: 50px; height: 50px;' %>
+        <%# else %>
+          <%#= image_tag 'logo.png', alt: 'Логотип компании', class: 'me-2', style: 'width: 50px; height: 50px;' %>
+        <%# end %>
+<!--        <span class="fs-4 fw-bold"><%#= ENV["COMPANY_NAME"] || "CanopyCompany" %></span>-->
+<!--      </div>-->
+<!--      <div class="d-flex gap-3">-->
+<!--        <a href="tel:<%#= ENV['COMPANY_PHONE'] || '+71234567890' %>" class="text-white text-decoration-none">-->
+<!--          <i class="fas fa-phone me-2"></i> <%#= ENV["COMPANY_PHONE"] || "+7 (123) 456-78-90" %>-->
+<!--        </a>-->
+<!--        <a href="mailto:<%#= ENV['COMPANY_EMAIL'] || 'info@canopycompany.com' %>" class="text-white text-decoration-none">-->
+<!--          <i class="fas fa-envelope me-2"></i> <%#= ENV["COMPANY_EMAIL"] || "info@canopycompany.com" %>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--      <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#leadModal">-->
+<!--        Заказать-->
+<!--      </button>-->
+<!--    </div>-->
+
+<!--  </div>-->
+
+
+
+<%# company = Company.first %>
+<%# logo_url = company&.logo&.attached? ? url_for(company.logo) : image_path("logo.png") %>
+<%# company_name = ENV["COMPANY_NAME"] || "CanopyCompany" %>
+<%# phone_raw = ENV["COMPANY_PHONE"] || "+71234567890" %>
+<%# phone_display = ENV["COMPANY_PHONE"] || "+7 (123) 456-78-90" %>
+<%# email = ENV["COMPANY_EMAIL"] || "info@canopycompany.com" %>
+
+<!--<header class="bg-primary text-white py-3">-->
+<!--  <div class="container">-->
+<!--    <div class="row align-items-center text-center text-md-start">-->
+
+      <!-- Логотип и название -->
+<!--      <div class="col-12 col-md-4 mb-2 mb-md-0 d-flex justify-content-center justify-content-md-start align-items-center">-->
+        <%#= image_tag logo_url, alt: 'Логотип компании', class: 'me-2', style: 'width: 45px; height: 45px;' %>
+<!--        <span class="fs-5 fw-bold"><%#= company_name %></span>-->
+<!--      </div>-->
+
+      <!-- Контакты -->
+<!--      <div class="col-12 col-md-5 mb-2 mb-md-0">-->
+<!--        <a href="tel:<%#= phone_raw %>" class="text-white text-decoration-none d-block">-->
+<!--          <i class="fas fa-phone me-1"></i> <%#= phone_display %>-->
+<!--        </a>-->
+<!--        <a href="mailto:<%#= email %>" class="text-white text-decoration-none d-block">-->
+<!--          <i class="fas fa-envelope me-1"></i> <%#= email %>-->
+<!--        </a>-->
+<!--      </div>-->
+
+      <!-- Кнопка -->
+<!--      <div class="col-12 col-md-3 text-center text-md-end">-->
+<!--        <button class="btn btn-light w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#leadModal">-->
+<!--          Заказать-->
+<!--        </button>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </div>-->
+<!--</header>-->
+
+
+
+
+<% company = Company.first %>
+<% logo_url = company&.logo&.attached? ? url_for(company.logo) : image_path("logo.png") %>
+<% company_name = ENV["COMPANY_NAME"] || "CanopyCompany" %>
+<% phone_raw = ENV["COMPANY_PHONE"] || "+71234567890" %>
+<% phone_display = ENV["COMPANY_PHONE"] || "+7 (123) 456-78-90" %>
+<% email = ENV["COMPANY_EMAIL"] || "info@canopycompany.com" %>
+
+<header class="bg-primary text-white py-3">
+  <div class="container-fluid">
+    <div class="row align-items-center text-center text-md-start">
+
+      <!-- Логотип и название -->
+      <div class="col-12 col-md-4 mb-2 mb-md-0 d-flex justify-content-center justify-content-md-start align-items-center">
+        <%= image_tag logo_url, alt: 'Логотип компании', class: 'me-2', style: 'width: 45px; height: 45px;' %>
+        <span class="fs-5 fw-bold"><%= company_name %></span>
+      </div>
+
+      <!-- Контакты -->
+      <div class="col-12 col-md-5 mb-2 mb-md-0">
+        <a href="tel:<%= phone_raw %>" class="text-white text-decoration-none d-block">
+          <i class="fas fa-phone me-1"></i> <%= phone_display %>
+        </a>
+        <a href="mailto:<%= email %>" class="text-white text-decoration-none d-block">
+          <i class="fas fa-envelope me-1"></i> <%= email %>
+        </a>
+      </div>
+
+      <!-- Кнопка -->
+      <div class="col-12 col-md-3 text-center text-md-end">
+        <button class="btn btn-light w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#leadModal">
+          Заказать
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>

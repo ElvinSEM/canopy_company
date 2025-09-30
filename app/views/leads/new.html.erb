@@ -1,40 +1,58 @@
-<div class="container">
-  <h1>Навесы из поликарбоната</h1>
-  <%= image_tag 'canopy.jpg', alt: 'Навес из поликарбоната', class: 'img-responsive' %>
-  <p>Мы специализируемся на изготовлении качественных навесов из поликарбоната. Наши навесы — это надежность, долговечность и стильный дизайн.</p>
+<%= render 'shared/header' %>
+<%= render 'shared/hero_section' %>
 
-  <h2>Наши услуги</h2>
-  <ul>
-    <li>Изготовление навесов любой сложности</li>
-    <li>Установка навесов под ключ</li>
-    <li>Гарантия на все работы</li>
-  </ul>
-
-  <h2>Процесс производства</h2>
-  <p>Мы используем только современные материалы и технологии. Каждый этап производства строго контролируется, чтобы обеспечить высочайшее качество.</p>
-
-  <h2>Оставьте заявку</h2>
-  <%= form_with model: @lead, local: true do |form| %>
-    <div class="form-group">
-      <%= form.label :name, "Ваше имя" %>
-      <%= form.text_field :name, class: "form-control", required: true %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :email, "Ваш email" %>
-      <%= form.email_field :email, class: "form-control", required: true %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :phone, "Ваш телефон" %>
-      <%= form.telephone_field :phone, class: "form-control", required: true %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :message, "Сообщение" %>
-      <%= form.text_area :message, class: "form-control", rows: 5 %>
-    </div>
-
-    <%= form.submit "Отправить заявку", class: "btn btn-primary" %>
+<main class="container my-5">
+  <% %w[about_section services_section work_steps_section reviews_section contacts_section].each do |section| %>
+    <%= render "shared/#{section}" %>
   <% end %>
-</div>
+
+  <!-- Оставляем только одну форму -->
+  <section id="lead-form" class="my-5">
+    <div class="card shadow-lg p-4">
+      <h2 class="text-center mb-4">Оставьте заявку</h2>
+
+      <% if @lead.errors.any? %>
+        <div class="alert alert-danger">
+          <h4>Ошибки при заполнении формы:</h4>
+          <ul>
+            <% @lead.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @lead, local: false, html: { id: "lead-form", class: "needs-validation", novalidate: true, multipart: true } do |f| %>
+        <div class="col-md-6">
+          <%= f.label :name, "Ваше имя", class: "form-label" %>
+          <%= f.text_field :name, class: "form-control", required: true, placeholder: "Введите ваше имя" %>
+          <div class="invalid-feedback">Пожалуйста, введите ваше имя.</div>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.label :email, "Email", class: "form-label" %>
+          <%= f.email_field :email, class: "form-control", required: true, placeholder: "Введите ваш email" %>
+          <div class="invalid-feedback">Пожалуйста, введите корректный email.</div>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.label :phone, "Телефон", class: "form-label" %>
+          <%= f.telephone_field :phone, class: "form-control", required: true, placeholder: "Введите ваш телефон" %>
+          <div class="invalid-feedback">Пожалуйста, введите ваш телефон.</div>
+        </div>
+
+        <div class="col-12">
+          <%= f.label :message, "Комментарий", class: "form-label" %>
+          <%= f.text_area :message, class: "form-control", rows: 4, required: true, placeholder: "Введите ваше сообщение" %>
+          <div class="invalid-feedback">Пожалуйста, введите ваше сообщение.</div>
+        </div>
+
+        <div class="col-12">
+          <%= f.submit "Отправить заявку", class: "btn btn-primary w-100" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+</main>
+
+<%= render 'shared/footer' %>

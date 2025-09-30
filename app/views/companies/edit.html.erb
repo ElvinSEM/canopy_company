@@ -1,0 +1,12 @@
+<h1>Загрузка логотипа компании</h1>
+
+<%= form_with model: @company, url: company_path(@company.id), method: :patch, local: true, multipart: true do |f| %>
+  <div class="form-group">
+    <%= f.label :logo, "Выберите логотип" %>
+    <%= f.file_field :logo, class: "form-control" %>
+  </div>
+
+  <div class="form-group mt-3">
+    <%= f.submit "Сохранить", class: "btn btn-primary" %>
+  </div>
+<% end %>
