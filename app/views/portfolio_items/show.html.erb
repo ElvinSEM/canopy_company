@@ -1,0 +1,42 @@
+<h1><%= @company.name %></h1>
+<p><%= @company.description %></p>
+
+<% if @company.logo.attached? %>
+  <div>
+    <%= image_tag @company.logo.variant(resize_to_limit: [200, 200]) %>
+  </div>
+<% end %>
+
+<h2>Портфолио</h2>
+
+<div class="portfolio-grid">
+  <% @portfolio_items.each do |item| %>
+    <div class="portfolio-item">
+      <% if item.photo.attached? %>
+        <%= image_tag item.photo.variant(resize_to_limit: [300, 200]) %>
+      <% end %>
+      <h3><%= item.title %></h3>
+      <p><%= item.description %></p>
+    </div>
+  <% end %>
+</div>
+
+<style>
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .portfolio-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 6px;
+        text-align: center;
+        background: #f9f9f9;
+    }
+    .portfolio-item img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+    }
+</style>

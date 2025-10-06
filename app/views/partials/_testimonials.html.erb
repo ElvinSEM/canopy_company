@@ -1,0 +1,24 @@
+<section id="testimonials" class="bg-light py-5">
+  <div class="container">
+    <h2 class="text-center mb-4 fw-bold">Что говорят наши клиенты</h2>
+
+    <div class="row g-4 justify-content-center">
+      <% testimonials = [
+        { name: "Сейтибрамов Эльдар", text: "Отличное качество и быстрые сроки!" },
+        { name: "Сейтибрамов Назим", text: "Очень доволен результатом. Рекомендую!" },
+        { name: "Абдурашитов Эмиль", text: "Профессиональный подход и качественная работа." }
+      ] %>
+
+      <% testimonials.each do |t| %>
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+              <p class="card-text">"<%= t[:text] %>"</p>
+              <footer class="blockquote-footer mt-2"><%= t[:name] %></footer>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

@@ -1,112 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="ru" style="height: 100%;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= ENV["COMPANY_NAME"] || "CanopyCompany" %></title>
+  <title><%= @company&.name || ENV["COMPANY_NAME"] || "ELVINCompany" %></title>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <meta name="csrf-token" content="<%= form_authenticity_token %>">
 
+  <%= vite_client_tag %>
   <%= vite_stylesheet_tag 'application' %>
   <%= vite_javascript_tag 'application' %>
-  <%= vite_javascript_tag 'form_validation' %>
-  <%= vite_javascript_tag 'modal' %>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body style="min-height: 100vh; display: flex; flex-direction: column;">
-<%#= render "shared/header" %>
-<%#= render "shared/hero_section" %>
 
-<div class="container my-3">
-  <% if current_admin_user %>
-    <%= link_to "Админ-панель", admin_root_path, class: "btn btn-primary me-2" %>
-    <%= link_to "Выйти", destroy_admin_user_session_path, method: :delete, class: "btn btn-danger" %>
-  <% else %>
-    <%= link_to "Вход в админку", new_admin_user_session_path, class: "btn btn-secondary" %>
-  <% end %>
-</div>
+  </head>
 
-<main class="flex-grow-1 container-fluid px-3 py-4">
-  <%= yield %>
-</main>
+  <body class="">
+    <!-- Контент -->
+    <main class="container mx-auto my-2">
+      <%= yield %>
+    </main>
 
-<!-- Оставить заявку -->
-<%= render "shared/form_modal",
-           modal_id: "leadModal",
-           modal_title: "Оставить заявку",
-           form_url: leads_path,
-           submit_text: "Отправить заявку" %>
+    <!-- Общий футер -->
+    <%#= render "shared/footer", company: @company %>
 
-<!-- Toast уведомление об успешной отправке -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="success-toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body">
-        Заявка успешно отправлена!
+    <!-- Модалка заявки -->
+    <%= render "shared/lead_modal" %>
+
+    <!-- Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="success-toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">Заявка успешно отправлена!</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
       </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
     </div>
-  </div>
-</div>
-
-
-</body>
+  </body>
 </html>
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="ru" style="height: 100%;">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--  <title><%#= @company&.name || "CanopyCompany" %></title>-->
-
-  <%#= csrf_meta_tags %>
-  <%#= csp_meta_tag %>
-<!--  <meta name="csrf-token" content="<%#= form_authenticity_token %>">-->
-
-  <%#= vite_stylesheet_tag 'application' %>
-  <%#= vite_javascript_tag 'application' %>
-  <%#= vite_javascript_tag 'form_validation' %>
-  <%#= vite_javascript_tag 'modal' %>
-
-<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
-<!--</head>-->
-<!--<body style="min-height: 100vh; display: flex; flex-direction: column;">-->
-
-<!-- Хедер-->
-<%#= render "shared/header", company: @company %>
-
-<!-- Hero-секция (можно включить только на главной)-->
-<%# if current_page?(root_path) %>
-  <%#= render "shared/hero_section", company: @company %>
-<%# end %>
-
-<!-- Контент страниц-->
-<!--<main class="flex-grow-1 container-fluid px-3 py-4">-->
-  <%#= yield %>
-<!--</main>-->
-
-<!-- Футер-->
-<%#= render "shared/footer", company: @company %>
-
-<!-- Модалка с формой заявки -->
-
-<!-- Toast уведомление -->
-<!--<div class="toast-container position-fixed bottom-0 end-0 p-3">-->
-<!--  <div id="success-toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">-->
-<!--    <div class="d-flex">-->
-<!--      <div class="toast-body">-->
-<!--        Заявка успешно отправлена!-->
-<!--      </div>-->
-<!--      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--</body>-->
-<!--</html>-->

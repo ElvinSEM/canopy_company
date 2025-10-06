@@ -1,1 +1,32 @@
-{}
+{
+  "images/canopy.jpeg": {
+    "file": "assets/canopy-9sRKw51X.jpeg",
+    "src": "images/canopy.jpeg",
+    "integrity": "sha384-xtCcfIG8csXApMUiKzX1xpDWENIyCt1usgqBwsWoZtK2UewX4s5hagrBIvmbEbBj"
+  },
+  "images/default_logo.png": {
+    "file": "assets/default_logo-CyNJu61o.png",
+    "src": "images/default_logo.png",
+    "integrity": "sha384-yY5zI0F9P5zzvd4fkzylynJKk302kxoBwxT3L5NkUBlPfzgcMnJublawUP4tFLsN"
+  },
+  "images/placeholder.jpg": {
+    "file": "assets/placeholder-BaHpgXql.jpg",
+    "src": "images/placeholder.jpg",
+    "integrity": "sha384-dZcwrK1Z/pWqa3OJxCezog2cJwdOP+nMNY64x/tBLvfe2TmMb+OnexsA2cTPEnVl"
+  },
+  "images/workflow1.jpeg": {
+    "file": "assets/workflow1-BHxMIjdP.jpeg",
+    "src": "images/workflow1.jpeg",
+    "integrity": "sha384-UfRAgKStJLP386+OiVgXbuAMkW5zmkMTBSnVyCazHc/Vc24QFQb2mk1+ZDonZbGJ"
+  },
+  "images/workflow2.jpeg": {
+    "file": "assets/workflow2-Cb2sG7fY.jpeg",
+    "src": "images/workflow2.jpeg",
+    "integrity": "sha384-jLm0rRGjFSc5LrU/vy6LN6sxL+4SUDK4i0ZgbCeNVSgWUS9CPyO71Np46vkys67j"
+  },
+  "images/workflow3.jpeg": {
+    "file": "assets/workflow3-v36B_u9R.jpeg",
+    "src": "images/workflow3.jpeg",
+    "integrity": "sha384-L8oRkPsL+MvVTCYTOXeOwo8HwKlntcGTYNvSALprQyKso3OrrjMkyiU+QUcHk/jq"
+  }
+}

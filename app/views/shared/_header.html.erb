@@ -66,39 +66,98 @@
 <!--</header>-->
 
 
+<%# company = Company.first %>
+<!--<header class="bg-primary text-white py-3">-->
+<!--  <div class="container d-flex justify-content-between align-items-center flex-wrap">-->
+<!--    <div class="d-flex align-items-center">-->
+      <%#= image_tag(company&.logo&.attached? ? url_for(company.logo) : "logo.png", alt: "Логотип", class: "me-2", style: "width:45px; height:45px") %>
+<!--      <span class="fs-5 fw-bold"><%#= company&.name || "CanopyCompany" %></span>-->
+<!--    </div>-->
+
+<!--    <div class="d-flex gap-2 align-items-center">-->
+      <%# if current_admin_user %>
+        <%#= link_to "Админка", admin_root_path, class: "btn btn-primary btn-sm" %>
+        <%#= link_to "Выйти", destroy_admin_user_session_path, method: :delete, class: "btn btn-danger btn-sm" %>
+      <%# else %>
+        <%#= link_to "Вход в админку", new_admin_user_session_path, class: "btn btn-secondary btn-sm" %>
+      <%# end %>
+
+<!--      <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#leadModal">Оставить заявку</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</header>-->
 
 
+<%# app/views/shared/_header.html.erb %>
 <% company = Company.first %>
 <% logo_url = company&.logo&.attached? ? url_for(company.logo) : image_path("logo.png") %>
-<% company_name = ENV["COMPANY_NAME"] || "CanopyCompany" %>
-<% phone_raw = ENV["COMPANY_PHONE"] || "+71234567890" %>
-<% phone_display = ENV["COMPANY_PHONE"] || "+7 (123) 456-78-90" %>
-<% email = ENV["COMPANY_EMAIL"] || "info@canopycompany.com" %>
+<% company_name = ENV["COMPANY_NAME"] || company&.name || "CanopyCompany" %>
+<% phone_raw = (ENV["COMPANY_PHONE"] || company&.phone || "+71234567890").gsub(/\D/, "") %>
+<% phone_display = ENV["COMPANY_PHONE"] || company&.phone || "+7 (978) 855-81-94" %>
+<% email = ENV["COMPANY_EMAIL"] || company&.email || "Elvin@canopycompany.com" %>
 
-<header class="bg-primary text-white py-3">
-  <div class="container-fluid">
-    <div class="row align-items-center text-center text-md-start">
+<header class="bg-white shadow-sm sticky-top">
+  <div class="container py-2">
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
 
-      <!-- Логотип и название -->
-      <div class="col-12 col-md-4 mb-2 mb-md-0 d-flex justify-content-center justify-content-md-start align-items-center">
-        <%= image_tag logo_url, alt: 'Логотип компании', class: 'me-2', style: 'width: 45px; height: 45px;' %>
-        <span class="fs-5 fw-bold"><%= company_name %></span>
+      <!-- ЛОГО -->
+      <a href="<%= root_path %>" class="d-flex align-items-center text-decoration-none">
+        <%= image_tag logo_url, alt: "Логотип", class: "me-2", style: "width:48px; height:48px; border-radius:8px;" %>
+        <span class="fs-5 fw-bold text-dark"><%= company&.name || "CanopyCompany" %></span>
+      </a>
+
+      <!-- НАВИГАЦИЯ -->
+      <nav class="d-none d-md-flex align-items-center gap-4">
+        <a href="#hero" class="nav-link text-dark fw-semibold position-relative">Главная</a>
+        <a href="#services" class="nav-link text-dark fw-semibold position-relative">Услуги</a>
+        <a href="#workflow" class="nav-link text-dark fw-semibold position-relative">Этапы работы</a>
+        <a href="#portfolio" class="nav-link text-dark fw-semibold position-relative">Портфолио</a>
+        <a href="#testimonials" class="nav-link text-dark fw-semibold position-relative">Отзывы</a>
+        <a href="#contacts" class="nav-link text-dark fw-semibold position-relative">Контакты</a>
+      </nav>
+
+      <!-- МОБИЛЬНОЕ МЕНЮ -->
+      <button class="btn btn-outline-dark d-md-none" id="menu-toggle">
+        <i class="bi bi-list fs-3"></i>
+      </button>
+    </div>
+
+    <!-- Выпадающее мобильное меню -->
+    <div id="mobile-menu" class="bg-white border-top d-none flex-column align-items-start p-3">
+      <a href="#hero" class="mobile-link mb-2">Главная</a>
+      <a href="#services" class="mobile-link mb-2">Услуги</a>
+      <a href="#workflow" class="mobile-link mb-2">Этапы работы</a>
+      <a href="#portfolio" class="mobile-link mb-2">Портфолио</a>
+      <a href="#testimonials" class="mobile-link mb-2">Отзывы</a>
+      <a href="#contacts" class="mobile-link mb-2">Контакты</a>
+      <button class="btn btn-primary w-100 mt-2" data-bs-toggle="modal" data-bs-target="leadModal">Оставить заявку</button>
+    </div>
+
+      <!-- Центральная часть: контакты -->
+      <div class="text-center text-md-start flex-grow-1 mb-2 mb-md-0">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-start gap-2">
+          <a href="tel:<%= phone_raw %>" class="text-dark text-decoration-none d-flex align-items-center">
+            <i class="fas fa-phone me-2 text-primary"></i>
+            <span><%= phone_display %></span>
+          </a>
+          <a href="mailto:<%= email %>" class="text-dark text-decoration-none d-flex align-items-center">
+            <i class="fas fa-envelope me-2 text-primary"></i>
+            <span><%= email %></span>
+          </a>
+        </div>
       </div>
 
-      <!-- Контакты -->
-      <div class="col-12 col-md-5 mb-2 mb-md-0">
-        <a href="tel:<%= phone_raw %>" class="text-white text-decoration-none d-block">
-          <i class="fas fa-phone me-1"></i> <%= phone_display %>
-        </a>
-        <a href="mailto:<%= email %>" class="text-white text-decoration-none d-block">
-          <i class="fas fa-envelope me-1"></i> <%= email %>
-        </a>
-      </div>
+      <!-- Правая часть: кнопки -->
+      <div class="text-center text-md-end">
+        <% if current_admin_user %>
+          <%= link_to "Админ", admin_root_path, class: "btn btn-outline-primary btn-sm me-2" %>
+          <%= link_to "Выйти", destroy_admin_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm me-2" %>
+        <% else %>
+          <%= link_to "Вход", new_admin_user_session_path, class: "btn btn-outline-secondary btn-sm me-2 d-none d-md-inline" %>
+        <% end %>
 
-      <!-- Кнопка -->
-      <div class="col-12 col-md-3 text-center text-md-end">
-        <button class="btn btn-light w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#leadModal">
-          Заказать
+        <button class="btn btn-primary btn-sm px-3" data-bs-toggle="modal" data-bs-target="#leadModal">
+          Оставить заявку
         </button>
       </div>
 

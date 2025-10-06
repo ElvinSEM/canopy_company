@@ -1,16 +1,35 @@
-import { defineConfig } from 'vite'
-import RubyPlugin from 'vite-plugin-ruby'
+import { defineConfig } from "vite";
+import ViteRails from "vite-plugin-rails";
+import tailwindcss from "@tailwindcss/vite";
+import autoprefixer from "autoprefixer";
 
 export default defineConfig({
     plugins: [
-        RubyPlugin(),
+        ViteRails({
+            envVars: { RAILS_ENV: "development" },
+            envOptions: { defineOn: "import.meta.env" },
+            fullReload: {
+                additionalPaths: ["config/routes.rb", "app/views/**/*"],
+                delay: 300,
+            },
+        }),
+        tailwindcss(),
     ],
     css: {
-        devSourcemap: true
+        postcss: {
+            plugins: [autoprefixer()],
+        },
     },
-    resolve: {
-        alias: {
-            '@': '/app/javascript'
-        }
-    }
-})
+    build: {
+        sourcemap: false,
+    },
+    server: {
+        host: 'localhost',
+        port: 3036,
+        strictPort: true,
+        open: true,
+    },
+});
+
+
+

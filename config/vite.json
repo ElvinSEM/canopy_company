@@ -1,6 +1,6 @@
 {
   "all": {
-    "sourceCodeDir": "app/javascript",
+    "sourceCodeDir": "app/frontend",
     "watchAdditionalPaths": []
   },
   "development": {
@@ -11,6 +11,7 @@
   "test": {
     "autoBuild": true,
     "publicOutputDir": "vite-test",
+    "devServer": false,
     "port": 3037
   }
 }

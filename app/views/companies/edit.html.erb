@@ -1,12 +1,92 @@
-<h1>Загрузка логотипа компании</h1>
+<!--<h1>Редактирование данных компании</h1>-->
 
-<%= form_with model: @company, url: company_path(@company.id), method: :patch, local: true, multipart: true do |f| %>
-  <div class="form-group">
-    <%= f.label :logo, "Выберите логотип" %>
+<%#= form_with model: @company, local: true, html: { multipart: true } do |f| %>
+  <%# if @company.errors.any? %>
+<!--    <div class="alert alert-danger">-->
+<!--      <ul>-->
+        <%# @company.errors.full_messages.each do |msg| %>
+<!--          <li><%#= msg %></li>-->
+        <%# end %>
+<!--      </ul>-->
+<!--    </div>-->
+  <%# end %>
+
+<!--  <div class="mb-3">-->
+    <%#= f.label :name, "Название компании" %>
+    <%#= f.text_field :name, class: "form-control" %>
+<!--  </div>-->
+
+<!--  <div class="mb-3">-->
+    <%#= f.label :phone, "Телефон" %>
+    <%#= f.telephone_field :phone, class: "form-control" %>
+<!--  </div>-->
+
+<!--  <div class="mb-3">-->
+    <%#= f.label :email, "Email" %>
+    <%#= f.email_field :email, class: "form-control" %>
+<!--  </div>-->
+
+<!--  <div class="mb-3">-->
+    <%#= f.label :description, "Описание компании" %>
+    <%#= f.text_area :description, class: "form-control", rows: 5 %>
+<!--  </div>-->
+
+<!--  <div class="mb-3">-->
+    <%#= f.label :logo, "Логотип компании" %>
+    <%#= f.file_field :logo, class: "form-control" %>
+    <%# if @company.logo.attached? %>
+<!--      <p class="mt-2">Текущий логотип:</p>-->
+      <%#= image_tag @company.logo.variant(resize_to_limit: [150, 150]), alt: "Логотип компании" %>
+    <%# end %>
+<!--  </div>-->
+
+  <%#= f.submit "Сохранить", class: "btn btn-primary" %>
+<%# end %>
+
+
+<h1 class="mb-4">Редактирование данных компании</h1>
+
+<%= form_with model: @company, local: true, html: { multipart: true, class: "needs-validation" } do |f| %>
+  <% if @company.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @company.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, "Название компании", class: "form-label" %>
+    <%= f.text_field :name, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :phone, "Телефон", class: "form-label" %>
+    <%= f.telephone_field :phone, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :email, "Email", class: "form-label" %>
+    <%= f.email_field :email, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, "Описание компании", class: "form-label" %>
+    <%= f.text_area :description, class: "form-control", rows: 5 %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :logo, "Логотип компании", class: "form-label" %>
     <%= f.file_field :logo, class: "form-control" %>
+    <% if @company.logo.attached? %>
+      <div class="mt-3">
+        <p class="fw-semibold">Текущий логотип:</p>
+        <%= image_tag @company.logo.variant(resize_to_limit: [150, 150]), alt: "Логотип компании", class: "rounded shadow-sm" %>
+      </div>
+    <% end %>
   </div>
 
-  <div class="form-group mt-3">
-    <%= f.submit "Сохранить", class: "btn btn-primary" %>
-  </div>
+  <%= f.submit "💾 Сохранить", class: "btn btn-primary px-4" %>
 <% end %>

@@ -1,0 +1,57 @@
+<!--<section class="py-5">-->
+<!--  <div class="container text-center">-->
+<!--    <h2 class="mb-4">Почему выбирают нас?</h2>-->
+<!--    <p class="mb-5">Мы создаем надежные, долговечные и стильные навесы из поликарбоната.</p>-->
+<!--    <div class="row">-->
+      <%# ["Индивидуальный подход", "Качественные материалы", "Быстрые сроки изготовления", "Гарантия на работы"].each do |feature| %>
+<!--        <div class="col-md-3 text-center">-->
+<!--          <i class="fas fa-check-circle text-primary fs-1 mb-3"></i>-->
+<!--          <h5><%#= feature %></h5>-->
+<!--        </div>-->
+      <%# end %>
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+
+<!-- app/views/partials/_about_us.html.erb -->
+<section id="about-us" class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- Текстовая часть -->
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h2 class="fw-bold mb-4 text-center text-lg-start">Почему выбирают нас?</h2>
+        <p class="text-muted mb-4">
+          Мы создаем <strong>надежные, долговечные и стильные навесы</strong> из металлоконструкций и поликарбоната.
+          Наша команда выполняет все этапы — от проектирования до монтажа — точно в срок и с гарантией качества.
+        </p>
+
+        <div class="row g-3">
+          <% features = [
+            { icon: "fa-solid fa-user-check", title: "Индивидуальный подход" },
+            { icon: "fa-solid fa-industry", title: "Качественные материалы" },
+            { icon: "fa-solid fa-stopwatch", title: "Быстрые сроки" },
+            { icon: "fa-solid fa-shield-halved", title: "Гарантия на работы" }
+          ] %>
+
+          <% features.each do |f| %>
+            <div class="col-6 d-flex align-items-center">
+              <i class="<%= f[:icon] %> text-primary fs-3 me-2"></i>
+              <span><%= f[:title] %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-4">
+          <%= link_to "Оставить заявку", "#leadModal", class: "btn btn-primary btn-lg", data: { bs_toggle: "modal", bs_target: "#leadModal" } %>
+        </div>
+      </div>
+
+      <!-- Изображение -->
+      <div class="col-lg-6 text-center">
+        <%= image_tag "placeholder.jpg", class: "img-fluid rounded shadow", alt: "Навес из металлоконструкций" %>
+      </div>
+    </div>
+  </div>
+</section>

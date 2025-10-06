@@ -41,43 +41,80 @@
 
 
 
-<% modal_id ||= "leadModal" %>
-<% modal_title ||= "Оставить заявку" %>
-<% submit_text ||= "Отправить" %>
+<%# modal_id ||= "leadModal" %>
+<%# modal_title ||= "Оставить заявку" %>
+<%# submit_text ||= "Отправить" %>
 
-<div class="modal fade" id="<%= modal_id %>" tabindex="-1" aria-labelledby="<%= modal_id %>Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-sm modal-md modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="<%= modal_id %>Label"><%= modal_title %></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-      </div>
+<!--<div class="modal fade" id="<%#= modal_id %>" tabindex="-1" aria-labelledby="<%#= modal_id %>Label" aria-hidden="true">-->
+<!--  <div class="modal-dialog modal-dialog-centered modal-sm modal-md modal-lg">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="<%#= modal_id %>Label"><%#= modal_title %></h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>-->
+<!--      </div>-->
 
-      <div class="modal-body">
-        <%= form_with model: Lead.new, url: leads_path, method: :post, html: { class: "needs-validation", novalidate: true } do |f| %>
-          <div class="mb-3">
-            <%= f.label :name, "Имя", class: "form-label" %>
-            <%= f.text_field :name, class: "form-control", required: true, placeholder: "Введите имя" %>
-            <div class="invalid-feedback">Пожалуйста, укажите имя</div>
-          </div>
+<!--      <div class="modal-body">-->
+        <%#= form_with model: Lead.new, url: leads_path, method: :post, html: { class: "needs-validation", novalidate: true } do |f| %>
+<!--          <div class="mb-3">-->
+            <%#= f.label :name, "Имя", class: "form-label" %>
+            <%#= f.text_field :name, class: "form-control", required: true, placeholder: "Введите имя" %>
+<!--            <div class="invalid-feedback">Пожалуйста, укажите имя</div>-->
+<!--          </div>-->
 
-          <div class="mb-3">
-            <%= f.label :phone, "Телефон", class: "form-label" %>
-            <%= f.telephone_field :phone, class: "form-control", required: true, placeholder: "Введите телефон" %>
-            <div class="invalid-feedback">Пожалуйста, укажите номер телефона</div>
-          </div>
+<!--          <div class="mb-3">-->
+            <%#= f.label :phone, "Телефон", class: "form-label" %>
+            <%#= f.telephone_field :phone, class: "form-control", required: true, placeholder: "Введите телефон" %>
+<!--            <div class="invalid-feedback">Пожалуйста, укажите номер телефона</div>-->
+<!--          </div>-->
 
-          <div class="mb-3">
-            <%= f.label :message, "Комментарий", class: "form-label" %>
-            <%= f.text_area :message, class: "form-control", placeholder: "Ваше сообщение (необязательно)" %>
-          </div>
+<!--          <div class="mb-3">-->
+            <%#= f.label :message, "Комментарий", class: "form-label" %>
+            <%#= f.text_area :message, class: "form-control", placeholder: "Ваше сообщение (необязательно)" %>
+<!--          </div>-->
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-            <%= f.submit submit_text, class: "btn btn-primary" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
+<!--          <div class="modal-footer">-->
+<!--            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>-->
+            <%#= f.submit submit_text, class: "btn btn-primary" %>
+<!--          </div>-->
+        <%# end %>
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<!--<div class="modal fade" id="<%#= modal_id %>" tabindex="-1" aria-labelledby="<%#= modal_id %>Label" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="<%#= modal_id %>Label"><%#= modal_title %></h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+      <%#= form_with model: Lead.new, url: form_url, local: false, html: { id: "#{modal_id}-form" } do |f| %>
+<!--        <div class="modal-body">-->
+<!--          <div class="mb-3">-->
+            <%#= f.label :name, "Имя" %>
+            <%#= f.text_field :name, class: "form-control", required: true %>
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+            <%#= f.label :email, "Email" %>
+            <%#= f.email_field :email, class: "form-control", required: true %>
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+            <%#= f.label :phone, "Телефон" %>
+            <%#= f.telephone_field :phone, class: "form-control", required: true %>
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+            <%#= f.label :message, "Сообщение" %>
+            <%#= f.text_area :message, class: "form-control", required: true %>
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="modal-footer">-->
+          <%#= f.submit submit_text, class: "btn btn-primary" %>
+<!--          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>-->
+<!--        </div>-->
+      <%# end %>
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

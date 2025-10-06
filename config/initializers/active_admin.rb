@@ -230,7 +230,7 @@ ActiveAdmin.setup do |config|
   # You can provide an options hash for more control, which is passed along to stylesheet_link_tag():
   #   config.register_stylesheet 'my_print_stylesheet.css', media: :print
   #
-  # To load a javascript file:
+  # To load a frontend file:
   #   config.register_javascript 'my_javascript.js'
 
   # == CSV options

@@ -1,0 +1,59 @@
+<!--<section id="portfolio" class="py-5 bg-white">-->
+<!--  <div class="container">-->
+<!--    <h2 class="text-center mb-4">Наши работы</h2>-->
+
+<!--    <div class="row g-4">-->
+      <%# if @company && @company.portfolio_items.any? %>
+        <%# @company.portfolio_items.each do |item| %>
+<!--          <div class="col-6 col-md-4 col-lg-3">-->
+<!--            <div class="card border-0 shadow-sm">-->
+              <%# if item.photo.attached? %>
+                <%#= image_tag item.photo.variant(resize_to_limit: [400, 300]), class: "card-img-top rounded", alt: item.title %>
+              <%# else %>
+                <%#= image_tag "placeholder.jpg", class: "card-img-top", alt: "Пример работы" %>
+              <%# end %>
+<!--              <div class="card-body text-center">-->
+<!--                <h6 class="card-title"><%#= item.title %></h6>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+        <%# end %>
+      <%# else %>
+<!--        <p class="text-center text-muted">Портфолио скоро появится...</p>-->
+      <%# end %>
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+<section id="portfolio" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold">Наши работы</h2>
+
+    <% if @company && @company.portfolio_items.any? %>
+      <div class="row g-4 justify-content-center">
+        <% @company.portfolio_items.each do |item| %>
+          <div class="col-6 col-md-4 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden portfolio-card">
+
+              <% if item.photo.attached? %>
+                <%= image_tag item.photo.variant(resize_to_limit: [400, 300]).processed,
+                              class: "card-img-top img-fluid portfolio-img",
+                              alt: item.title %>
+              <% else %>
+                <%= image_tag asset_path("placeholder.jpg"),
+                              class: "card-img-top img-fluid portfolio-img",
+                              alt: "Пример работы" %>
+              <% end %>
+
+              <div class="card-body text-center bg-white">
+                <h6 class="card-title fw-semibold"><%= item.title %></h6>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-center text-muted">Портфолио скоро появится...</p>
+    <% end %>
+  </div>
+</section>

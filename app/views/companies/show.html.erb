@@ -1,10 +1,75 @@
-<h1>О компании <%= @company&.name || ENV["COMPANY_NAME"] %></h1>
+<!--<h1><%#= @company.name || ENV["COMPANY_NAME"] %></h1>-->
 
-<% if @company&.logo&.attached? %>
-  <%= image_tag url_for(@company.logo), alt: "Логотип компании", style: "max-width: 200px;" %>
+<%# if @company.logo.attached? %>
+<!--  <div class="company-logo mb-3">-->
+    <%#= image_tag @company.logo.variant(resize_to_limit: [200, 200]), alt: "Логотип компании" %>
+<!--  </div>-->
+<%# end %>
+
+<!--<div class="company-contacts mb-4">-->
+<!--  <p><strong>Телефон:</strong> <%#= @company.phone || ENV["COMPANY_PHONE"] %></p>-->
+<!--  <p><strong>Email:</strong> <%#= mail_to @company.email || ENV["COMPANY_EMAIL"] %></p>-->
+<!--</div>-->
+
+<!--<div class="company-description mb-4">-->
+<!--  <p><%#= @company.description.presence || "Информация о компании скоро появится." %></p>-->
+<!--</div>-->
+
+<%# if @portfolio_items.any? %>
+<!--  <h2>Наши работы</h2>-->
+<!--  <div class="row row-cols-1 row-cols-md-3 g-3">-->
+    <%# @portfolio_items.each do |item| %>
+<!--      <div class="col">-->
+<!--        <div class="card h-100">-->
+          <%# if item.photo.attached? %>
+            <%#= image_tag item.photo.variant(resize_to_limit: [400, 300]), class: "card-img-top", alt: item.title %>
+          <%# end %>
+<!--          <div class="card-body">-->
+<!--            <h5 class="card-title"><%#= item.title %></h5>-->
+<!--            <p class="card-text"><%#= item.description %></p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+    <%# end %>
+<!--  </div>-->
+<%# end %>
+
+<%# if current_user&.admin? %>
+  <%#= link_to "✏️ Редактировать данные", edit_company_path, class: "btn btn-outline-primary mb-4" %>
+<%# end %>
+
+<h1 class="mb-4"><%= @company.name || ENV["COMPANY_NAME"] || "CanopyCompany" %></h1>
+
+<% if @company.logo.attached? %>
+  <div class="company-logo mb-4">
+    <%= image_tag @company.logo.variant(resize_to_limit: [200, 200]), alt: "Логотип компании", class: "rounded shadow-sm" %>
+  </div>
 <% end %>
 
-<p><strong>Телефон:</strong> <%= @company&.phone || ENV["COMPANY_PHONE"] %></p>
-<p><strong>Email:</strong> <%= @company&.email || ENV["COMPANY_EMAIL"] %></p>
-<p><strong>Описание:</strong> <%= @company&.description || "Информация о компании скоро появится." %></p>
-<a href="<%= root_path %>" class="btn btn-primary">На главную</a>
+<div class="company-contacts mb-4">
+  <p><strong>Телефон:</strong> <%= @company.phone || ENV["COMPANY_PHONE"] %></p>
+  <p><strong>Email:</strong> <%= mail_to(@company.email || ENV["COMPANY_EMAIL"]) %></p>
+</div>
+
+<div class="company-description mb-5">
+  <p><%= @company.description.presence || "Информация о компании появится позже." %></p>
+</div>
+
+<% if @portfolio_items.any? %>
+  <h2 class="mb-4">Наши работы</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-3">
+    <% @portfolio_items.each do |item| %>
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+          <% if item.photo.attached? %>
+            <%= image_tag item.photo.variant(resize_to_limit: [400, 300]), class: "card-img-top", alt: item.title %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= item.title %></h5>
+            <p class="card-text"><%= item.description %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -50,8 +50,8 @@
 #   end
 # end
 
-
 class PortfolioItemsController < ApplicationController
+  before_action :authenticate_admin_user!  # проверка авторизации
   before_action :set_company
   before_action :set_portfolio_item, only: [:edit, :update, :destroy]
 

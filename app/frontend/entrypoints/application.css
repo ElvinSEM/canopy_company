@@ -1,0 +1,5 @@
+@import "../stylesheets/application.scss";
+@import "../stylesheets/custom_header.css";
+
+@source "../../../app/views/**/*.html.erb";
+@source "../../../app/helpers/**/*.rb";

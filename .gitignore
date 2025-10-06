@@ -1,18 +1,72 @@
-# Игнорируем папки и файлы
+## Игнорируем папки и файлы
+#/node_modules
+#/public/packs
+#/public/assets
+#.byebug_history
+#/log/*
+#/tmp/*
+#!/log/.keep
+#!/tmp/.keep
+#/storage/*
+#!/storage/.keep
+#.env
+#*.swp
+#.DS_Store
+#
+## Игнорируем файлы окружения
+#/config/master.key
+#/config/credentials.yml.enc
+
+# Node.js
 /node_modules
+
+# Compiled assets
 /public/packs
 /public/assets
+
+# Debug & logs
 .byebug_history
 /log/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+
+# ActiveStorage uploads
 /storage/*
 !/storage/.keep
+
+# Local environment variables
 .env
+
+# Swap files & system
 *.swp
 .DS_Store
+Thumbs.db
 
-# Игнорируем файлы окружения
+# Rails credentials (do NOT commit!)
 /config/master.key
 /config/credentials.yml.enc
+
+# Ignore PID files, but keep directory
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Coverage reports
+/coverage
+
+# IDE / editor configs
+.idea/
+.vscode/
+
+# Vite / frontend build cache
+/.vite
+/.vite-plugin-*
+
+# Vite Ruby
+/public/vite*
+node_modules
+# Vite uses dotenv and suggests to ignore local-only env files. See
+# https://vitejs.dev/guide/env-and-mode.html#env-files
+*.local
+
