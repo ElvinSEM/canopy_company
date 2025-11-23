@@ -7,3 +7,37 @@
 <!--    </a>-->
 <!--  </div>-->
 <!--</section>-->
+
+
+<!-- app/views/home/_hero.html.erb -->
+<section class="min-h-screen flex items-center justify-center bg-gradient-primary relative overflow-hidden">
+  <!-- Декоративные элементы -->
+  <div class="absolute top-20 left-10 w-72 h-72 bg-primary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+
+  <div class="container-custom text-center relative z-10 section-padding">
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in">
+      <span class="text-gradient">Профессиональные навесы</span>
+    </h1>
+
+    <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up">
+      Создаем надежные и стильные конструкции любой сложности.
+      От проектирования до монтажа под ключ.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up">
+      <button onclick="openLeadModal()" class="btn-primary text-lg px-8 py-4">
+        <span class="flex items-center space-x-2">
+          <span>Получить консультацию</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </span>
+      </button>
+
+      <a href="#portfolio" class="btn-secondary text-lg px-8 py-4">
+        Смотреть работы
+      </a>
+    </div>
+  </div>
+</section>

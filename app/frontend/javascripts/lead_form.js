@@ -1,67 +1,101 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const leadForm = document.getElementById('lead-form');
-    if (!leadForm) {
-        console.warn("lead_form.js: форма не найдена");
-        return;
-    }
+// app/javascript/controllers/modal_controller.js
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('leadModal');
+    const modalBox = document.getElementById('leadModalBox');
+    const closeBtn = document.getElementById('closeLeadModal');
+    const form = document.getElementById('lead-form');
 
-    console.log("lead_form.js: форма найдена, навешиваем обработчик");
+    // Функция открытия модалки
+    window.openLeadModal = function() {
+        if (!modal || !modalBox) return;
 
-    leadForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('flex');
+            modal.classList.remove('opacity-0');
+            modalBox.classList.remove('opacity-0', 'scale-95');
+            modalBox.classList.add('opacity-100', 'scale-100');
+        }, 10);
 
-        if (!leadForm.checkValidity()) {
-            leadForm.classList.add('was-validated');
-            return;
+        document.body.style.overflow = 'hidden';
+    };
+
+    // Функция закрытия модалки
+    window.closeLeadModal = function() {
+        if (!modal || !modalBox) return;
+
+        modalBox.classList.remove('opacity-100', 'scale-100');
+        modalBox.classList.add('opacity-0', 'scale-95');
+        modal.classList.add('opacity-0');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex', 'opacity-0');
+            document.body.style.overflow = '';
+            form.reset();
+        }, 300);
+    };
+
+    // Закрытие по крестику
+    closeBtn?.addEventListener('click', closeLeadModal);
+
+    // Закрытие по клику вне модалки
+    modal?.addEventListener('click', function(e) {
+        if (e.target === modal) closeLeadModal();
+    });
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeLeadModal();
         }
+    });
 
-        const submitButton = leadForm.querySelector('button[type="submit"]');
-        const originalText = submitButton.textContent;
-        submitButton.disabled = true;
-        submitButton.textContent = 'Отправка...';
+    // Обработка отправки формы
+    form?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submit-btn');
+        const originalText = submitBtn.innerHTML;
+
+        // Показываем загрузку
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+      <span class="flex items-center justify-center space-x-2">
+        <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        <span>Отправка...</span>
+      </span>
+    `;
 
         try {
-            const formData = new FormData(leadForm);
-            const response = await fetch(leadForm.action, {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
             });
 
-            const data = await response.json();
-
             if (response.ok) {
-                console.log("Заявка успешно отправлена!", data);
-
-                // Toast Bootstrap
-                const toastEl = document.getElementById('success-toast');
-                if (toastEl) {
-                    const toast = new bootstrap.Toast(toastEl);
-                    toast.show();
+                closeLeadModal();
+                if (typeof showToast === 'function') {
+                    showToast('Заявка успешно отправлена! Мы свяжемся с вами в течение 15 минут', 'success');
                 }
-
-                // Сброс формы
-                leadForm.reset();
-                leadForm.classList.remove('was-validated');
-
-                // Закрытие модалки
-                const modalEl = document.getElementById('leadModal');
-                const modal = bootstrap.Modal.getInstance(modalEl);
-                if (modal) modal.hide();
             } else {
-                alert('Ошибка: ' + (data.error || 'Неизвестная ошибка'));
+                throw new Error('Ошибка сервера');
             }
         } catch (error) {
-            console.error('Ошибка при отправке формы:', error);
-            alert('Ошибка при отправке формы. Попробуйте ещё раз.');
+            if (typeof showToast === 'function') {
+                showToast('Ошибка при отправке. Пожалуйста, попробуйте еще раз.', 'error');
+            }
         } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = originalText;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
         }
     });
 });
