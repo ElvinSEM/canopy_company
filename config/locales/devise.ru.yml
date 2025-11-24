@@ -1,0 +1,17 @@
+# config/locales/devise.ru.yml
+ru:
+  devise:
+    failure:
+      invalid: "Неверный email или пароль"
+      invalid_email: "Неверный email адрес"
+      invalid_password: "Неверный пароль"
+      not_found_in_database: "Пользователь с таким email не найден"
+      unauthenticated: "Войдите в систему для доступа к этой странице"
+      unauthorized: "У вас нет прав для доступа к этой странице"
+    sessions:
+      new:
+        sign_in: "Вход в админ-панель"
+        email: "Email администратора"
+        password: "Пароль"
+        remember_me: "Запомнить меня"
+        submit: "Войти"

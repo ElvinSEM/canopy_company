@@ -1,0 +1,190 @@
+<!-- app/views/active_admin/devise/sessions/new.html.erb -->
+<!--<div class="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center p-4">-->
+<!--  <div class="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">-->
+<!--    <div class="text-center mb-8">-->
+<!--      <h2 class="text-2xl font-bold text-gray-900">Canopy Company</h2>-->
+<!--      <p class="text-gray-600 mt-2">Административная панель</p>-->
+<!--    </div>-->
+
+    <%#= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<!--      <div class="space-y-4">-->
+<!--        <div>-->
+          <%#= f.label :email, "Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%#= f.email_field :email, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+<!--        </div>-->
+
+<!--        <div>-->
+          <%#= f.label :password, "Пароль", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%#= f.password_field :password, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+<!--        </div>-->
+
+        <%# if devise_mapping.rememberable? %>
+<!--          <div class="flex items-center">-->
+            <%#= f.check_box :remember_me, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+            <%#= f.label :remember_me, "Запомнить меня", class: "ml-2 block text-sm text-gray-700" %>
+<!--          </div>-->
+        <%# end %>
+
+<!--        <div>-->
+          <%#= f.submit "Войти", class: "w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer" %>
+<!--        </div>-->
+<!--      </div>-->
+    <%# end %>
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<!-- app/views/active_admin/devise/sessions/new.html.erb -->
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+  <!-- Анимированный фон -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 -right-32 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+    <div class="absolute -bottom-40 -left-32 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+    <div class="absolute top-40 left-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+  </div>
+
+  <div class="max-w-md w-full space-y-8 relative z-10">
+    <!-- Заголовок с анимацией -->
+    <div class="text-center transform transition-all duration-500 hover:scale-105">
+      <div class="mx-auto w-20 h-20 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-cyan-500/25 mb-6 animate-bounce">
+        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+        </svg>
+      </div>
+      <h2 class="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        Админ-панель
+      </h2>
+      <p class="mt-3 text-slate-300 text-lg">
+        <%= @company&.name || "Canopy Company" %>
+      </p>
+    </div>
+
+    <!-- Карточка формы -->
+    <div class="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8 transform transition-all duration-500 hover:shadow-cyan-500/25">
+      <!-- Сообщения об ошибках -->
+      <% if flash[:alert] %>
+        <div class="mb-6 bg-red-500/10 border border-red-500/20 text-red-200 px-4 py-3 rounded-xl text-sm backdrop-blur-sm animate-shake">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <span><%= flash[:alert] %></span>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Форма -->
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6", data: { controller: "login" } }) do |f| %>
+        <div class="space-y-5">
+          <!-- Поле Email -->
+          <div class="group">
+            <div class="flex items-center justify-between mb-2">
+              <%= f.label :email, "Email", class: "block text-sm font-medium text-slate-300 group-focus-within:text-cyan-400 transition-colors duration-300" %>
+              <svg class="w-4 h-4 text-slate-400 group-focus-within:text-cyan-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+              </svg>
+            </div>
+            <div class="relative">
+              <%= f.email_field :email,
+                                autofocus: true,
+                                autocomplete: "email",
+                                class: "w-full px-4 py-3 bg-white/5 border border-slate-500/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 backdrop-blur-sm transition-all duration-300 group-focus-within:bg-white/10",
+                                placeholder: "admin@canopycompany.com",
+                                value: params.dig(:admin_user, :email),
+                                data: { action: "input->login#validateEmail" } %>
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <div class="w-2 h-2 bg-green-500 rounded-full opacity-0 transition-opacity duration-300" data-login-target="emailIndicator"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Поле Пароля -->
+          <div class="group">
+            <div class="flex items-center justify-between mb-2">
+              <%= f.label :password, "Пароль", class: "block text-sm font-medium text-slate-300 group-focus-within:text-cyan-400 transition-colors duration-300" %>
+              <svg class="w-4 h-4 text-slate-400 group-focus-within:text-cyan-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+            </div>
+            <div class="relative">
+              <%= f.password_field :password,
+                                   autocomplete: "current-password",
+                                   class: "w-full px-4 py-3 bg-white/5 border border-slate-500/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 backdrop-blur-sm transition-all duration-300 group-focus-within:bg-white/10",
+                                   placeholder: "••••••••",
+                                   data: { action: "input->login#validatePassword" } %>
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <div class="w-2 h-2 bg-green-500 rounded-full opacity-0 transition-opacity duration-300" data-login-target="passwordIndicator"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Запомнить меня -->
+        <% if devise_mapping.rememberable? %>
+          <div class="flex items-center group cursor-pointer">
+            <div class="relative">
+              <%= f.check_box :remember_me, class: "sr-only peer" %>
+              <div class="w-4 h-4 bg-white/10 border border-slate-500/30 rounded peer-checked:bg-cyan-500 peer-checked:border-cyan-500 transition-all duration-300 group-hover:border-cyan-400"></div>
+              <svg class="absolute top-0.5 left-0.5 w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <%= f.label :remember_me, "Запомнить меня", class: "ml-3 text-sm text-slate-300 cursor-pointer group-hover:text-cyan-400 transition-colors duration-300" %>
+          </div>
+        <% end %>
+
+        <!-- Кнопка входа -->
+        <div class="pt-4">
+          <%= f.submit "Войти в систему",
+                       class: "w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-slate-900 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none",
+                       data: {
+                         disable_with: "⏳ Вход...",
+                         login_target: "submitBtn"
+                       } %>
+        </div>
+      <% end %>
+
+      <!-- Подсказки -->
+      <div class="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
+        <p class="text-sm text-slate-400 text-center">Тестовые данные:</p>
+        <div class="mt-2 flex justify-center space-x-6 text-xs">
+          <div class="text-cyan-400">
+            <span class="text-slate-400">👤</span> admin@canopycompany.com
+          </div>
+          <div class="text-cyan-400">
+            <span class="text-slate-400">🔑</span> canopy2024
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ссылка назад -->
+    <div class="text-center">
+      <%= link_to root_path, class: "group inline-flex items-center text-slate-400 hover:text-cyan-400 transition-colors duration-300" do %>
+        <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Вернуться на сайт
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Стили для анимаций -->
+<style>
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    .animate-shake {
+        animation: shake 0.5s ease-in-out;
+    }
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
+</style>

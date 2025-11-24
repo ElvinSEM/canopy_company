@@ -1,28 +1,59 @@
-<section id="workflow" class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">Как мы работаем</h2>
+<!-- app/views/partials/_workflow.html.erb -->
+<section id="workflow" class="py-20 bg-gradient-to-br from-slate-50 to-blue-50/30">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Как мы работаем</h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Простой и прозрачный процесс от заявки до готового результата
+      </p>
+    </div>
 
-    <div class="row g-4 text-center">
-      <div class="col-md-3">
-        <i class="fas fa-phone fs-1 text-primary mb-3"></i>
-        <h5>Заявка</h5>
-        <p>Вы оставляете заявку или звоните нам.</p>
-      </div>
-      <div class="col-md-3">
-        <i class="fas fa-ruler-combined fs-1 text-primary mb-3"></i>
-        <h5>Замер</h5>
-        <p>Наш специалист выезжает на объект для точных измерений.</p>
-      </div>
-      <div class="col-md-3">
-        <i class="fas fa-calculator fs-1 text-primary mb-3"></i>
-        <h5>Расчет</h5>
-        <p>Подготавливаем индивидуальное коммерческое предложение.</p>
-      </div>
-      <div class="col-md-3">
-        <i class="fas fa-tools fs-1 text-primary mb-3"></i>
-        <h5>Монтаж</h5>
-        <p>Изготавливаем и устанавливаем навес точно в срок.</p>
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <% steps = [
+        { number: "01", icon: "📞", title: "Консультация", description: "Обсуждаем ваш проект, отвечаем на вопросы и предлагаем решения" },
+        { number: "02", icon: "📐", title: "Замеры и расчет", description: "Выезжаем на объект, делаем замеры и рассчитываем стоимость" },
+        { number: "03", icon: "🏗️", title: "Производство", description: "Изготавливаем конструкцию из качественных материалов" },
+        { number: "04", icon: "⚡", title: "Монтаж", description: "Устанавливаем навес в оговоренные сроки" }
+      ] %>
+
+      <% steps.each_with_index do |step, index| %>
+        <div class="relative">
+          <!-- Линия соединения (кроме последнего элемента) -->
+          <% if index < steps.size - 1 %>
+            <div class="hidden lg:block absolute top-12 left-1/2 w-full h-0.5 bg-blue-200 z-0"></div>
+          <% end %>
+
+          <div class="relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group text-center z-10">
+            <!-- Номер шага -->
+            <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-lg mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
+              <%= step[:number] %>
+            </div>
+
+            <!-- Иконка -->
+            <div class="text-3xl mb-3">
+              <%= step[:icon] %>
+            </div>
+
+            <!-- Заголовок и описание -->
+            <h3 class="text-xl font-bold text-gray-900 mb-2"><%= step[:title] %></h3>
+            <p class="text-gray-600 leading-relaxed"><%= step[:description] %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- CTA блок -->
+    <div class="text-center mt-12 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+      <h3 class="text-2xl font-bold text-gray-900 mb-4">Готовы начать проект?</h3>
+      <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+        Оставьте заявку и получите бесплатную консультацию нашего специалиста
+      </p>
+      <button onclick="openLeadModal()"
+              class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700
+                     text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl
+                     transition-all duration-300 transform hover:-translate-y-0.5">
+        Начать сотрудничество
+      </button>
     </div>
   </div>
 </section>

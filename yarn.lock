@@ -5,6 +5,17 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@activeadmin/activeadmin@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@activeadmin/activeadmin@npm:3.4.0"
+  dependencies:
+    jquery: "npm:^3.4.1"
+    jquery-ui: "npm:^1.13.3"
+    jquery-ujs: "npm:^1.2.2"
+  checksum: 10c0/b809081a2d2603b6f8b025d4941f835220887641edaa8e8a36a5b6fb261fd9498b4f66084fe4f6d6ee0139ee82e4c1057cee119b9c9c0f8c7c18b3731b4bfb14
+  languageName: node
+  linkType: hard
+
 "@bufbuild/protobuf@npm:^2.5.0":
   version: 2.10.1
   resolution: "@bufbuild/protobuf@npm:2.10.1"
@@ -1209,11 +1220,11 @@ __metadata:
   linkType: hard
 
 "baseline-browser-mapping@npm:^2.8.25":
-  version: 2.8.30
-  resolution: "baseline-browser-mapping@npm:2.8.30"
+  version: 2.8.31
+  resolution: "baseline-browser-mapping@npm:2.8.31"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: 10c0/724e2a71dc18af1555953278544d60d3677ad1413d19b4c68f0b1d16cb075186035125cad38d93c1ccc2df8dc8520e6d47452b76b265898ad7ac480630f12cae
+  checksum: 10c0/e0b2fcb41bf36c5e27e122a4d4cc9e5f6b9747d31cd0bd1f771aee9c490eb1e01cd11a31db32286bd4b9221139ee332b5ab7e3893c18a4dbd0ce8915a9e180ed
   languageName: node
   linkType: hard
 
@@ -1326,9 +1337,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001754":
-  version: 1.0.30001756
-  resolution: "caniuse-lite@npm:1.0.30001756"
-  checksum: 10c0/863df07bd8d5139371ce7d4e582f03fef38141726282dcd532421bbd95ea298c7f953a8e1a9790db89ca1816bd8ce3cce638a66361b769dd1f2dc8d4c721d546
+  version: 1.0.30001757
+  resolution: "caniuse-lite@npm:1.0.30001757"
+  checksum: 10c0/3ccb71fa2bf1f8c96ff1bf9b918b08806fed33307e20a3ce3259155fda131eaf96cfcd88d3d309c8fd7f8285cc71d89a3b93648a1c04814da31c301f98508d42
   languageName: node
   linkType: hard
 
@@ -1336,6 +1347,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "canopy_company@workspace:."
   dependencies:
+    "@activeadmin/activeadmin": "npm:^3.4.0"
     "@eslint/js": "npm:^9.33.0"
     "@hotwired/stimulus": "npm:^3.2.2"
     "@hotwired/turbo-rails": "npm:^8.0.12"
@@ -1560,9 +1572,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.249":
-  version: 1.5.259
-  resolution: "electron-to-chromium@npm:1.5.259"
-  checksum: 10c0/a6600ff20d513e1acce29cd04af5fcb338295ebe5a13fa9802009464d9c269a4a092218c8ea8c9b85017a1efd75606fe0cdf5f36216979f7c8462af7df2f530d
+  version: 1.5.260
+  resolution: "electron-to-chromium@npm:1.5.260"
+  checksum: 10c0/5be308adbe7f9b370f628eb3ae35528bccc8e8592ee4848f9dfa308af658deaa87e915dd6929b6993e712929e7e6828f40434814506476ae11051381ee423fdf
   languageName: node
   linkType: hard
 
@@ -2709,6 +2721,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jquery-ui@npm:^1.13.3":
+  version: 1.14.1
+  resolution: "jquery-ui@npm:1.14.1"
+  dependencies:
+    jquery: "npm:>=1.12.0 <5.0.0"
+  checksum: 10c0/cf7a3c0aac369e513d78bc5864bbafb6ddf85a43513ca5d00b11d65e2890a6618ff2ef5b8cb2925db9a6b7d0c2482d717fb10cc813e419024ae8bc457e18f51d
+  languageName: node
+  linkType: hard
+
+"jquery-ujs@npm:^1.2.2":
+  version: 1.2.3
+  resolution: "jquery-ujs@npm:1.2.3"
+  peerDependencies:
+    jquery: ">=1.8.0"
+  checksum: 10c0/3ae70de58496e9df65c3939464ebc449648bdd8078bbf5b9df1f32536e9d7482337a2e1de79bc9e7511ee7c3ef04ed8d5228f9344c1f52673bc32f0a5bd0d90f
+  languageName: node
+  linkType: hard
+
+"jquery@npm:>=1.12.0 <5.0.0, jquery@npm:^3.4.1":
+  version: 3.7.1
+  resolution: "jquery@npm:3.7.1"
+  checksum: 10c0/808cfbfb758438560224bf26e17fcd5afc7419170230c810dd11f5c1792e2263e2970cca8d659eb84fcd9acc301edb6d310096e450277d54be4f57071b0c82d9
+  languageName: node
+  linkType: hard
+
 "js-yaml@npm:^4.1.0":
   version: 4.1.1
   resolution: "js-yaml@npm:4.1.1"
@@ -3376,9 +3413,9 @@ __metadata:
   linkType: hard
 
 "proc-log@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "proc-log@npm:6.0.0"
-  checksum: 10c0/40c5e2b4c55e395a3bd72e38cba9c26e58598a1f4844fa6a115716d5231a0919f46aa8e351147035d91583ad39a794593615078c948bc001fe3beb99276be776
+  version: 6.1.0
+  resolution: "proc-log@npm:6.1.0"
+  checksum: 10c0/4f178d4062733ead9d71a9b1ab24ebcecdfe2250916a5b1555f04fe2eda972a0ec76fbaa8df1ad9c02707add6749219d118a4fc46dc56bdfe4dde4b47d80bb82
   languageName: node
   linkType: hard
 

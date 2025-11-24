@@ -16,6 +16,7 @@ gem 'activeadmin'
 gem 'devise'
 
 gem "image_processing", "~> 1.2"
+# Gemfile
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

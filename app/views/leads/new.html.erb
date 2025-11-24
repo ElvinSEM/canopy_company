@@ -1,20 +1,16 @@
-<%# Главная страница лендинга %>
-
+<!-- app/views/home/index.html.erb -->
 <%= render "shared/header" %>
 
-<main>
+<main class="overflow-hidden">
   <%= render "partials/hero" %>
+  <%= render "partials/about_us" %>
   <%= render "partials/services" %>
   <%= render "partials/workflow" %>
   <%= render "partials/portfolio" %>
   <%= render "partials/testimonials" %>
-  <%= render "partials/contacts" %>
+  <%#= render "partials/contacts" %>
 </main>
 
 <%= render "shared/footer" %>
 
-<%= render "shared/lead_modal",
-           modal_id: "leadModal",
-           modal_title: "Оставить заявку",
-           form_url: leads_path,
-           submit_text: "Отправить заявку" %>
+<%= render "shared/lead_modal" %>

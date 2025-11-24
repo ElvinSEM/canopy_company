@@ -90,35 +90,81 @@
 
 <!-- app/views/shared/_header.html.erb -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200/50 supports-backdrop-blur:bg-white/60">
-  <nav class="container-custom px-4 sm:px-6 lg:px-8">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Логотип -->
       <div class="flex-shrink-0">
-        <a href="/" class="text-2xl font-bold text-gradient">
-          <%= @company&.name || "ELVINCompany" %>
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+            <img
+              src="/vite-dev/images/default_logo.png"
+              alt="<%= @company&.name || 'ELVINCompany' %>"
+              class="w-8 h-8 object-contain"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+              />
+            <!-- Fallback если логотип не загрузился -->
+            <div class="hidden text-white font-bold text-lg">
+              <%= (@company&.name || "E")[0] %>
+            </div>
+          </div>
+          <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-cyan-700 transition-all duration-300">
+            <%= @company&.name || "ELVINCompany" %>
+          </span>
         </a>
       </div>
 
-      <!-- Навигация -->
+      <!-- Навигация для десктопа -->
       <div class="hidden md:flex items-center space-x-8">
-        <a href="#services" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#services"
+           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
           Услуги
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
-        <a href="#portfolio" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#portfolio"
+           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
           Портфолио
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
-        <a href="#testimonials" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#testimonials"
+           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
           Отзывы
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
-        <a href="#contacts" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#footer-contacts"
+           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
           Контакты
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
       </div>
 
       <!-- Кнопка заявки -->
-      <button onclick="openLeadModal()" class="btn-primary text-sm">
-        Оставить заявку
+      <button onclick="openLeadModal()"
+              class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95">
+        <span class="flex items-center space-x-2">
+          <span>Оставить заявку</span>
+          <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </span>
       </button>
+    </div>
+
+    <!-- Мобильное меню -->
+    <div class="md:hidden">
+      <div class="flex space-x-4 overflow-x-auto py-2 scrollbar-hide">
+        <a href="#services" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+          Услуги
+        </a>
+        <a href="#portfolio" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+          Портфолио
+        </a>
+        <a href="#testimonials" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+          Отзывы
+        </a>
+        <a href="#footer-contacts" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+          Контакты
+        </a>
+      </div>
     </div>
   </nav>
 </header>

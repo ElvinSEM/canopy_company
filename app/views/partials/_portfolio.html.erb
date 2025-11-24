@@ -25,35 +25,146 @@
 <!--  </div>-->
 <!--</section>-->
 
-<section id="portfolio" class="py-5 bg-light">
-  <div class="container">
-    <h2 class="text-center mb-5 fw-bold">Наши работы</h2>
+<!-- app/views/partials/_portfolio.html.erb -->
+<section id="portfolio" class="py-20 bg-gradient-to-br from-slate-50 to-blue-50/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Наши работы</h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Реализованные проекты, которыми мы гордимся
+      </p>
+    </div>
 
-    <% if @company && @company.portfolio_items.any? %>
-      <div class="row g-4 justify-content-center">
-        <% @company.portfolio_items.each do |item| %>
-          <div class="col-6 col-md-4 col-lg-3">
-            <div class="card border-0 shadow-sm h-100 overflow-hidden portfolio-card">
+    <%# Определяем переменную projects прямо здесь %>
+    <% projects = [
+      {
+        image: 'workflow1.jpeg',
+        title: 'Навес для 3 автомобилей',
+        category: 'Частный дом',
+        location: 'Московская область',
+        description: 'Просторный трехместный навес с усиленной конструкцией из стального профиля и сотовым поликарбонатом. Идеальное решение для семьи с несколькими автомобилями.',
+        duration: '7 дней',
+        area: '45 м²',
+        materials: 'Сталь, поликарбонат',
+        price: 'от 120 000 ₽'
+      },
+      {
+        image: 'workflow1.jpeg',
+        title: 'Терраса ресторана',
+        category: 'Коммерческий',
+        location: 'Санкт-Петербург',
+        description: 'Элегантная терраса для летнего сезона с раздвижной крышей и системой подогрева. Позволяет использовать пространство круглый год.',
+        duration: '14 дней',
+        area: '80 м²',
+        materials: 'Алюминий, стекло',
+        price: 'от 350 000 ₽'
+      },
+      {
+        image: 'workflow1.jpeg',
+        title: 'Промышленный навес',
+        category: 'Складской комплекс',
+        location: 'Казань',
+        description: 'Прочная конструкция для тяжелых условий эксплуатации. Выдерживает значительные снеговые и ветровые нагрузки.',
+        duration: '21 день',
+        area: '200 м²',
+        materials: 'Сталь, профнастил',
+        price: 'от 500 000 ₽'
+      },
+      {
+        image: 'workflow1.jpeg',
+        title: 'Навес для бассейна',
+        category: 'Частный дом',
+        location: 'Сочи',
+        description: 'Защита от ультрафиолета и мусора с прозрачным поликарбонатом. Сохранение комфортной температуры воды.',
+        duration: '10 дней',
+        area: '30 м²',
+        materials: 'Алюминий, поликарбонат',
+        price: 'от 180 000 ₽'
+      },
+      {
+        image: 'workflow1.jpeg',
+        title: 'Терраса кафе',
+        category: 'Коммерческий',
+        location: 'Екатеринбург',
+        description: 'Уютное пространство для гостей с подогревом в холодное время года и защитой от осадков.',
+        duration: '12 дней',
+        area: '60 м²',
+        materials: 'Дерево, поликарбонат',
+        price: 'от 280 000 ₽'
+      },
+      {
+        image: 'workflow1.jpeg',
+        title: 'Архитектурный комплекс',
+        category: 'Общественный',
+        location: 'Новосибирск',
+        description: 'Современное архитектурное решение с уникальным дизайном. Сочетание функциональности и эстетики.',
+        duration: '30 дней',
+        area: '150 м²',
+        materials: 'Сталь, стекло, дерево',
+        price: 'от 650 000 ₽'
+      }
+    ] %>
 
-              <% if item.photo.attached? %>
-                <%= image_tag item.photo.variant(resize_to_limit: [400, 300]).processed,
-                              class: "card-img-top img-fluid portfolio-img",
-                              alt: item.title %>
-              <% else %>
-                <%= image_tag asset_path("placeholder.jpg"),
-                              class: "card-img-top img-fluid portfolio-img",
-                              alt: "Пример работы" %>
-              <% end %>
-
-              <div class="card-body text-center bg-white">
-                <h6 class="card-title fw-semibold"><%= item.title %></h6>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% projects.each do |project| %>
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+          <!-- Изображение -->
+          <div class="h-48 bg-gray-100 overflow-hidden">
+            <img
+              src="/vite-dev/images/<%= project[:image] %>"
+              alt="<%= project[:title] %>"
+              class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+              />
+            <div class="hidden w-full h-full bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center">
+              <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-white text-2xl backdrop-blur-sm">
+                📷
               </div>
             </div>
           </div>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="text-center text-muted">Портфолио скоро появится...</p>
-    <% end %>
+
+          <!-- Информация -->
+          <div class="p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-2"><%= project[:title] %></h3>
+            <div class="flex justify-between items-center text-sm text-gray-600 mb-3">
+              <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">
+                <%= project[:category] %>
+              </span>
+              <span><%= project[:location] %></span>
+            </div>
+
+            <!-- Описание -->
+            <p class="text-gray-600 text-sm mb-4 leading-relaxed"><%= project[:description] %></p>
+
+            <!-- Детали -->
+            <div class="grid grid-cols-2 gap-2 text-xs mb-4">
+              <div class="flex items-center gap-1">
+                <span class="text-gray-500">⏱️</span>
+                <span><%= project[:duration] %></span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-gray-500">📐</span>
+                <span><%= project[:area] %></span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-gray-500">🏗️</span>
+                <span><%= project[:materials] %></span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-gray-500">💰</span>
+                <span class="font-medium"><%= project[:price] %></span>
+              </div>
+            </div>
+
+            <button
+              onclick="openLeadModal()"
+              class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-2 rounded-lg font-semibold text-sm transition-all duration-300">
+              Заказать проект
+            </button>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </section>

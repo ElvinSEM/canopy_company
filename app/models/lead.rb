@@ -1,13 +1,36 @@
+# app/models/lead.rb
 class Lead < ApplicationRecord
-  has_many_attached :files
-
+  # Простые валидации
   validates :name, presence: true
-  # validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :phone, presence: true, length: { minimum: 10, maximum: 15 }
+  validates :phone, presence: true
   validates :message, presence: true
-  # validates :status, presence: true, inclusion: { in: ["Новая", "В работе", "Завершена"] }
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+
+  # Устанавливаем статус по умолчанию
+  after_initialize :set_default_status, if: :new_record?
+
+  # Разрешенные атрибуты для Ransack (поиск в Active Admin)
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "name", "phone", "email", "status", "created_at"]
+    %w[name email phone status created_at updated_at]
+  end
+
+  # Разрешенные ассоциации для Ransack
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
+  # Метод для определения класса статуса
+  def status_class
+    case status
+    when 'Новая' then 'status-new'
+    when 'В работе' then 'status-in-progress'
+    when 'Завершена' then 'status-completed'
+    else 'status-default'
+    end
+  end
+
+  private
+
+  def set_default_status
+    self.status ||= 'Новая'
   end
 end

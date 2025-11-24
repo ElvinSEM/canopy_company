@@ -9,24 +9,36 @@
 <!--</section>-->
 
 
-<!-- app/views/home/_hero.html.erb -->
-<section class="min-h-screen flex items-center justify-center bg-gradient-primary relative overflow-hidden">
+<!-- app/views/partials/_hero.html.erb -->
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900 relative overflow-hidden">
   <!-- Декоративные элементы -->
-  <div class="absolute top-20 left-10 w-72 h-72 bg-primary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
-  <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+  <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-500/15 rounded-full blur-3xl"></div>
 
-  <div class="container-custom text-center relative z-10 section-padding">
-    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in">
-      <span class="text-gradient">Профессиональные навесы</span>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 py-20">
+    <!-- Бейдж -->
+    <div class="inline-flex items-center bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-6 border border-white/20">
+      <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+      Более 200 успешных проектов
+    </div>
+
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
+      <span class="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent">
+        Профессиональные навесы
+      </span>
     </h1>
 
-    <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-slide-up">
+    <p class="text-xl md:text-2xl text-blue-100/80 mb-8 max-w-3xl mx-auto leading-relaxed">
       Создаем надежные и стильные конструкции любой сложности.
-      От проектирования до монтажа под ключ.
+      От проектирования до монтажа под ключ с гарантией качества.
     </p>
 
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up">
-      <button onclick="openLeadModal()" class="btn-primary text-lg px-8 py-4">
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+      <button onclick="openLeadModal()"
+              class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700
+                     text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-2xl hover:shadow-3xl
+                     transition-all duration-300 transform hover:-translate-y-1">
         <span class="flex items-center space-x-2">
           <span>Получить консультацию</span>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,9 +47,37 @@
         </span>
       </button>
 
-      <a href="#portfolio" class="btn-secondary text-lg px-8 py-4">
+      <a href="#portfolio"
+         class="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-2xl font-semibold text-lg
+                border border-white/20 hover:border-white/30 transition-all duration-300 backdrop-blur-sm">
         Смотреть работы
       </a>
     </div>
+
+    <!-- Доверительные элементы -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
+      <% trust_items = [
+        { icon: "✅", text: "Гарантия 3 года" },
+        { icon: "⚡", text: "Срок от 3 дней" },
+        { icon: "🏆", text: "Опыт 5 лет" },
+        { icon: "💎", text: "Качественные материалы" }
+      ] %>
+
+      <% trust_items.each do |item| %>
+        <div class="flex items-center space-x-2 text-blue-100/80">
+          <span class="text-lg"><%= item[:icon] %></span>
+          <span class="text-sm"><%= item[:text] %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <a href="#about-us" class="text-white/60 hover:text-white transition-colors duration-300">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+      </svg>
+    </a>
   </div>
 </section>

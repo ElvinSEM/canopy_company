@@ -17,3 +17,86 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</section>-->
+
+
+<!-- app/views/partials/_services.html.erb -->
+<section id="services" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Наши услуги</h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Полный спектр услуг по проектированию и монтажу навесных конструкций
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% services = [
+        {
+          icon: '🚗',
+          title: 'Навесы для автомобилей',
+          description: 'Надежные укрытия для ваших автомобилей любой сложности и размера',
+          features: ['Любые размеры', 'Разные формы', 'Усиленная конструкция']
+        },
+        {
+          icon: '🏠',
+          title: 'Террасы и веранды',
+          description: 'Уютные пространства для отдыха с защитой от непогоды',
+          features: ['Открытые и закрытые', 'Разные материалы', 'Индивидуальный дизайн']
+        },
+        {
+          icon: '🏢',
+          title: 'Промышленные навесы',
+          description: 'Прочные конструкции для складов, производств и коммерческих объектов',
+          features: ['Большие пролеты', 'Усиленные опоры', 'Долговечные материалы']
+        },
+        {
+          icon: '🏊',
+          title: 'Навесы для бассейнов',
+          description: 'Защита бассейнов от мусора и ультрафиолета',
+          features: ['Раздвижные системы', 'Прозрачный поликарбонат', 'Антикоррозийная защита']
+        },
+        {
+          icon: '🎯',
+          title: 'Спортивные сооружения',
+          description: 'Навесы для спортивных площадок и тренажерных залов',
+          features: ['Высокие потолки', 'Прочные крепления', 'Безопасные материалы']
+        },
+        {
+          icon: '🛒',
+          title: 'Торговые конструкции',
+          description: 'Навесы для рынков, магазинов и выставочных площадок',
+          features: ['Привлекательный дизайн', 'Функциональность', 'Долговечность']
+        }
+      ] %>
+
+      <% services.each do |service| %>
+        <div class="bg-gray-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 group border border-gray-200 hover:border-blue-200 hover:transform hover:-translate-y-2">
+          <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center text-2xl text-white mb-4 group-hover:scale-110 transition-transform duration-300">
+            <%= service[:icon] %>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mb-3"><%= service[:title] %></h3>
+          <p class="text-gray-600 leading-relaxed mb-4"><%= service[:description] %></p>
+
+          <ul class="space-y-2 mb-4">
+            <% service[:features].each do |feature| %>
+              <li class="flex items-center text-sm text-gray-600">
+                <svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <%= feature %>
+              </li>
+            <% end %>
+          </ul>
+
+          <button onclick="openLeadModal()"
+                  class="w-full bg-white text-blue-600 hover:bg-blue-600 hover:text-white
+                         border border-blue-600 py-2 rounded-lg font-semibold transition-all duration-300
+                         transform hover:-translate-y-0.5">
+            Узнать стоимость
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

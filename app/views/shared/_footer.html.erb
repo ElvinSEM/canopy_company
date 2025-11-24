@@ -49,31 +49,124 @@
 <!--</footer>-->
 
 
-<footer class="bg-light text-dark py-4 mt-auto">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center flex-wrap">
-
-      <div class="d-flex align-items-center">
-        <% if @company&.logo&.attached? %>
-          <%= image_tag url_for(@company.logo), alt: 'Логотип', class: 'me-2', style: 'width: 40px; height: 40px; border-radius: 5px;' %>
-        <% else %>
-          <%= image_tag 'logo.png', alt: 'Логотип', class: 'me-2', style: 'width: 40px; height: 40px; border-radius: 5px;' %>
-        <% end %>
-        <span class="fs-5 fw-bold"><%= @company.name %></span>
+<!-- app/views/shared/_footer.html.erb -->
+<footer class="bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900 text-white" id="footer-contacts">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- О компании -->
+      <div class="md:col-span-2">
+        <h3 class="text-2xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent mb-4">
+          <%= @company&.name || "ELVINCompany" %>
+        </h3>
+        <p class="text-blue-100/80 leading-relaxed mb-4">
+          Профессиональные навесные конструкции любой сложности.
+          От проектирования до монтажа под ключ с гарантией качества.
+        </p>
+        <div class="flex space-x-4">
+          <a href="#" class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors duration-200 hover:scale-110">
+            <span class="text-lg">📘</span>
+          </a>
+          <a href="#" class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors duration-200 hover:scale-110">
+            <span class="text-lg">📷</span>
+          </a>
+          <a href="#" class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors duration-200 hover:scale-110">
+            <span class="text-lg">🎬</span>
+          </a>
+        </div>
       </div>
 
-      <div class="d-flex gap-3">
-        <a href="#services" class="text-dark text-decoration-none fw-bold">Услуги</a>
-        <%= link_to "Портфолио", company_portfolio_items_path(@company), class: "btn btn-primary btn-sm" %>
-        <%= link_to "✏️ Редактировать данные компании", edit_company_path, class: "btn btn-outline-light btn-sm" %>
-
+      <!-- Контакты -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4 text-white">Контакты</h4>
+        <div class="space-y-3 text-blue-100/80">
+          <div class="flex items-center space-x-3 hover:text-white transition-colors duration-200">
+            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-sm">📞</span>
+            </div>
+            <a href="tel:+79788558194" class="hover:text-white">+7 (978) 855-81-94</a>
+          </div>
+          <div class="flex items-center space-x-3 hover:text-white transition-colors duration-200">
+            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-sm">✉️</span>
+            </div>
+            <a href="mailto:Elvin@canopycompany.com" class="hover:text-white">Elvin@canopycompany.com</a>
+          </div>
+          <div class="flex items-center space-x-3 hover:text-white transition-colors duration-200">
+            <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-sm">📍</span>
+            </div>
+            <span>Москва, ул. Примерная, 15</span>
+          </div>
+        </div>
       </div>
 
-      <div class="text-muted text-dark small text-end">
-        © <%= Time.current.year %> <%= @company.name %>. Все права защищены.
-        <br>
-        📞 <%= @company.phone %> | ✉️ <%= @company.email %>
+      <!-- Часы работы -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4 text-white">Режим работы</h4>
+        <div class="space-y-3 text-blue-100/80">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-sm">⏰</span>
+            </div>
+            <div>
+              <p class="font-medium text-white">Пн-Вс: 9:00 - 21:00</p>
+              <p class="text-sm text-blue-100/60">Без выходных</p>
+            </div>
+          </div>
+          <button onclick="openLeadModal()"
+                  class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-2 rounded-lg font-semibold text-sm transition-all duration-300 transform hover:-translate-y-0.5 mt-4">
+            Заказать звонок
+          </button>
+        </div>
       </div>
     </div>
+
+    <!-- Карта (опционально) -->
+    <div class="mt-8 bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
+      <h4 class="text-lg font-semibold mb-4 text-white">Как нас найти</h4>
+      <div class="bg-gray-800 rounded-lg h-48 flex items-center justify-center text-blue-100/60">
+        <div class="text-center">
+          <div class="text-3xl mb-2">🗺️</div>
+          <p>Мы находимся в Москве</p>
+          <p class="text-sm">ул. Примерная, 15</p>
+          <a href="https://yandex.ru/maps/-/CDqZIVXh" target="_blank"
+             class="inline-block mt-2 text-blue-300 hover:text-blue-200 underline text-sm">
+            Посмотреть на карте
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-blue-500/20 mt-8 pt-8 text-center text-blue-100/60">
+      <p>&copy; 2024 <%= @company&.name || "ELVINCompany" %>. Все права защищены.</p>
+    </div>
+    <!-- Скрытая ссылка на вход в админку -->
+
+    <!-- Информация о статусе -->
+    <% if admin_user_signed_in? %>
+      <div class="text-xs text-green-300 mt-1">
+        ✅ Вы вошли как администратор |
+        <%= button_to 'Выйти', destroy_admin_user_session_path,
+                      method: :delete,
+                      class: 'text-red-300 hover:text-red-100 bg-transparent border-none cursor-pointer text-xs inline p-0 m-0 underline' %>
+      </div>
+    <% else %>
+      <p class="text-xs text-yellow-300 mt-1">
+        🔐 Не авторизован |
+        <%= link_to 'Войти', new_admin_user_session_path, class: 'text-blue-300 hover:text-blue-100' %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="text-xs opacity-70 hover:opacity-100 transition-opacity duration-300">
+    <% if admin_user_signed_in? %>
+      <%= link_to "⚙️ Админ-панель",
+                  admin_root_path,
+                  class: "text-green-300 hover:text-green-100 transition-colors font-medium" %>
+    <% else %>
+      <%= link_to "⚙️ Вход в админку",
+                  new_admin_user_session_path,
+                  class: "text-gray-300 hover:text-white transition-colors" %>
+    <% end %>
   </div>
 </footer>
