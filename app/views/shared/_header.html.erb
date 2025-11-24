@@ -90,33 +90,34 @@
 
 <!-- app/views/shared/_header.html.erb -->
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200/50 supports-backdrop-blur:bg-white/60">
-  <nav class="container-custom px-4 sm:px-6 lg:px-8">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Логотип -->
       <div class="flex-shrink-0">
-        <a href="/" class="text-2xl font-bold text-gradient">
+        <a href="/" class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
           <%= @company&.name || "ELVINCompany" %>
         </a>
       </div>
 
-      <!-- Навигация -->
+      <!-- Навигация для десктопа -->
       <div class="hidden md:flex items-center space-x-8">
-        <a href="#services" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#services" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
           Услуги
         </a>
-        <a href="#portfolio" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#portfolio" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
           Портфолио
         </a>
-        <a href="#testimonials" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#testimonials" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
           Отзывы
         </a>
-        <a href="#contacts" class="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#contacts" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
           Контакты
         </a>
       </div>
 
       <!-- Кнопка заявки -->
-      <button onclick="openLeadModal()" class="btn-primary text-sm">
+      <button onclick="openLeadModal()"
+              class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
         Оставить заявку
       </button>
     </div>

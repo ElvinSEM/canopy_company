@@ -49,31 +49,54 @@
 <!--</footer>-->
 
 
-<footer class="bg-light text-dark py-4 mt-auto">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center flex-wrap">
-
-      <div class="d-flex align-items-center">
-        <% if @company&.logo&.attached? %>
-          <%= image_tag url_for(@company.logo), alt: 'Логотип', class: 'me-2', style: 'width: 40px; height: 40px; border-radius: 5px;' %>
-        <% else %>
-          <%= image_tag 'logo.png', alt: 'Логотип', class: 'me-2', style: 'width: 40px; height: 40px; border-radius: 5px;' %>
-        <% end %>
-        <span class="fs-5 fw-bold"><%= @company.name %></span>
+<!-- app/views/shared/_footer.html.erb -->
+<footer class="bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- О компании -->
+      <div class="md:col-span-2">
+        <h3 class="text-2xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent mb-4">
+          <%= @company&.name || "ELVINCompany" %>
+        </h3>
+        <p class="text-blue-100/80 leading-relaxed mb-4">
+          Профессиональные навесные конструкции любой сложности.
+          От проектирования до монтажа под ключ.
+        </p>
+        <div class="flex space-x-4">
+          <a href="#" class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors duration-200">
+            📘
+          </a>
+          <a href="#" class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors duration-200">
+            📷
+          </a>
+          <a href="#" class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center hover:bg-blue-500/30 transition-colors duration-200">
+            🎬
+          </a>
+        </div>
       </div>
 
-      <div class="d-flex gap-3">
-        <a href="#services" class="text-dark text-decoration-none fw-bold">Услуги</a>
-        <%= link_to "Портфолио", company_portfolio_items_path(@company), class: "btn btn-primary btn-sm" %>
-        <%= link_to "✏️ Редактировать данные компании", edit_company_path, class: "btn btn-outline-light btn-sm" %>
-
+      <!-- Контакты -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Контакты</h4>
+        <div class="space-y-2 text-blue-100/80">
+          <p>📞 +7 (978) 855-81-94</p>
+          <p>✉️ Elvin@canopycompany.com</p>
+          <p>📍 Москва, ул. Примерная, 15</p>
+        </div>
       </div>
 
-      <div class="text-muted text-dark small text-end">
-        © <%= Time.current.year %> <%= @company.name %>. Все права защищены.
-        <br>
-        📞 <%= @company.phone %> | ✉️ <%= @company.email %>
+      <!-- Часы работы -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Режим работы</h4>
+        <div class="space-y-2 text-blue-100/80">
+          <p>Пн-Вс: 9:00 - 21:00</p>
+          <p>Без выходных</p>
+        </div>
       </div>
+    </div>
+
+    <div class="border-t border-blue-500/20 mt-8 pt-8 text-center text-blue-100/60">
+      <p>&copy; 2024 <%= @company&.name || "ELVINCompany" %>. Все права защищены.</p>
     </div>
   </div>
 </footer>
