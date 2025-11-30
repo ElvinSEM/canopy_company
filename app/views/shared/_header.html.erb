@@ -1,114 +1,114 @@
-<!--<header class="bg-primary text-white py-3">-->
-<!--  <div class="container">-->
-<!--    <div class="d-flex justify-content-between align-items-center">-->
-<!--      <div class="d-flex align-items-center">-->
-        <%# company = Company.first %>
-        <%# if company&.logo&.attached? %>
-          <%#= image_tag url_for(company.logo), alt: 'Логотип компании', class: 'me-2', style: 'width: 50px; height: 50px;' %>
-        <%# else %>
-          <%#= image_tag 'logo.png', alt: 'Логотип компании', class: 'me-2', style: 'width: 50px; height: 50px;' %>
-        <%# end %>
-<!--        <span class="fs-4 fw-bold"><%#= ENV["COMPANY_NAME"] || "CanopyCompany" %></span>-->
-<!--      </div>-->
-<!--      <div class="d-flex gap-3">-->
-<!--        <a href="tel:<%#= ENV['COMPANY_PHONE'] || '+71234567890' %>" class="text-white text-decoration-none">-->
-<!--          <i class="fas fa-phone me-2"></i> <%#= ENV["COMPANY_PHONE"] || "+7 (123) 456-78-90" %>-->
+
+<!-- app/views/shared/_header.html.erb -->
+<!--<header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200/50 supports-backdrop-blur:bg-white/60">-->
+<!--  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">-->
+<!--    <div class="flex justify-between items-center h-16">-->
+      <!-- Логотип -->
+<!--      <div class="flex-shrink-0">-->
+<!--        <a href="/" class="flex items-center space-x-3 group">-->
+<!--          <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">-->
+<!--            <img-->
+<!--              src="/vite-dev/images/default_logo.png"-->
+<!--              alt="<%#= @company&.name || 'ELVINCompany' %>"-->
+<!--              class="w-8 h-8 object-contain"-->
+<!--              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"-->
+<!--              />-->
+            <!-- Fallback если логотип не загрузился -->
+<!--            <div class="hidden text-white font-bold text-lg">-->
+              <%#= (@company&.name || "E")[0] %>
+<!--            </div>-->
+<!--          </div>-->
+<!--          <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-cyan-700 transition-all duration-300">-->
+            <%#= @company&.name || "ELVINCompany" %>
+<!--          </span>-->
 <!--        </a>-->
-<!--        <a href="mailto:<%#= ENV['COMPANY_EMAIL'] || 'info@canopycompany.com' %>" class="text-white text-decoration-none">-->
-<!--          <i class="fas fa-envelope me-2"></i> <%#= ENV["COMPANY_EMAIL"] || "info@canopycompany.com" %>-->
+<!--      </div>-->
+
+      <!-- Навигация для десктопа -->
+<!--      <div class="hidden md:flex items-center space-x-8">-->
+<!--        <a href="#services"-->
+<!--           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">-->
+<!--          Услуги-->
+<!--          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>-->
+<!--        </a>-->
+<!--        <a href="#portfolio"-->
+<!--           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">-->
+<!--          Портфолио-->
+<!--          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>-->
+<!--        </a>-->
+<!--        <a href="#testimonials"-->
+<!--           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">-->
+<!--          Отзывы-->
+<!--          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>-->
+<!--        </a>-->
+<!--        <a href="#footer-contacts"-->
+<!--           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">-->
+<!--          Контакты-->
+<!--          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>-->
 <!--        </a>-->
 <!--      </div>-->
-<!--      <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#leadModal">-->
-<!--        Заказать-->
+
+      <!-- Кнопка заявки -->
+<!--      <button onclick="openLeadModal()"-->
+<!--              class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95">-->
+<!--        <span class="flex items-center space-x-2">-->
+<!--          <span>Оставить заявку</span>-->
+<!--          <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>-->
+<!--          </svg>-->
+<!--        </span>-->
 <!--      </button>-->
 <!--    </div>-->
 
-<!--  </div>-->
-
-
-
-<%# company = Company.first %>
-<%# logo_url = company&.logo&.attached? ? url_for(company.logo) : image_path("logo.png") %>
-<%# company_name = ENV["COMPANY_NAME"] || "CanopyCompany" %>
-<%# phone_raw = ENV["COMPANY_PHONE"] || "+71234567890" %>
-<%# phone_display = ENV["COMPANY_PHONE"] || "+7 (123) 456-78-90" %>
-<%# email = ENV["COMPANY_EMAIL"] || "info@canopycompany.com" %>
-
-<!--<header class="bg-primary text-white py-3">-->
-<!--  <div class="container">-->
-<!--    <div class="row align-items-center text-center text-md-start">-->
-
-      <!-- Логотип и название -->
-<!--      <div class="col-12 col-md-4 mb-2 mb-md-0 d-flex justify-content-center justify-content-md-start align-items-center">-->
-        <%#= image_tag logo_url, alt: 'Логотип компании', class: 'me-2', style: 'width: 45px; height: 45px;' %>
-<!--        <span class="fs-5 fw-bold"><%#= company_name %></span>-->
-<!--      </div>-->
-
-      <!-- Контакты -->
-<!--      <div class="col-12 col-md-5 mb-2 mb-md-0">-->
-<!--        <a href="tel:<%#= phone_raw %>" class="text-white text-decoration-none d-block">-->
-<!--          <i class="fas fa-phone me-1"></i> <%#= phone_display %>-->
+    <!-- Мобильное меню -->
+<!--    <div class="md:hidden">-->
+<!--      <div class="flex space-x-4 overflow-x-auto py-2 scrollbar-hide">-->
+<!--        <a href="#services" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">-->
+<!--          Услуги-->
 <!--        </a>-->
-<!--        <a href="mailto:<%#= email %>" class="text-white text-decoration-none d-block">-->
-<!--          <i class="fas fa-envelope me-1"></i> <%#= email %>-->
+<!--        <a href="#portfolio" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">-->
+<!--          Портфолио-->
+<!--        </a>-->
+<!--        <a href="#testimonials" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">-->
+<!--          Отзывы-->
+<!--        </a>-->
+<!--        <a href="#footer-contacts" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">-->
+<!--          Контакты-->
 <!--        </a>-->
 <!--      </div>-->
-
-      <!-- Кнопка -->
-<!--      <div class="col-12 col-md-3 text-center text-md-end">-->
-<!--        <button class="btn btn-light w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#leadModal">-->
-<!--          Заказать-->
-<!--        </button>-->
-<!--      </div>-->
-
 <!--    </div>-->
-<!--  </div>-->
+<!--  </nav>-->
 <!--</header>-->
-
-
-<%# company = Company.first %>
-<!--<header class="bg-primary text-white py-3">-->
-<!--  <div class="container d-flex justify-content-between align-items-center flex-wrap">-->
-<!--    <div class="d-flex align-items-center">-->
-      <%#= image_tag(company&.logo&.attached? ? url_for(company.logo) : "logo.png", alt: "Логотип", class: "me-2", style: "width:45px; height:45px") %>
-<!--      <span class="fs-5 fw-bold"><%#= company&.name || "CanopyCompany" %></span>-->
-<!--    </div>-->
-
-<!--    <div class="d-flex gap-2 align-items-center">-->
-      <%# if current_admin_user %>
-        <%#= link_to "Админка", admin_root_path, class: "btn btn-primary btn-sm" %>
-        <%#= link_to "Выйти", destroy_admin_user_session_path, method: :delete, class: "btn btn-danger btn-sm" %>
-      <%# else %>
-        <%#= link_to "Вход в админку", new_admin_user_session_path, class: "btn btn-secondary btn-sm" %>
-      <%# end %>
-
-<!--      <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#leadModal">Оставить заявку</button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</header>-->
-
 
 <!-- app/views/shared/_header.html.erb -->
+<%
+  # Определяем переменные
+  company_name = @company&.name || "ELVIN"
+  logo_path = vite_asset_path('images/default_logo.png')
+  fallback_initial = company_name[0]
+%>
+
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200/50 supports-backdrop-blur:bg-white/60">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      <!-- Логотип -->
+
+      <!-- Логотип и название -->
       <div class="flex-shrink-0">
-        <a href="/" class="flex items-center space-x-3 group">
+        <a href="/" class="flex items-center space-x-3 group" aria-label="<%= company_name %> - На главную">
           <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-            <img
-              src="/vite-dev/images/default_logo.png"
-              alt="<%= @company&.name || 'ELVINCompany' %>"
-              class="w-8 h-8 object-contain"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-              />
+            <%= image_tag(logo_path,
+                          alt: "#{company_name} логотип",
+                          class: "w-8 h-8 object-contain",
+                          onerror: "this.style.display='none'; this.nextElementSibling.style.display='flex'") %>
+
             <!-- Fallback если логотип не загрузился -->
-            <div class="hidden text-white font-bold text-lg">
-              <%= (@company&.name || "E")[0] %>
+            <div class="hidden text-white font-bold text-lg leading-none">
+              <%= fallback_initial %>
             </div>
           </div>
+
           <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-cyan-700 transition-all duration-300">
-            <%= @company&.name || "ELVINCompany" %>
+            <%= company_name %>
           </span>
         </a>
       </div>
@@ -116,22 +116,26 @@
       <!-- Навигация для десктопа -->
       <div class="hidden md:flex items-center space-x-8">
         <a href="#services"
-           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
+           class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Услуги">
           Услуги
           <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
         <a href="#portfolio"
-           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
+           class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Портфолио">
           Портфолио
           <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
         <a href="#testimonials"
-           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
+           class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Отзывы">
           Отзывы
           <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
         <a href="#footer-contacts"
-           class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group">
+           class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 relative group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Контакты">
           Контакты
           <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
         </a>
@@ -139,11 +143,19 @@
 
       <!-- Кнопка заявки -->
       <button onclick="openLeadModal()"
-              class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95">
+              class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              aria-label="Оставить заявку на услуги">
         <span class="flex items-center space-x-2">
           <span>Оставить заявку</span>
-          <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-300"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24"
+               aria-hidden="true">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"/>
           </svg>
         </span>
       </button>
@@ -152,19 +164,39 @@
     <!-- Мобильное меню -->
     <div class="md:hidden">
       <div class="flex space-x-4 overflow-x-auto py-2 scrollbar-hide">
-        <a href="#services" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#services"
+           class="flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Услуги">
           Услуги
         </a>
-        <a href="#portfolio" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#portfolio"
+           class="flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Портфолио">
           Портфолио
         </a>
-        <a href="#testimonials" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#testimonials"
+           class="flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Отзывы">
           Отзывы
         </a>
-        <a href="#footer-contacts" class="nav-link flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+        <a href="#footer-contacts"
+           class="flex-shrink-0 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+           aria-label="Перейти к разделу Контакты">
           Контакты
         </a>
       </div>
     </div>
   </nav>
 </header>
+
+<style>
+    /* Стили для скрытия скроллбара в мобильном меню */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+</style>

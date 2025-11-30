@@ -1,7 +1,18 @@
+# test/models/lead_test.rb
 require "test_helper"
 
 class LeadTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  # Просто не указываем fixtures вообще
+
+  test "class exists" do
+    assert_kind_of Class, Lead
+  end
+
+  test "can create lead" do
+    lead = Lead.new(
+      name: "Тест",
+      email: "test@example.com"
+    )
+    assert lead.valid?
+  end
 end
