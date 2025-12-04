@@ -683,16 +683,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/rollup-darwin-arm64@npm:4.53.3":
+"@rollup/rollup-darwin-arm64@npm:4.53.3, @rollup/rollup-darwin-arm64@npm:^4.53.3":
   version: 4.53.3
   resolution: "@rollup/rollup-darwin-arm64@npm:4.53.3"
+  checksum: 10c0/a6e7a73b79a90a1b37350e4c88e412be46af5dd4c3b2a9e960abf10e37440253477bd1e44a3db4a5d6f0ff905801d4bdce89d116f4cb1736d33a931e187f63e9
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@rollup/rollup-darwin-x64@npm:4.53.3":
+"@rollup/rollup-darwin-x64@npm:4.53.3, @rollup/rollup-darwin-x64@npm:^4.53.3":
   version: 4.53.3
   resolution: "@rollup/rollup-darwin-x64@npm:4.53.3"
+  checksum: 10c0/994f8b89930db2e328407fab62ad9cd45c4be16f0c8698d91894c7b3d624b4479bc2d379d9f8a8329d1ada7479e1c1595bb7b4dd6824c2f3db31de48051b235c
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -725,9 +727,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-arm64-gnu@npm:4.53.3":
+"@rollup/rollup-linux-arm64-gnu@npm:4.53.3, @rollup/rollup-linux-arm64-gnu@npm:^4.53.3":
   version: 4.53.3
   resolution: "@rollup/rollup-linux-arm64-gnu@npm:4.53.3"
+  checksum: 10c0/f203fb6d61dbac9523d7ac9d1f1b9aa86eeddde34291493117f50a7e8bb27c1abc129edb647bcd0ee296e43178c421137dae2f6336e007762877b5b2d165f2d0
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -774,9 +777,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/rollup-linux-x64-gnu@npm:4.53.3":
+"@rollup/rollup-linux-x64-gnu@npm:4.53.3, @rollup/rollup-linux-x64-gnu@npm:^4.53.3":
   version: 4.53.3
   resolution: "@rollup/rollup-linux-x64-gnu@npm:4.53.3"
+  checksum: 10c0/565815b5bb6712d5121e5f896fe4dc823b64cd52712f9d6e569f32cbb68cbc75224f22e1cdf0c12a449225c3e6b88893e57d9f48ef79d8c453794112129a2ce8
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -1220,11 +1224,11 @@ __metadata:
   linkType: hard
 
 "baseline-browser-mapping@npm:^2.9.0":
-  version: 2.9.0
-  resolution: "baseline-browser-mapping@npm:2.9.0"
+  version: 2.9.2
+  resolution: "baseline-browser-mapping@npm:2.9.2"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: 10c0/cc2c4beaaa6310e57d55c0b38767b7d833cad17779a51bd2f1db7c8fb50d86629fa065cf65b9333bbe1d909270a084bd2177f0fbc832633b273504a8c805ab9c
+  checksum: 10c0/4f9be09e20261ed26f19e9b95454dcb8d8371b87983c57cd9f70b9572e9b3053577f0d8d6d91297bdb605337747680686e22f62522a6e57ae2488fcacf641188
   languageName: node
   linkType: hard
 
@@ -1354,6 +1358,10 @@ __metadata:
     "@popperjs/core": "npm:^2.11.8"
     "@rails/actioncable": "npm:^8.0.201"
     "@rails/actiontext": "npm:^8.0.300"
+    "@rollup/rollup-darwin-arm64": "npm:^4.53.3"
+    "@rollup/rollup-darwin-x64": "npm:^4.53.3"
+    "@rollup/rollup-linux-arm64-gnu": "npm:^4.53.3"
+    "@rollup/rollup-linux-x64-gnu": "npm:^4.53.3"
     "@tailwindcss/vite": "npm:^4.1.4"
     autoprefixer: "npm:^10.4.21"
     bootstrap: "npm:^5.3.2"
@@ -4352,8 +4360,8 @@ __metadata:
   linkType: hard
 
 "update-browserslist-db@npm:^1.2.0":
-  version: 1.2.1
-  resolution: "update-browserslist-db@npm:1.2.1"
+  version: 1.2.2
+  resolution: "update-browserslist-db@npm:1.2.2"
   dependencies:
     escalade: "npm:^3.2.0"
     picocolors: "npm:^1.1.1"
@@ -4361,7 +4369,7 @@ __metadata:
     browserslist: ">= 4.21.0"
   bin:
     update-browserslist-db: cli.js
-  checksum: 10c0/cbf7547651dfefd2924a61338ccf99cad15ab10bc52ada3fdc3fb1eade14e3cb27a247e6715c3bd2e8941f2bdd322348edfbee8536fff3828188445960b8e490
+  checksum: 10c0/39c3ea08b397ffc8dc3a1c517f5c6ed5cc4179b5e185383dab9bf745879623c12062a2e6bf4f9427cc59389c7bfa0010e86858b923c1e349e32fdddd9b043bb2
   languageName: node
   linkType: hard
 
