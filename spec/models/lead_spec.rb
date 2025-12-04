@@ -20,49 +20,79 @@ RSpec.describe Lead, type: :model do
 
   # Валидации - ИСПРАВЛЕННАЯ ВЕРСИЯ
   describe 'validations' do
-    # Для Shoulda Matchers создаем объект с валидными данными
-    subject { build(:lead) }
-
-    it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:email) }
-
-    it 'validates email format' do
-      # Создаем валидный объект и меняем только email
-      valid_lead = build(:lead)
-      invalid_lead = build(:lead, email: 'invalid-email')
-
-      expect(valid_lead).to be_valid
-      expect(invalid_lead).not_to be_valid
-      expect(invalid_lead.errors[:email]).to include('is invalid')
+    # Для Shoulda Matchers с кастомными сообщениями нужно тестировать по-другому
+    describe 'name validation' do
+      it 'requires name' do
+        lead = Lead.new(email: 'test@example.com')
+        expect(lead).not_to be_valid
+        expect(lead.errors[:name]).to include('Имя не может быть пустым')
+      end
     end
 
-    it 'validates status inclusion' do
-      valid_lead = build(:lead, status: 'Новая')
-      invalid_lead = build(:lead, status: 'invalid')
+    describe 'email validation' do
+      it 'requires email' do
+        lead = Lead.new(name: 'Test')
+        expect(lead).not_to be_valid
+        expect(lead.errors[:email]).to include('Email не может быть пустым')
+      end
 
-      expect(valid_lead).to be_valid
-      expect(invalid_lead).not_to be_valid
-      expect(invalid_lead.errors[:status]).to include('is not included in the list')
+      it 'validates email format' do
+        # Невалидные email
+        invalid_emails = ['invalid-email', 'invalid@', '@domain.com']
+
+        invalid_emails.each do |email|
+          lead = build(:lead, email: email)
+          expect(lead).not_to be_valid
+          expect(lead.errors[:email]).to include('Неверный формат email')
+        end
+
+        # Валидные email
+        valid_emails = ['valid@example.com', 'user.name@domain.co.uk']
+
+        valid_emails.each do |email|
+          lead = build(:lead, email: email)
+          expect(lead).to be_valid
+        end
+      end
     end
 
-    it 'allows optional phone' do
-      lead_with_phone = build(:lead, phone: '+79991234567')
-      lead_without_phone = build(:lead, phone: nil)
+    describe 'status validation' do
+      it 'validates status inclusion' do
+        # Валидные статусы
+        Lead::STATUSES.each do |status|
+          lead = build(:lead, status: status)
+          expect(lead).to be_valid
+        end
 
-      expect(lead_with_phone).to be_valid
-      expect(lead_without_phone).to be_valid
+        # Невалидный статус
+        lead = build(:lead, status: 'Неизвестный')
+        expect(lead).not_to be_valid
+        expect(lead.errors[:status]).to include(
+                                          'Статус должен быть одним из: Новая, В работе, Завершена'
+                                        )
+      end
     end
 
-    it 'allows optional message' do
-      lead_with_message = build(:lead, message: 'Some message')
-      lead_without_message = build(:lead, message: nil)
+    describe 'optional fields' do
+      it 'allows optional phone' do
+        lead_with_phone = build(:lead, phone: '+79991234567')
+        lead_without_phone = build(:lead, phone: nil)
 
-      expect(lead_with_message).to be_valid
-      expect(lead_without_message).to be_valid
+        expect(lead_with_phone).to be_valid
+        expect(lead_without_phone).to be_valid
+      end
+
+      it 'allows optional message' do
+        lead_with_message = build(:lead, message: 'Some message')
+        lead_without_message = build(:lead, message: nil)
+
+        expect(lead_with_message).to be_valid
+        expect(lead_without_message).to be_valid
+      end
     end
   end
 
-  # Scopes - ИСПРАВЛЕННАЯ ВЕРСИЯ
+  # Scopes
   describe 'scopes' do
     let!(:new_lead) { create(:lead, status: 'Новая') }
     let!(:in_progress_lead) { create(:lead, status: 'В работе') }
@@ -109,8 +139,8 @@ RSpec.describe Lead, type: :model do
 
       it 'orders by created_at desc (newest first)' do
         recent = Lead.recent(3)
-        expect(recent.first).to eq(@newest_lead)  # Самый новый
-        expect(recent.last).to eq(@old_lead)      # Самый старый
+        expect(recent.first).to eq(@newest_lead)
+        expect(recent.last).to eq(@old_lead)
       end
     end
   end

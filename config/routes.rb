@@ -21,7 +21,7 @@
 
 Rails.application.routes.draw do
   # ActiveAdmin + Devise
-  devise_for :admin_users, path: 'admin'
+  devise_for :admin_users, ActiveAdmin::Devise.config
 
   ActiveAdmin.routes(self)
 
@@ -36,4 +36,10 @@ Rails.application.routes.draw do
 
   # Портфолио для одной компании
   resources :portfolio_items, except: [:show]
+
+  namespace :api do
+    namespace :v1 do
+      resources :leads, only: [:index, :show, :create, :update, :destroy]
+    end
+  end
 end

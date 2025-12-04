@@ -26,10 +26,12 @@ RSpec.describe LeadCreator do
     end
 
     it 'returns unsaved lead with errors for invalid attributes' do
-      result = LeadCreator.create_lead(name: '', email: 'invalid')
-      expect(result).not_to be_persisted
-      expect(result.errors[:name]).to include("can't be blank")
-      expect(result.errors[:email]).to include("is invalid")
+      invalid_params = { name: '', email: 'invalid-email' }
+      result = LeadCreator.create_lead(invalid_params)
+
+      expect(result.persisted?).to be false
+      expect(result.errors[:name]).to include("Имя не может быть пустым") # русский
+      expect(result.errors[:email]).to include("Неверный формат email")
     end
 
     it 'handles phone and message as optional' do

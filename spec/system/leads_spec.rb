@@ -27,12 +27,13 @@ RSpec.describe 'Leads', type: :system do
     it 'shows validation errors for invalid data' do
       visit new_lead_path
 
-      fill_in 'lead[name]', with: ''
+      fill_in 'lead_name', with: ''
       fill_in 'lead[email]', with: 'invalid-email'
       find('input[type="submit"]').click
 
-      # Проверяем что есть ошибки валидации
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_content("не может быть пустым")
+
+
     end
   end
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center; color: white;">
+    <h1 style="margin: 0;">📥 Новый лид</h1>
+    <p style="margin: 5px 0 0 0; opacity: 0.9;"><%= @company_name %></p>
+  </div>
+
+  <div style="background: #f8f9fa; padding: 20px; border-radius: 0 0 8px 8px;">
+    <h2 style="color: #333; margin-top: 0;">Информация о лиде:</h2>
+
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr>
+        <td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold; width: 120px;">Имя:</td>
+        <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><%= @lead.name %></td>
+      </tr>
+
+      <% if @lead.email.present? %>
+        <tr>
+          <td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold;">Email:</td>
+          <td style="padding: 8px 0; border-bottom: 1px solid #eee;">
+            <a href="mailto:<%= @lead.email %>" style="color: #667eea;"><%= @lead.email %></a>
+          </td>
+        </tr>
+      <% end %>
+
+      <tr>
+        <td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold;">Телефон:</td>
+        <td style="padding: 8px 0; border-bottom: 1px solid #eee;">
+          <a href="tel:<%= @lead.phone %>" style="color: #667eea;"><%= @lead.phone %></a>
+        </td>
+      </tr>
+
+      <% if @lead.message.present? %>
+        <tr>
+          <td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold; vertical-align: top;">Сообщение:</td>
+          <td style="padding: 8px 0; border-bottom: 1px solid #eee;"><%= simple_format(@lead.message) %></td>
+        </tr>
+      <% end %>
+
+<!--      <tr>-->
+<!--        <td style="padding: 8px 0;"><%#= @lead.created_at&.to_s(:long) || "—" %></td>-->
+<!--        <td style="padding: 8px 0;"><%#= l(@lead.created_at, format: :long) %></td>-->
+<!--      </tr>-->
+    </table>
+
+    <div style="margin-top: 20px; text-align: center;">
+      <a href="<%= admin_leads_url %>" style="background: #667eea; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+        📋 Перейти к лидам в админке
+      </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

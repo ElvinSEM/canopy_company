@@ -5,7 +5,6 @@ require File.expand_path('../config/environment', __dir__)
 
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
-require 'rspec/rails'
 require 'devise'
 
 # Подключаем все файлы в spec/support
@@ -19,9 +18,18 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
-  config.use_transactional_fixtures = true
-  config.infer_spec_type_from_file_location!
-  config.filter_rails_from_backtrace!
+  config.before(:each) do
+    ActiveJob::Base.queue_adapter = :test
+    # очистка очереди между примерами
+    ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+    ActiveJob::Base.queue_adapter.performed_jobs.clear
+  end
+
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::IntegrationHelpers, type: :system
+
+  # config.infer_spec_type_from_file_location!
+  # config.filter_rails_from_backtrace!
 
   # Подключаем FactoryBot
   config.include FactoryBot::Syntax::Methods
@@ -29,6 +37,17 @@ RSpec.configure do |config|
   # Подключаем Devise helpers для разных типов тестов
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
+
+  # ДОБАВЬТЕ СЮДА - для ActiveAdmin тестов
+  config.before(:each, type: :request) do
+    admin_user = create(:admin_user)
+    sign_in admin_user
+  end
+
+  config.before(:each, type: :system) do
+    admin_user = create(:admin_user)
+    sign_in admin_user
+  end
 end
 
 # Конфигурация Shoulda Matchers

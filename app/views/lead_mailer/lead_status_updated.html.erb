@@ -1,0 +1,27 @@
+<!-- app/views/lead_mailer/lead_status_updated.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<h2>📝 Статус вашей заявки обновлен</h2>
+
+<p>Здравствуйте, <strong><%= @lead.name %></strong>!</p>
+
+<div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 15px 0;">
+  <p>Статус вашей заявки изменен на: <strong style="color: #28a745;"><%= @lead.status %></strong></p>
+</div>
+
+<% if @lead.message.present? %>
+  <p><strong>Ваше сообщение:</strong> <%= @lead.message %></p>
+<% end %>
+
+<p>Спасибо, что обратились в нашу компанию! Мы свяжемся с вами в ближайшее время.</p>
+
+<hr style="margin: 20px 0;">
+<p style="color: #6c757d; font-size: 14px;">
+  Это автоматическое уведомление. Пожалуйста, не отвечайте на это письмо.
+</p>
+</body>
+</html>
