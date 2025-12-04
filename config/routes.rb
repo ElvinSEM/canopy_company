@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   # Главная страница – форма захвата лида
   root "leads#new"
+  get '/leads', to: redirect('/admin/leads')
 
   # Лиды
   resources :leads, only: [:new, :create]

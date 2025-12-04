@@ -63,20 +63,29 @@ class LeadsController < ApplicationController
       # Отправляем подтверждение клиенту (если указан email)
       send_client_confirmation
 
-      respond_to do |format|
-        format.html do
-          redirect_to root_path,
-                      notice: 'Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.'
-        end
-        format.json { render json: { success: true, message: 'Заявка успешно отправлена' } }
+      # Если запрос пришел из модалки (AJAX или нет)
+      if request.xhr? || params[:modal] == 'true'
+        # Возвращаем JSON для AJAX
+        render json: {
+          success: true,
+          message: 'Спасибо! Ваша заявка принята.'
+        }
+      else
+        # Стандартный редирект для обычной формы
+        redirect_to root_path,
+                    notice: 'Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.'
       end
     else
-      respond_to do |format|
-        format.html do
-          flash.now[:alert] = 'Пожалуйста, исправьте ошибки в форме.'
-          render :new, status: :unprocessable_entity
-        end
-        format.json { render json: { success: false, errors: @lead.errors.full_messages }, status: :unprocessable_entity }
+      if request.xhr? || params[:modal] == 'true'
+        # Возвращаем ошибки для AJAX
+        render json: {
+          success: false,
+          errors: @lead.errors.full_messages
+        }, status: :unprocessable_entity
+      else
+        # Стандартный рендер для обычной формы
+        flash.now[:alert] = 'Пожалуйста, исправьте ошибки в форме.'
+        render :new, status: :unprocessable_entity
       end
     end
   end

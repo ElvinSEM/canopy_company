@@ -112,12 +112,12 @@ class Lead < ApplicationRecord
 
   # ===== ВАЛИДАЦИИ =====
   validates :name, presence: { message: "Имя не может быть пустым" }
-  validates :email,
-            presence: { message: "Email не может быть пустым" },
-            format: {
-              with: URI::MailTo::EMAIL_REGEXP,
-              message: "Неверный формат email"
-            }
+  # validates :email,
+  #           presence: { message: "Email не может быть пустым" },
+  #           format: {
+  #             with: URI::MailTo::EMAIL_REGEXP,
+  #             message: "Неверный формат email"
+  #           }
   validates :status,
             inclusion: {
               in: STATUSES,
