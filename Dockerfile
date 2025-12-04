@@ -52,7 +52,7 @@ COPY .yarnrc.yml ./
 
 # 2. Копируем и устанавливаем все Node.js зависимости (включая dev)
 COPY package.json yarn.lock ./
-RUN yarn install --immutable --production=false  # Ключевой флаг!
+RUN yarn install --immutable
 
 # 3. Копируем и устанавливаем Ruby гемы
 COPY Gemfile Gemfile.lock ./
