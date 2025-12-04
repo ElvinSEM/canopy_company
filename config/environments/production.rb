@@ -17,19 +17,25 @@ Rails.application.configure do
   config.i18n.fallbacks = true
   config.active_support.report_deprecations = false
   config.active_record.dump_schema_after_migration = false
+
+  # ===== КЛЮЧЕВОЙ ФРАГМЕНТ: НАСТРОЙКА РАЗРЕШЕННЫХ ХОСТОВ =====
+  # Сначала очищаем дефолтные хосты (localhost и т.д.)
+  config.hosts.clear
+
   # Разрешаем хосты из переменной окружения RAILS_HOSTS
   allowed_hosts = ENV['RAILS_HOSTS'].to_s.split(',').map(&:strip)
 
-  # Если переменная задана - используем её
   if allowed_hosts.any?
     config.hosts = allowed_hosts
-    config.host_authorization = {
-      exclude: ->(request) { request.path == "/up" } # Разрешаем health check
-    }
   else
     # Если переменная не задана, разрешаем все поддомены Render
-    config.hosts = [/[a-z0-9-]+\.onrender\.com/]
+    config.hosts << /[a-z0-9-]+\.onrender\.com/
   end
+
+  # Исключаем health check путь /up из проверки хостов
+  config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
   # Логируем, какие хосты настроены (для отладки)
   Rails.logger.info "Allowed hosts configured: #{config.hosts.inspect}"
+  # ===== КОНЕЦ КЛЮЧЕВОГО ФРАГМЕНТА =====
 end
