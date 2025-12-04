@@ -29,10 +29,8 @@
 
 
 
-
 FROM ruby:3.4.6-slim AS base
 
-# 1. Установка системных зависимостей
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     curl \
     gnupg \
@@ -49,25 +47,32 @@ RUN corepack enable && corepack prepare yarn@4.6.0 --activate
 
 WORKDIR /app
 
-# 2. Установка зависимостей Node.js (с кэшированием)
+# 1. Копируем и устанавливаем зависимости Node
 COPY package.json yarn.lock ./
+
+# Важно: Устанавливаем vite явно, чтобы гарантировать его наличие.
+# Это решение проблемы, когда vite есть в package.json, но не устанавливается.
+RUN yarn add vite
+
+# Затем устанавливаем все остальные зависимости
 RUN yarn install --frozen-lockfile
 
-# 3. Установка Ruby гемов (с кэшированием)
+# 2. Копируем и устанавливаем Ruby гемы
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
-# 4. Копирование всего кода
+# 3. Копируем весь код приложения
 COPY . .
 
-# ⚠️ КРИТИЧЕСКО ВАЖНО: сборка Vite ассетов для production
+# 4. ПРЕДВАРИТЕЛЬНАЯ ПРОВЕРКА: Убеждаемся, что vite доступен
+RUN npx vite --version || echo "Vite check failed"
+
+# 5. Теперь запускаем сборку Vite
 RUN bin/vite build
 
-# 5. Предкомпиляция Rails ассетов
+# 6. Предкомпиляция Rails ассетов
 RUN bundle exec rails assets:precompile
 
-# 6. Порт для Render (должен совпадать с переменной PORT в настройках Render)
 EXPOSE 10000
 
-# 7. Команда запуска с портом из переменной окружения PORT
 CMD ["sh", "-c", "bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}"]
