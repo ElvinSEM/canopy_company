@@ -28,7 +28,6 @@
 #CMD ["bin/rails", "server", "-b", "0.0.0.0"]
 
 
-
 FROM ruby:3.4.6-slim AS base
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
@@ -47,27 +46,24 @@ RUN corepack enable && corepack prepare yarn@4.6.0 --activate
 
 WORKDIR /app
 
-# 1. Копируем конфигурацию Yarn первой
-COPY .yarnrc.yml ./
+# 1. Конфигурация Yarn для отключения PnP
+RUN echo 'nodeLinker: "node-modules"' > .yarnrc.yml
 
-# 2. Копируем и устанавливаем все Node.js зависимости (включая dev)
+# 2. Установка Node.js зависимостей
 COPY package.json yarn.lock ./
 RUN yarn install --immutable
 
-# 3. Копируем и устанавливаем Ruby гемы
+# 3. Установка Ruby гемов
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
-# 4. Копируем весь код приложения
+# 4. Копирование всего кода
 COPY . .
 
-# 5. Сборка Vite (теперь пакеты доступны)
+# 5. ТОЛЬКО сборка Vite (НЕТ миграций здесь!)
 RUN bin/vite build
-RUN bundle exec rails db:migrate RAILS_ENV=production
-
-# 6. Предкомпиляция Rails ассетов
-#RUN bundle exec rails assets:precompile
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}"]
+# 6. Ключевое изменение: миграции ТОЛЬКО при запуске
+CMD ["sh", "-c", "bundle exec rails db:migrate RAILS_ENV=production && bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}"]
