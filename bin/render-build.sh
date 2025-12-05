@@ -2,7 +2,7 @@ set -o errexit
 
 bundle install
 yarn install
-bundle exec reke assets:precompile
-bundle exec reke assets:clean
-bundle exec reke db:migratec
+bundle exec rake assets:precompile
+bundle exec rake assets:clean
+bundle exec rake db:migratec
 
