@@ -52,5 +52,5 @@ Rails.application.configure do
     exclude: ->(request) { request.path == "/up" }
   }
 
-  Rails.logger.info "👉 Allowed hosts: #{config.hosts.inspect}"
+  # Rails.logger.info "👉 Allowed hosts: #{config.hosts.inspect}"
 end
