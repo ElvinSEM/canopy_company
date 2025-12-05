@@ -63,6 +63,7 @@ COPY . .
 
 # 5. Сборка Vite (теперь пакеты доступны)
 RUN bin/vite build
+RUN bundle exec rails db:migrate RAILS_ENV=production
 
 # 6. Предкомпиляция Rails ассетов
 #RUN bundle exec rails assets:precompile
