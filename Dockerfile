@@ -65,7 +65,7 @@ COPY . .
 RUN bin/vite build
 
 # 6. Предкомпиляция Rails ассетов
-RUN bundle exec rails assets:precompile
+#RUN bundle exec rails assets:precompile
 
 EXPOSE 10000
 
