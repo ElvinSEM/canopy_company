@@ -1,6 +1,11 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.hosts = [
+    "canopy-company.onrender.com"
+  ]
+  config.hosts << /.*\.onrender\.com/
+
   config.enable_reloading = false
   config.eager_load = true
   config.consider_all_requests_local = false
@@ -8,7 +13,7 @@ Rails.application.configure do
 
   config.assets.compile = false
   config.active_storage.service = :local
-
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
   config.force_ssl = true
 
   config.logger =
