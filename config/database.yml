@@ -15,4 +15,4 @@ production:
 #  database: canopy_company_production
 #  username: canopy_company
 #  password: <%= ENV["CANOPY_COMPANY_DATABASE_PASSWORD"] %>
-  url: <%= ENV['DATABASE_URL']
+  url: <%= ENV['DATABASE_URL'] %>
