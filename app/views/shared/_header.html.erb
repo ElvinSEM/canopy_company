@@ -82,10 +82,9 @@
 
 <!-- app/views/shared/_header.html.erb -->
 <%
-  # Определяем переменные
-  company_name = @company&.name || "ELVIN"
-  logo_path = vite_asset_path('images/default_logo.png')
-  fallback_initial = company_name[0]
+  # Определяем переменные с использованием хелперов
+  company_name = company_name()  # Вызываем метод из ApplicationHelper
+  fallback_initial = company_logo_fallback()  # Вызываем метод из ApplicationHelper
 %>
 
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200/50 supports-backdrop-blur:bg-white/60">
@@ -96,13 +95,22 @@
       <div class="flex-shrink-0">
         <a href="/" class="flex items-center space-x-3 group" aria-label="<%= company_name %> - На главную">
           <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-            <%= image_tag(logo_path,
-                          alt: "#{company_name} логотип",
-                          class: "w-8 h-8 object-contain",
-                          onerror: "this.style.display='none'; this.nextElementSibling.style.display='flex'") %>
+            <% if has_company_logo? %>
+              <!-- Логотип из Active Storage -->
+              <%= image_tag company_logo_url,
+                            alt: "#{company_name} логотип",
+                            class: "w-8 h-8 object-contain",
+                            onerror: "this.style.display='none'; document.getElementById('logo-fallback').style.display='flex'" %>
+            <% else %>
+              <!-- Дефолтный логотип -->
+              <%= vite_image_tag("images/default_logo.png",
+                                 alt: "#{company_name} логотип",
+                                 class: "w-8 h-8 object-contain",
+                                 onerror: "this.style.display='none'; document.getElementById('logo-fallback').style.display='flex'") %>
+            <% end %>
 
             <!-- Fallback если логотип не загрузился -->
-            <div class="hidden text-white font-bold text-lg leading-none">
+            <div id="logo-fallback" class="<%= has_company_logo? ? 'hidden' : 'flex' %> text-white font-bold text-lg leading-none">
               <%= fallback_initial %>
             </div>
           </div>
@@ -188,6 +196,52 @@
     </div>
   </nav>
 </header>
+
+<%# JavaScript для обработки логотипа и модального окна %>
+<script>
+    // Обработчик для логотипа
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoContainer = document.querySelector('#logo-fallback');
+        const logoImage = document.querySelector('img[alt*="логотип"]');
+
+        if (logoImage) {
+            logoImage.addEventListener('error', function() {
+                this.style.display = 'none';
+                if (logoContainer) {
+                    logoContainer.style.display = 'flex';
+                }
+            });
+
+            // Проверяем если изображение уже загрузилось с ошибкой
+            if (logoImage.complete && logoImage.naturalHeight === 0) {
+                logoImage.style.display = 'none';
+                if (logoContainer) {
+                    logoContainer.style.display = 'flex';
+                }
+            }
+        }
+    });
+
+    // Функция для открытия модального окна заявки
+    function openLeadModal() {
+        // Создаем модальное окно если его нет
+        if (!window.leadModal) {
+            window.leadModal = new bootstrap.Modal(document.getElementById('leadModal'), {
+                keyboard: false
+            });
+        }
+
+        // Показываем модальное окно
+        window.leadModal.show();
+
+        // Или альтернативный вариант если нет Bootstrap
+        // const modal = document.getElementById('leadModal');
+        // if (modal) {
+        //   modal.classList.remove('hidden');
+        //   modal.classList.add('flex');
+        // }
+    }
+</script>
 
 <style>
     /* Стили для скрытия скроллбара в мобильном меню */

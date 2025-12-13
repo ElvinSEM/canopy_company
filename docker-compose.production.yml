@@ -1,0 +1,98 @@
+#services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: canopy-local-app
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      postgres:
+#        condition: service_healthy  # Ждем пока БД будет готова
+#    environment:
+#      RAILS_ENV: production
+#      PORT: 3000
+#      RAILS_HOSTS: localhost
+#      # Ключи для теста (можно сгенерировать):
+##      SECRET_KEY_BASE: test_secret_key_1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+##      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-1234567890abcdef1234567890abcdef} # или создайте
+#      # Важно: БД подключается по имени сервиса 'postgres'
+#      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/canopy_local
+#    # Проверяем БД, делаем миграции, запускаем сервер
+#    command: >
+#      sh -c "
+#        echo 'Waiting for PostgreSQL...' &&
+#        until pg_isready -h postgres -p 5432; do sleep 2; done &&
+#        echo 'PostgreSQL is ready!' &&
+#        bundle exec rails db:create RAILS_ENV=production 2>/dev/null || echo 'Database exists or cannot create' &&
+#        bundle exec rails db:migrate RAILS_ENV=production &&
+#        echo 'Starting Rails server...' &&
+#        bundle exec rails server -b 0.0.0.0 -p 3000
+#      "
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:3000/up"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 3
+#
+#  postgres:
+#    image: postgres:16-alpine
+#    container_name: canopy-local-db
+#    environment:
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: canopy_local
+#    ports:
+#      - "5433:5432" # Чтобы не конфликтовать с локальной Postgres
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 5
+#
+#volumes:
+#  postgres_data:
+
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: canopy-local-app
+    ports:
+      - "3001:3000"  # Другой порт, чтобы не конфликтовать с dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      RAILS_ENV: production
+      PORT: 3000
+      RAILS_HOSTS: localhost
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy_key_for_local_test}
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/canopy_local
+    command: >
+      sh -c "
+        until pg_isready -h postgres -p 5432; do sleep 2; done &&
+        bundle exec rails db:create RAILS_ENV=production 2>/dev/null || true &&
+        bundle exec rails db:migrate RAILS_ENV=production &&
+        bundle exec rails server -b 0.0.0.0 -p 3000
+      "
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: canopy-local-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: canopy_local
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

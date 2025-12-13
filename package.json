@@ -19,21 +19,13 @@
     "@popperjs/core": "^2.11.8",
     "@rails/actioncable": "^8.0.201",
     "@rails/actiontext": "^8.0.300",
-    "@rollup/rollup-darwin-arm64": "^4.53.3",
-    "@rollup/rollup-darwin-x64": "^4.53.3",
-    "@rollup/rollup-linux-arm64-gnu": "^4.53.3",
-    "@rollup/rollup-linux-x64-gnu": "^4.53.3",
     "@tailwindcss/vite": "^4.1.4",
     "autoprefixer": "^10.4.21",
     "bootstrap": "^5.3.2",
     "postcss": "^8.5.4",
     "sass-embedded": "^1.86.3",
     "tailwindcss": "^4.1.4",
-    "trix": "^2.1.15",
-    "vite": "^5.4.21",
-    "vite-plugin-rails": "^0.5.0",
-    "vite-plugin-ruby": "^5.1.1",
-    "yarn": "^1.22.22"
+    "trix": "^2.1.15"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
@@ -45,6 +37,9 @@
     "vite": "^5.4.21",
     "vite-plugin-rails": "^0.5.0",
     "vite-plugin-ruby": "^5.1.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-arm64-gnu": "^4.53.3"
   },
   "packageManager": "yarn@4.6.0+sha512.5383cc12567a95f1d668fbe762dfe0075c595b4bfff433be478dbbe24e05251a8e8c3eb992a986667c1d53b6c3a9c85b8398c35a960587fbd9fa3a0915406728"
 }

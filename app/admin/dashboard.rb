@@ -6,14 +6,11 @@ ActiveAdmin.register_page "Dashboard" do
     def status_badge(status)
       case status
       when "Новая" then "status-new"
-      when "В работе" then "status-in-progress" 
+      when "В работе" then "status-in-progress"
       when "Завершена" then "status-completed"
       else "status-default"
       end
     end
-
-    # Получаем общее количество лидов
-    total_leads = Lead.count
 
     columns do
       column do
@@ -21,20 +18,20 @@ ActiveAdmin.register_page "Dashboard" do
           div class: "stats-grid" do
             # Карточки статистики
             div class: "stat-card" do
-              h3 total_leads
+              h3 Lead.count
               p "Всего лидов"
             end
-            
+
             div class: "stat-card" do
               h3 Lead.where(status: "Новая").count
               p "Новые"
             end
-            
+
             div class: "stat-card" do
               h3 Lead.where(status: "В работе").count
               p "В работе"
             end
-            
+
             div class: "stat-card" do
               h3 Lead.where(status: "Завершена").count
               p "Завершены"
@@ -46,10 +43,12 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "📊 Распределение по статусам" do
           data = Lead.group(:status).count
+          total_leads = Lead.count # Добавляем переменную с общим количеством
+
           if data.any?
             ul do
               data.each do |status, count|
-                # ИСПРАВЛЕНИЕ: используем total_leads вместо total
+                # Используем total_leads вместо total
                 percentage = total_leads > 0 ? (count.to_f / total_leads * 100).round(1) : 0
                 li do
                   span status || "Без статуса"
@@ -68,7 +67,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "🕒 Последние лиды" do
           recent_leads = Lead.order(created_at: :desc).limit(10)
-          
+
           if recent_leads.any?
             table_for recent_leads do
               column "Имя" do |lead|
@@ -97,7 +96,7 @@ ActiveAdmin.register_page "Dashboard" do
             date = i.days.ago.to_date
             days_data[date] = Lead.where(created_at: date.beginning_of_day..date.end_of_day).count
           end
-          
+
           if days_data.values.sum > 0
             ul do
               days_data.each do |date, count|

@@ -4,7 +4,7 @@ module ApplicationHelper
   def page_title
     return @page_title if @page_title.present?
 
-    base_title = @company&.name || ENV["COMPANY_NAME"] || "ELVINCompany"
+    base_title = company_name
 
     if admin_section?
       "#{base_title} - Админ-панель"
@@ -40,5 +40,53 @@ module ApplicationHelper
     controllers << "smooth-scroll" unless admin_section?
     controllers << "navigation" unless admin_section?
     controllers.join(" ")
+  end
+
+  # ==================== МЕТОДЫ ДЛЯ КОМПАНИИ ====================
+
+  # Текущая компания (кэшируем запрос)
+  def current_company
+    @current_company ||= Company.first
+  end
+
+  # Название компании
+  def company_name
+    return @company_name if defined?(@company_name) && @company_name.present?
+
+    @company_name = if current_company&.name.present?
+                      current_company.name
+                    elsif ENV["COMPANY_NAME"].present?
+                      ENV["COMPANY_NAME"]
+                    else
+                      "ELVINCompany"
+                    end
+  end
+
+  # URL логотипа компании
+  def company_logo_url
+    return @company_logo_url if defined?(@company_logo_url)
+
+    @company_logo_url = if current_company&.logo&.attached?
+                          # Используем лого из Active Storage
+                          url_for(current_company.logo)
+                        else
+                          # Дефолтное лого
+                          vite_asset_path('images/default_logo.png')
+                        end
+  end
+
+  # Инициали для fallback логотипа
+  def company_logo_fallback
+    company_name[0..1].upcase
+  end
+
+  # Проверяем есть ли логотип
+  def has_company_logo?
+    current_company&.logo&.attached?
+  end
+
+  # Альтернативный текст для логотипа
+  def company_logo_alt
+    "Логотип #{company_name}"
   end
 end

@@ -1,13 +1,60 @@
+#
+#services:
+#  app:
+#    build: .
+#    container_name: canopy-app
+#    volumes:
+#      - .:/app
+#      - gems:/usr/local/bundle
+#    ports:
+#      - "3001:3000"
+#    depends_on:
+#      - pg
+#      - redis
+#    environment:
+#      RAILS_ENV: development
+#      DATABASE_URL: postgres://admin:admin@pg:5432/canopy_company_dev
+#      REDIS_URL: redis://redis:6379/1
+#    command: bundle exec rails s -b 0.0.0.0
+#    restart: unless-stopped
+#
+#  pg:
+#    image: postgres:16.1
+#    environment:
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: admin
+#      POSTGRES_DB: canopy_company_dev
+#    volumes:
+#      - pg_data:/var/lib/postgresql/data
+#    ports:
+#      - "5433:5432"
+#
+#  redis:
+#    image: redis:7-alpine
+#    ports:
+#      - "6380:6379"
+#    volumes:
+#      - redis_data:/data
+#
+#volumes:
+#  pg_data:
+#  redis_data:
+#  gems:
+
+
 
 services:
   app:
     build: .
-    container_name: canopy-app
+    container_name: canopy-app-dev
     volumes:
       - .:/app
       - gems:/usr/local/bundle
+      - # Синхронизация папки с ассетами для Vite HMR
+      - /app/node_modules
+      - /app/public/vite-dev
     ports:
-      - "3001:3000"
+      - "3000:3000"
     depends_on:
       - pg
       - redis
@@ -16,7 +63,6 @@ services:
       DATABASE_URL: postgres://admin:admin@pg:5432/canopy_company_dev
       REDIS_URL: redis://redis:6379/1
     command: bundle exec rails s -b 0.0.0.0
-    restart: unless-stopped
 
   pg:
     image: postgres:16.1
@@ -27,12 +73,10 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
   redis:
     image: redis:7-alpine
-    ports:
-      - "6380:6379"
     volumes:
       - redis_data:/data
 
