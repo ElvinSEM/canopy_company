@@ -84,13 +84,11 @@
         <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
           <!-- Изображение -->
           <div class="h-48 bg-gray-100 overflow-hidden">
-            <img
-              src="/vite-dev/images/<%= project[:image] %>"
-              alt="<%= project[:title] %>"
-              class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-              loading="lazy"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-              />
+            <%= vite_image_tag("images/#{project[:image]}",
+                               alt: project[:title],
+                               class: "w-full h-full object-cover hover:scale-110 transition-transform duration-500",
+                               loading: "lazy",
+                               onerror: "this.style.display='none'; this.nextElementSibling.style.display='flex'") %>
             <div class="hidden w-full h-full bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center">
               <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-white text-2xl backdrop-blur-sm">
                 📷
