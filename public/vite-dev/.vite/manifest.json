@@ -31,7 +31,7 @@
     "integrity": "sha384-9mj50/b67MVP/H1CGZ+YirgHCM2neH0Zorf51n/uuGGImDT9X9wvPFcFyvwLgkEN"
   },
   "entrypoints/active_admin.js": {
-    "file": "assets/active_admin-Cf6DtSK5.js",
+    "file": "assets/active_admin-Co8L6ZIx.js",
     "name": "entrypoints/active_admin.js",
     "src": "entrypoints/active_admin.js",
     "isEntry": true,
@@ -41,13 +41,13 @@
     "css": [
       "assets/active_admin-BnWJw_9z.css"
     ],
-    "integrity": "sha384-pUs530Huwbyt+2c1Ns1kGuqpiqTu9AFtWkhK1rd3TFZjclV6PwFd0zIHzYfbTu5u"
+    "integrity": "sha384-MZhDapI08s8jUsg2T4Kfmn+Lb2mZsv/dnfOSqdSckiVvsz5VyN+Bgyq34xtsRBUD"
   },
   "entrypoints/application.css": {
-    "file": "assets/application-rtcvtjG4.css",
+    "file": "assets/application-C9LsqHtp.css",
     "src": "entrypoints/application.css",
     "isEntry": true,
-    "integrity": "sha384-+fMHgY71Rz3lwaTCFvaKkFVjK6vRnVEuwNnGqYOpAVjA51GwkEfuivIbn3X6U1hU"
+    "integrity": "sha384-Ros3RbBYNvQwcUDaCv/62o6xv8hTpGS2Ce3cAnjcwKJt+yNR6FQeTGO18xwC80jv"
   },
   "entrypoints/application.js": {
     "file": "assets/application-qkFDMLZR.js",
@@ -58,6 +58,16 @@
       "_stimulus-uMCqvyjL.js"
     ],
     "integrity": "sha384-f2E71swrAn0X6avXD2tjEa9hepNeVYsEsVYunzJE1TkgN9Q4HwIWSvFiMPhqbq/5"
+  },
+  "logo.jpeg": {
+    "file": "assets/logo-D8XcvPkz.jpeg",
+    "src": "logo.jpeg",
+    "integrity": "sha384-GMnkSUW70KOZ2dvEWtUg6CKQ2X6pztxXrVkkJ9AcYMBrvFOJ+vnYWrquQSn9yOj/"
+  },
+  "logo1.jpeg": {
+    "file": "assets/logo1-DHv02Sob.jpeg",
+    "src": "logo1.jpeg",
+    "integrity": "sha384-dEm33se+SeogDmYgedhyqc/k0iEfhgrLkbIPclifV+N3kK7JENpvOCtCRRoP5/N0"
   },
   "placeholder.jpg": {
     "file": "assets/placeholder-BaHpgXql.jpg",

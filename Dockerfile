@@ -97,7 +97,7 @@ RUN echo 'nodeLinker: "node-modules"' > .yarnrc.yml
 COPY package.json yarn.lock ./
 # Установка проблемного пакета через npm
 RUN npm install @rollup/rollup-linux-arm64-gnu --save-optional --no-audit --no-fund
-RUN yarn install --immutable
+RUN yarn install --check-cache --network-timeout 600000
 
 # 3. Установка Ruby гемов
 COPY Gemfile Gemfile.lock ./

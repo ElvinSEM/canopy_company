@@ -1,4 +1,4 @@
-#
+
 #services:
 #  app:
 #    build: .
@@ -50,7 +50,7 @@ services:
     volumes:
       - .:/app
       - gems:/usr/local/bundle
-      - # Синхронизация папки с ассетами для Vite HMR
+       # Синхронизация папки с ассетами для Vite HMR
       - /app/node_modules
       - /app/public/vite-dev
     ports:

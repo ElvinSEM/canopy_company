@@ -1,9 +1,8 @@
 /* app/assets/stylesheets/application.tailwind.css */
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* УДАЛИТЬ эту строку: @import "tailwindcss/preflight"; */
+/* @import "tailwindcss" уже включает preflight автоматически */
 
 /* Кастомные стили компонентов */
 @layer components {
@@ -30,6 +29,15 @@
     focus:bg-white transition-all duration-200 outline-none
     placeholder-gray-400;
   }
+
+  /* Стили для навигации */
+  .nav-link.active {
+    @apply text-blue-600 font-semibold;
+  }
+
+  .nav-link.active span {
+    @apply w-full;
+  }
 }
 
 /* Базовые стили */
@@ -39,7 +47,8 @@
   }
 
   body {
-    @apply antialiased;
+    @apply antialiased bg-gradient-to-br from-slate-50 to-blue-50/30 min-h-screen;
+    /* Добавили фоновый градиент который был в body_classes */
   }
 }
 
@@ -48,38 +57,19 @@
   .text-gradient {
     @apply bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent;
   }
-}
 
-
-@layer utilities {
+  /* Исправляем дублирование .animate-fade-in */
   .animate-fade-in {
     animation: fadeIn 0.6s ease-out forwards;
   }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-@layer utilities {
   .animate-on-scroll {
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.6s ease-out;
   }
 
-  .animate-fade-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* Удаляем дубликат .animate-fade-in здесь */
 
   /* Задержки для карточек */
   .animate-on-scroll:nth-child(1) { transition-delay: 0.1s; }
@@ -90,13 +80,14 @@
   .animate-on-scroll:nth-child(6) { transition-delay: 0.6s; }
 }
 
-/* app/assets/stylesheets/application.tailwind.css */
-@layer components {
-  .nav-link.active {
-    @apply text-blue-600 font-semibold;
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-
-  .nav-link.active span {
-    @apply w-full;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

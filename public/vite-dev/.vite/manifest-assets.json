@@ -9,6 +9,16 @@
     "src": "images/default_logo.png",
     "integrity": "sha384-yY5zI0F9P5zzvd4fkzylynJKk302kxoBwxT3L5NkUBlPfzgcMnJublawUP4tFLsN"
   },
+  "images/logo.jpeg": {
+    "file": "assets/logo-D8XcvPkz.jpeg",
+    "src": "images/logo.jpeg",
+    "integrity": "sha384-GMnkSUW70KOZ2dvEWtUg6CKQ2X6pztxXrVkkJ9AcYMBrvFOJ+vnYWrquQSn9yOj/"
+  },
+  "images/logo1.jpeg": {
+    "file": "assets/logo1-DHv02Sob.jpeg",
+    "src": "images/logo1.jpeg",
+    "integrity": "sha384-dEm33se+SeogDmYgedhyqc/k0iEfhgrLkbIPclifV+N3kK7JENpvOCtCRRoP5/N0"
+  },
   "images/placeholder.jpg": {
     "file": "assets/placeholder-BaHpgXql.jpg",
     "src": "images/placeholder.jpg",
