@@ -165,6 +165,15 @@ class Lead < ApplicationRecord
     end
   end
 
+  def avatar_initials
+    name.split.map(&:first).join.upcase
+  end
+
+  def avatar_color
+    colors = ['#4299e1', '#667eea', '#9f7aea', '#ed64a6', '#f56565', '#ed8936', '#ecc94b', '#48bb78']
+    colors[name.hash % colors.length]
+  end
+
   private
 
   def notify_admin_about_new_lead

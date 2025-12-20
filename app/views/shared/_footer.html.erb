@@ -4,7 +4,7 @@
       <!-- О компании -->
       <div class="md:col-span-2">
         <h3 class="text-2xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent mb-4">
-          <%= @company&.name || "ELVINCompany" %>
+          ELCompany
         </h3>
         <p class="text-blue-100/80 leading-relaxed mb-4">
           Профессиональные навесные конструкции любой сложности.
@@ -43,8 +43,7 @@
             <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
               <span class="text-sm">📍</span>
             </div>
-            <span>г.Симферополь,
-              пгт. Гвардейское</span>
+            <span>г. Симферополь,<br>пгт. Гвардейское</span>
           </div>
         </div>
       </div>
@@ -63,20 +62,20 @@
             </div>
           </div>
           <button onclick="openLeadModal()"
-                  class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-2 rounded-lg font-semibold text-sm transition-all duration-300 transform hover:-translate-y-0.5 mt-4">
+                  class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all duration-300 transform hover:-translate-y-0.5 mt-4">
             Заказать звонок
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Карта (опционально) -->
+    <!-- Карта -->
     <div class="mt-8 bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
       <h4 class="text-lg font-semibold mb-4 text-white">Как нас найти</h4>
       <div class="bg-gray-800 rounded-lg h-48 flex items-center justify-center text-blue-100/60">
         <div class="text-center">
           <div class="text-3xl mb-2">🗺️</div>
-          <p>Мы находимся в г.Симферополе</p>
+          <p>Мы находимся в г. Симферополе</p>
           <p class="text-sm">пгт. Гвардейское</p>
           <a href="https://yandex.ru/maps/-/CDqZIVXh" target="_blank"
              class="inline-block mt-2 text-blue-300 hover:text-blue-200 underline text-sm">
@@ -87,35 +86,30 @@
     </div>
 
     <div class="border-t border-blue-500/20 mt-8 pt-8 text-center text-blue-100/60">
-      <p>&copy; 2024 <%= @company&.name || "ELVINCompany" %>. Все права защищены.</p>
-    </div>
-<!--     Скрытая ссылка на вход в админку -->
+      <p>&copy; <%= Date.current.year %> Canopy Company. Все права защищены.</p>
 
-    <!-- Информация о статусе -->
-    <% if admin_user_signed_in? %>
-      <div class="text-xs text-green-300 mt-1">
-        ✅ Вы вошли как администратор |
-        <%= button_to 'Выйти', destroy_admin_user_session_path,
-                      method: :delete,
-                      class: 'text-red-300 hover:text-red-100 bg-transparent border-none cursor-pointer text-xs inline p-0 m-0 underline' %>
+      <!-- Исправленная секция админ-доступа -->
+      <div class="mt-2 text-xs">
+        <% if admin_user_signed_in? %>
+          <div class="inline-flex items-center gap-2">
+            <span class="text-green-300">✅ Вы вошли как администратор</span>
+            <span class="text-gray-400">|</span>
+            <a href="/admin" class="text-blue-300 hover:text-blue-100 transition-colors">⚙️ Админ-панель</a>
+            <span class="text-gray-400">|</span>
+            <%= form_tag("/admin/logout", method: :delete, class: "inline") do %>
+              <button type="submit" class="text-red-300 hover:text-red-100 bg-transparent border-none cursor-pointer p-0 m-0">
+                🚪 Выйти
+              </button>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="inline-flex items-center gap-2">
+            <span class="text-yellow-300">🔐 Не авторизован</span>
+            <span class="text-gray-400">|</span>
+            <a href="/admin/login" class="text-blue-300 hover:text-blue-100 transition-colors">⚙️ Войти в админку</a>
+          </div>
+        <% end %>
       </div>
-    <% else %>
-      <p class="text-xs text-yellow-300 mt-1">
-        🔐 Не авторизован |
-        <%= link_to 'Войти', new_admin_user_session_path, class: 'text-blue-300 hover:text-blue-100' %>
-      </p>
-    <% end %>
-  </div>
-
-  <div class="text-xs opacity-70 hover:opacity-100 transition-opacity duration-300">
-    <% if admin_user_signed_in? %>
-      <%= link_to "⚙️ Админ-панель",
-                  admin_root_path,
-                  class: "text-green-300 hover:text-green-100 transition-colors font-medium" %>
-    <% else %>
-      <%= link_to "⚙️ Вход в админку",
-                  new_admin_user_session_path,
-                  class: "text-gray-300 hover:text-white transition-colors" %>
-    <% end %>
+    </div>
   </div>
 </footer>

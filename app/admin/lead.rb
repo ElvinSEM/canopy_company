@@ -1,29 +1,14 @@
 ActiveAdmin.register Lead do
-  permit_params :name, :email, :phone, :status, :message
-  
-  index do
-    selectable_column
-    id_column
-    column :name
-    column :email
-    column :phone
-    column :status
-    column :created_at
-    actions
+  permit_params :name, :email, :phone, :message, :status
+
+  # ====== MEMBER ACTIONS ======
+  member_action :set_in_progress, method: :patch do
+    resource.update!(status: "В работе")
+    redirect_back fallback_location: admin_dashboard_path
   end
-  
-  filter :name
-  filter :email
-  filter :status
-  
-  form do |f|
-    f.inputs do
-      f.input :name
-      f.input :email
-      f.input :phone
-      f.input :status
-      f.input :message
-    end
-    f.actions
+
+  member_action :set_completed, method: :patch do
+    resource.update!(status: "Завершена")
+    redirect_back fallback_location: admin_dashboard_path
   end
 end

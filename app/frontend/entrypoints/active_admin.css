@@ -1,2 +1,11 @@
+/* app/frontend/entrypoints/active_admin.css */
+
+/* ===== TAILWIND IMPORT ===== */
+@import "tailwindcss";
 
 @import "../stylesheets/admin.scss";
+
+body.active_admin {
+    background: #f9fafb;
+    font-family: sans-serif;
+}
