@@ -1,5 +1,11 @@
-Новая заявка с сайта
+Новая заявка с сайта <%= @company_name %>
 
+Информация о лиде:
 Имя: <%= @lead.name %>
-Email: <%= @lead.email %>
-Статус: <%= @lead.status %>
+<% if @lead.email.present? %>Email: <%= @lead.email %><% end %>
+Телефон: <%= @lead.phone %>
+<% if @lead.message.present? %>Сообщение: <%= @lead.message %><% end %>
+Дата: <%= @lead.created_at.strftime("%d.%m.%Y %H:%M") %>
+
+---
+Перейти к лидам в админке: <%= admin_leads_url %>

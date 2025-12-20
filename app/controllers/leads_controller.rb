@@ -1,49 +1,3 @@
-# class LeadsController < ApplicationController
-#   def new
-#     @lead = Lead.new
-#     @company = Company.first_or_create
-#   end
-#
-#   def create
-#     @lead = Lead.new(lead_params)
-#
-#     if @lead.save
-#       # Если есть файлы — прикрепляем
-#       @lead.files.attach(params[:lead][:files]) if params[:lead][:files].present?
-#
-#       # # Отправляем письмо
-#       # LeadMailer.new_lead(@lead).deliver_later if defined?(LeadMailer)
-#       # Отправляем письмо администратору
-#       send_admin_notification
-#
-#       # Отправляем подтверждение клиенту (если указан email)
-#       send_client_confirmation
-#       respond_to do |format|
-#         format.html do
-#           redirect_to root_path, notice: "Спасибо за вашу заявку! Мы свяжемся с вами в ближайшее время."
-#         end
-#         format.json do
-#           render json: { message: "Заявка успешно отправлена!", lead_id: @lead.id }, status: :created
-#         end
-#       end
-#     else
-#       respond_to do |format|
-#         format.html { render :new, status: :unprocessable_entity }
-#         format.json { render json: { error: @lead.errors.full_messages.join(", ") }, status: :unprocessable_entity }
-#       end
-#     end
-#   end
-#
-#   private
-#
-#   def lead_params
-#     params.require(:lead).permit(:name, :email, :phone, :message, files: [])
-#   end
-# end
-
-
-
-# app/controllers/leads_controller.rb
 class LeadsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
 
@@ -97,19 +51,23 @@ class LeadsController < ApplicationController
   end
 
   def send_admin_notification
-    if defined?(LeadMailer) && LeadMailer.respond_to?(:new_lead)
-      LeadMailer.new_lead(@lead).deliver_later
-    else
-      Rails.logger.warn "LeadMailer.new_lead не доступен. Письмо не отправлено."
-    end
+    # Используем новый стиль с .with()
+    LeadMailer.with(
+      lead: @lead,
+      company_name: @company&.name || "Canopy Company"
+    ).admin_notification.deliver_later
   rescue => e
     Rails.logger.error "Ошибка отправки письма администратору: #{e.message}"
   end
 
   def send_client_confirmation
-    if @lead.email.present? && defined?(LeadMailer) && LeadMailer.respond_to?(:lead_notification)
-      LeadMailer.lead_notification(@lead).deliver_later
-    end
+    # Отправляем только если есть email
+    return unless @lead.email.present?
+
+    LeadMailer.with(
+      lead: @lead,
+      company_name: @company&.name || "Canopy Company"
+    ).client_confirmation.deliver_later
   rescue => e
     Rails.logger.error "Ошибка отправки подтверждения клиенту: #{e.message}"
   end
