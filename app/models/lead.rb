@@ -129,9 +129,11 @@ class Lead < ApplicationRecord
   # validates :message, allow_blank: true
 
   # ===== CALLBACKS =====
+  after_create_commit :notify_about_new_lead
   after_create_commit :notify_admin_about_new_lead
   after_update_commit :notify_on_status_change, if: :saved_change_to_status?
   after_initialize :set_default_status, if: :new_record?
+  before_create :generate_invite_token # Генерируем токен перед созданием
 
   # ===== SCOPES =====
   scope :new_leads, -> { where(status: 'Новая') }
@@ -174,6 +176,13 @@ class Lead < ApplicationRecord
     colors[name.hash % colors.length]
   end
 
+  def telegram_invite_link
+    return unless invite_token.present?
+
+    bot_username = ENV['TELEGRAM_BOT_USERNAME']
+    "https://t.me/#{bot_username}?start=invite_#{id}_#{invite_token}"
+  end
+
   private
 
   def notify_admin_about_new_lead
@@ -186,5 +195,35 @@ class Lead < ApplicationRecord
 
   def set_default_status
     self.status ||= 'Новая'
+  end
+
+  def notify_about_new_lead
+    # Ставим задачу в очередь, а не выполняем сразу
+    TelegramNotificationJob.perform_later(self.id)
+  end
+
+  def generate_invite_token
+    # Генерируем криптографически безопасный уникальный токен
+    self.invite_token = SecureRandom.urlsafe_base64(16)
+  end
+
+  # Подключен ли уже к Telegram?
+  def telegram_connected?
+    telegram_chat_id.present? && subscription_confirmed_at.present?
+  end
+
+  # Связываем с Telegram
+  def connect_to_telegram!(chat_id, username = nil)
+    update!(
+      telegram_chat_id: chat_id,
+      telegram_username: username,
+      subscription_confirmed_at: Time.current,
+      invite_token: nil # Очищаем токен после использования (опционально)
+    )
+  end
+
+  # Проверяем, подписан ли на канал
+  def subscribed_to_channel?
+    subscribed_to_channel == true
   end
 end

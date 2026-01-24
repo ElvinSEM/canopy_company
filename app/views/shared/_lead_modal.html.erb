@@ -1,88 +1,99 @@
 <!-- app/views/shared/_lead_modal.html.erb -->
 <div id="leadModal"
      class="fixed inset-0 bg-black/50 z-[9998] hidden opacity-0 transition-opacity duration-300
-            flex justify-center items-center p-4">
+            flex justify-center items-start sm:items-center p-2 sm:p-4 overflow-y-auto">
 
   <div id="leadModalBox"
-       class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-8 relative
-              transition-all duration-500 opacity-0 scale-95">
+       class="bg-white w-full max-w-[95vw] sm:max-w-md md:max-w-lg rounded-xl sm:rounded-2xl md:rounded-3xl
+              shadow-lg sm:shadow-xl md:shadow-2xl p-4 sm:p-6 md:p-8 relative my-4 sm:my-auto
+              transition-all duration-500 opacity-0 scale-95 max-h-[90vh] overflow-y-auto">
 
-    <!-- Кнопка закрытия -->
+    <!-- Кнопка закрытия (меньшая на мобильных) -->
     <button type="button" id="closeLeadModal"
-            class="absolute -top-16 right-0 w-14 h-14 bg-gradient-to-r from-red-500 to-red-600
-                   text-white rounded-full flex items-center justify-center shadow-2xl
-                   hover:scale-110 hover:shadow-3xl hover:from-red-600 hover:to-red-700
-                   transition-all duration-300 group border-4 border-white z-50">
-      <svg class="w-6 h-6 transform group-hover:rotate-90 transition-transform duration-300"
+            class="absolute -top-10 sm:-top-12 right-0 sm:-right-4
+                   w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14
+                   bg-gradient-to-r from-red-500 to-red-600
+                   text-white rounded-full flex items-center justify-center
+                   shadow-lg sm:shadow-xl hover:shadow-2xl
+                   hover:scale-105 sm:hover:scale-110 hover:from-red-600 hover:to-red-700
+                   transition-all duration-300 group border-2 sm:border-3 md:border-4 border-white z-50">
+      <svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 transform group-hover:rotate-90 transition-transform duration-300"
            fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18-6M6 6l12 12"/>
       </svg>
     </button>
 
-    <!-- Заголовок -->
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-800 mb-2">Оставить заявку</h2>
-      <p class="text-gray-600">Мы свяжемся с вами в течение 15 минут</p>
+    <!-- Заголовок (меньший на мобильных) -->
+    <div class="text-center mb-4 sm:mb-6 md:mb-8">
+      <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">Оставить заявку</h2>
+      <p class="text-xs sm:text-sm md:text-base text-gray-600">Мы свяжемся с вами в течение 15 минут</p>
     </div>
 
-    <!-- Простая форма без JS обработки -->
-    <%= form_with(model: Lead.new,
-                  url: leads_path,
-                  id: "lead-form",
-                  local: true,  # Важно: local: true вместо data-turbo
-                  class: "space-y-6") do |f| %>
 
-      <!-- Имя -->
-      <div class="space-y-2">
-        <label class="block text-gray-700 font-semibold text-sm">Имя *</label>
-        <%= f.text_field :name,
-                         class: "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4
-                     focus:ring-2 focus:ring-blue-500 focus:border-blue-400
-                     focus:bg-white transition-all duration-200 outline-none
-                     placeholder-gray-400",
-                         placeholder: "Ваше имя",
-                         required: true %>
-      </div>
+    <!-- Контейнер для формы -->
+    <div id="form-container" class="space-y-4 sm:space-y-6">
+      <%= form_with(model: Lead.new,
+                    url: leads_path,
+                    id: "lead-form",
+                    local: true,
+                    class: "space-y-4 sm:space-y-6",
+                    data: {
+                      telegram_url: ENV['TELEGRAM_PUBLIC_CHANNEL_URL'] || 'https://t.me/naves_crimea'
+                    }) do |f| %>
 
-      <!-- Телефон -->
-      <div class="space-y-2">
-        <label class="block text-gray-700 font-semibold text-sm">Телефон *</label>
-        <%= f.telephone_field :phone,
-                              class: "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4
-                     focus:ring-2 focus:ring-blue-500 focus:border-blue-400
-                     focus:bg-white transition-all duration-200 outline-none
-                     placeholder-gray-400",
-                              placeholder: "+7 (___) ___-__-__",
-                              required: true %>
-      </div>
+        <!-- Имя -->
+        <div class="space-y-1 sm:space-y-2">
+          <label class="block text-gray-700 font-medium sm:font-semibold text-xs sm:text-sm">Имя *</label>
+          <%= f.text_field :name,
+                           class: "w-full bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl px-3 py-3 sm:px-4 sm:py-4
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-400
+                           focus:bg-white transition-all duration-200 outline-none
+                           placeholder-gray-400 text-sm sm:text-base",
+                           placeholder: "Ваше имя",
+                           required: true %>
+        </div>
 
-      <!-- Сообщение -->
-      <div class="space-y-2">
-        <label class="block text-gray-700 font-semibold text-sm">Сообщение</label>
-        <%= f.text_area :message,
-                        rows: 4,
-                        class: "w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4
-                     focus:ring-2 focus:ring-blue-500 focus:border-blue-400
-                     focus:bg-white transition-all duration-200 outline-none
-                     placeholder-gray-400 resize-none",
-                        placeholder: "Опишите ваш проект или задайте вопрос..." %>
-      </div>
+        <!-- Телефон -->
+        <div class="space-y-1 sm:space-y-2">
+          <label class="block text-gray-700 font-medium sm:font-semibold text-xs sm:text-sm">Телефон *</label>
+          <%= f.telephone_field :phone,
+                                class: "w-full bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl px-3 py-3 sm:px-4 sm:py-4
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-400
+                           focus:bg-white transition-all duration-200 outline-none
+                           placeholder-gray-400 text-sm sm:text-base",
+                                placeholder: "+7 (___) ___-__-__",
+                                required: true %>
+        </div>
 
-      <!-- Кнопка отправки -->
-      <button type="submit"
-              class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700
-                     text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl
-                     transition-all duration-300 transform hover:-translate-y-0.5
-                     disabled:opacity-50 disabled:hover:transform-none disabled:hover:shadow-lg">
-        Отправить заявку
-      </button>
+        <!-- Сообщение -->
+        <div class="space-y-1 sm:space-y-2">
+          <label class="block text-gray-700 font-medium sm:font-semibold text-xs sm:text-sm">Сообщение</label>
+          <%= f.text_area :message,
+                          rows: 3,
+                          class: "w-full bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl px-3 py-3 sm:px-4 sm:py-4
+                           focus:ring-2 focus:ring-blue-500 focus:border-blue-400
+                           focus:bg-white transition-all duration-200 outline-none
+                           placeholder-gray-400 resize-none text-sm sm:text-base",
+                          placeholder: "Опишите ваш проект..." %>
+        </div>
 
-      <!-- Конфиденциальность -->
-      <p class="text-gray-500 text-xs text-center">
-        Нажимая кнопку, вы соглашаетесь с
-        <a href="#" class="text-blue-500 hover:text-blue-600 underline">политикой конфиденциальности</a>
-      </p>
 
-    <% end %>
+        <!-- Кнопка отправки -->
+        <button type="submit"
+                class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700
+                       text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base md:text-lg
+                       shadow-md sm:shadow-lg hover:shadow-xl
+                       transition-all duration-300 transform hover:-translate-y-0.5
+                       disabled:opacity-50 disabled:hover:transform-none disabled:hover:shadow-lg">
+          Отправить заявку
+        </button>
+
+        <!-- Конфиденциальность -->
+        <p class="text-gray-500 text-[10px] xs:text-xs sm:text-sm text-center">
+          Нажимая кнопку, вы соглашаетесь с
+          <a href="#" class="text-blue-500 hover:text-blue-600 underline">политикой конфиденциальности</a>
+        </p>
+      <% end %>
+    </div>
   </div>
 </div>

@@ -1,0 +1,21 @@
+<%# app/views/leads/new.js.erb %>
+<%# Этот файл будет рендериться при AJAX запросе /leads/new %>
+
+// Вставляем новую форму в контейнер
+document.getElementById('form-container').innerHTML = `
+  <%= j(render partial: 'leads/form', locals: { lead: @lead }) %>
+`;
+
+// Переподключаем обработчики событий
+if (typeof initLeadForm === 'function') {
+    // Если функция существует в глобальной области видимости
+    const form = document.getElementById('lead-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Здесь можно вызвать глобальную функцию handleFormSubmit если она есть
+            // или использовать существующую логику
+            console.log('Form reconnected');
+        });
+    }
+}

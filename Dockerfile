@@ -70,50 +70,46 @@
 ## 6. Ключевое изменение: миграции ТОЛЬКО при запуске
 #CMD ["sh", "-c", "bundle exec rails db:migrate RAILS_ENV=production && bundle exec rails server -b 0.0.0.0 -p ${PORT:-3000}"]
 
+FROM ruby:3.4.6-slim
 
-FROM ruby:3.4.6-slim AS base
-
+# Установка системных зависимостей
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    curl \
-    gnupg \
-    build-essential \
-    git \
-    libpq-dev \
-    nodejs \
-    npm \
-    vim \
-    libyaml-dev \
+    curl gnupg build-essential git libpq-dev nodejs npm \
+    libvips libyaml-dev postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-RUN corepack enable && corepack prepare yarn@4.6.0 --activate
+# Включаем Corepack для управления версиями Yarn
+RUN corepack enable
 
 WORKDIR /app
 
-# 1. Конфигурация Yarn для отключения PnP
-RUN echo 'nodeLinker: "node-modules"' > .yarnrc.yml
-
-# 2. Установка Node.js зависимостей
+# Копируем конфигурационные файлы пакетов
 COPY package.json yarn.lock ./
-RUN npm install @rollup/rollup-linux-arm64-gnu --save-optional --no-audit --no-fund \
-    && yarn install --check-cache --network-timeout 600000
 
-# 3. Установка Ruby гемов
+# Подготавливаем Yarn 4.6.0 через Corepack
+RUN corepack prepare yarn@4.6.0 --activate && \
+    yarn set version 4.6.0 && \
+    yarn --version
+
+# Устанавливаем Node.js зависимости
+RUN yarn install --immutable
+
+# Устанавливаем Ruby гемы
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
+RUN bundle config set force_ruby_platform true && \
+    bundle install --jobs=4 --retry=3
 
-# 4. Копирование всего кода
+# Копирование остального кода
 COPY . .
 
-# 5. Подготовка директории для Vite
-RUN mkdir -p public/vite
+# Создание необходимых директорий
+RUN mkdir -p tmp/pids tmp/cache tmp/sockets public/vite-dev
 
-# 6. Entrypoint
-COPY ./entrypoint.sh /usr/bin/entrypoint.sh
+# Entrypoint
+COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 
-# 7. Порт
 EXPOSE 3000
 
-# 8. Команда по умолчанию
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

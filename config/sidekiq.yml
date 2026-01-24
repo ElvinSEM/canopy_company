@@ -1,0 +1,11 @@
+# config/sidekiq.yml
+:concurrency: 5
+:queues:
+  - default
+  - telegram
+:max_retries: 3
+:dead_timeout_in_seconds: 604800
+
+# Для продакшена добавьте
+production:
+  :concurrency: 10

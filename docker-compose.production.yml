@@ -60,32 +60,38 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: canopy-local-app
-    ports:
-      - "3001:3000"  # Другой порт, чтобы не конфликтовать с dev
+    container_name: welding-app  # Более подходящее имя для продакшена
+    # УДАЛЯЕМ порты! Доступ будет только через NPM по HTTPS
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       RAILS_ENV: production
       PORT: 3000
-      RAILS_HOSTS: localhost
+      RAILS_HOSTS: welding-app,localhost  # Добавляем имя контейнера
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy_key_for_local_test}
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/canopy_local
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/welding_db
+      VITE_RUBY_HOST: welding-app  # Для Vite
     command: >
       sh -c "
+        echo 'Ожидание PostgreSQL...' &&
         until pg_isready -h postgres -p 5432; do sleep 2; done &&
+        echo 'PostgreSQL готов!' &&
         bundle exec rails db:create RAILS_ENV=production 2>/dev/null || true &&
         bundle exec rails db:migrate RAILS_ENV=production &&
+        bundle exec rails assets:precompile RAILS_ENV=production &&
         bundle exec rails server -b 0.0.0.0 -p 3000
       "
+    # КЛЮЧЕВОЕ: подключаемся к сети NPM
+    networks:
+      - npm-network
 
   postgres:
     image: postgres:16-alpine
-    container_name: canopy-local-db
+    container_name: welding-db  # Более подходящее имя
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: canopy_local
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}  # Используем переменную
+      POSTGRES_DB: welding_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -93,6 +99,15 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    # БД тоже в сети NPM
+    networks:
+      - npm-network
 
 volumes:
   postgres_data:
+
+# КЛЮЧЕВОЕ: используем внешнюю сеть NPM
+networks:
+  npm-network:
+    external: true  # Сеть уже создана NPM
+    name: npm-network  # Явно указываем имя сети

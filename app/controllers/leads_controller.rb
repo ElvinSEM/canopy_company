@@ -4,6 +4,10 @@ class LeadsController < ApplicationController
   def new
     @lead = Lead.new
     @company = Company.first
+    respond_to do |format|
+      format.html # обычный запрос
+      format.js   # для AJAX запроса
+    end
   end
 
   def create
@@ -11,11 +15,14 @@ class LeadsController < ApplicationController
     @company = Company.first
 
     if @lead.save
+      # Генерируем токен и сохраняем ссылку для приглашения
+      telegram_invite_link = @lead.telegram_invite_link if @lead.respond_to?(:telegram_invite_link)
       # Отправляем письмо администратору
       send_admin_notification
 
       # Отправляем подтверждение клиенту (если указан email)
       send_client_confirmation
+
 
       # Если запрос пришел из модалки (AJAX или нет)
       if request.xhr? || params[:modal] == 'true'

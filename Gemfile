@@ -13,8 +13,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 gem 'activeadmin'
-gem 'devise'
-
+gem 'devise', '~> 4.9.0'
 gem "image_processing", "~> 1.2"
 # Gemfile
 
@@ -26,8 +25,11 @@ gem "bootsnap", require: false
 
 gem 'dotenv-rails'
 gem "sprockets-rails"
-
+gem 'telegram-bot-ruby', '~> 2.5'
 gem 'vite_rails'
+gem 'redis', '~> 5.4', '>= 5.4.1'
+gem 'sidekiq', '~> 8.1'
+
 
 group :development, :test do
   gem 'rspec-rails'
@@ -35,6 +37,8 @@ group :development, :test do
   gem 'faker'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem 'shoulda-matchers'
+
 end
 
 group :development do
@@ -53,9 +57,9 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'shoulda-matchers'
   gem 'database_cleaner-active_record'
   gem 'simplecov', require: false
   end
 
 gem "rails-controller-testing", "~> 1.0", :group => :test
+
