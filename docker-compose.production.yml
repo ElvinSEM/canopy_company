@@ -80,7 +80,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.prod  # Рекомендуется отдельный Dockerfile для продакшена
+      dockerfile: Dockerfile # Рекомендуется отдельный Dockerfile для продакшена
       args:
         - RAILS_ENV=production
         - NODE_ENV=production
