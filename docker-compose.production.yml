@@ -80,7 +80,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
       args:
         - RAILS_ENV=production
         - NODE_ENV=production
