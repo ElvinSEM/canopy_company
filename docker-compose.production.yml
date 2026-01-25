@@ -240,7 +240,7 @@ services:
   sidekiq:
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     container_name: canopy-sidekiq-prod
     restart: unless-stopped
     env_file:
