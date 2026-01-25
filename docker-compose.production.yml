@@ -80,7 +80,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod  # Рекомендуется отдельный Dockerfile для продакшена
       args:
         - RAILS_ENV=production
         - NODE_ENV=production
@@ -89,15 +89,33 @@ services:
     env_file:
       - .env.production
     environment:
+      # Nginx Proxy Manager интеграция
       - VIRTUAL_HOST=${DOMAIN}
       - VIRTUAL_PORT=3000
       - LETSENCRYPT_HOST=${DOMAIN}
       - LETSENCRYPT_EMAIL=${COMPANY_EMAIL}
+
+      # Rails оптимизации
+      - RAILS_ENV=production
       - RAILS_SERVE_STATIC_FILES=true
       - RAILS_LOG_TO_STDOUT=true
       - RAILS_LOG_LEVEL=info
-      - WEB_CONCURRENCY=2
-      - RAILS_MAX_THREADS=5
+      - RAILS_MAX_THREADS=${RAILS_MAX_THREADS:-5}
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-2}
+
+      # Безопасность
+      - BUNDLE_DEPLOYMENT=true
+      - BUNDLE_WITHOUT=development:test
+      - BUNDLE_PATH=/usr/local/bundle
+
+      # Performance
+      - NODE_OPTIONS=--max-old-space-size=512
+      - RUBY_YJIT_ENABLE=1  # Включить JIT компилятор Ruby 3+
+
+      # Vite production
+      - NODE_ENV=production
+      - VITE_RUBY_HOST=${DOMAIN}
+      - VITE_RUBY_PORT=443
     expose:
       - "3000"
     depends_on:
@@ -107,19 +125,44 @@ services:
         condition: service_started
     networks:
       - npm-network
+      - backend-network
+    command: >
+      sh -c "
+        echo '=== Production Startup ===' &&
+        echo 'Waiting for database...' &&
+        until pg_isready -h postgres -p 5432 -U ${DATABASE_USERNAME} -d ${DATABASE_NAME} >/dev/null 2>&1; do
+          sleep 2;
+        done &&
+        echo 'Database ready!' &&
+        echo 'Running migrations...' &&
+        bundle exec rails db:migrate RAILS_ENV=production &&
+        echo 'Starting Puma server...' &&
+        bundle exec puma -C config/puma.rb
+      "
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/up"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 256M
+          cpus: '0.5'
     volumes:
-      - ./logs:/app/log:rw
-      - ./tmp:/app/tmp:rw
+      - app_logs:/app/log
+      - app_tmp:/app/tmp
+      - bundle_cache:/usr/local/bundle
     logging:
-      driver: json-file
+      driver: "json-file"
       options:
         max-size: "10m"
-        max-file: "3"
+        max-file: "5"
+        tag: "canopy-app"
 
   postgres:
     image: postgres:16-alpine
@@ -129,31 +172,123 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+      # Оптимизация производительности
+      POSTGRES_SHARED_BUFFERS: 128MB
+      POSTGRES_EFFECTIVE_CACHE_SIZE: 1GB
+      POSTGRES_MAINTENANCE_WORK_MEM: 64MB
+      POSTGRES_CHECKPOINT_COMPLETION_TARGET: 0.9
+      POSTGRES_WAL_BUFFERS: 16MB
+      POSTGRES_DEFAULT_STATISTICS_TARGET: 100
+      POSTGRES_MAX_CONNECTIONS: 100
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/backups
     networks:
-      - npm-network
+      - backend-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    command: >
+      postgres
+      -c shared_buffers=128MB
+      -c max_connections=100
+      -c effective_cache_size=1GB
 
   redis:
     image: redis:7-alpine
     container_name: canopy-redis-prod
     restart: unless-stopped
-    command: redis-server --appendonly yes
+    command: >
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
     volumes:
       - redis_data:/data
     networks:
-      - npm-network
+      - backend-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
+
+  # Опционально: Sidekiq для фоновых задач
+  sidekiq:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: canopy-sidekiq-prod
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - backend-network
+    command: >
+      sh -c "
+        echo 'Starting Sidekiq...' &&
+        bundle exec sidekiq -C config/sidekiq.yml -e production
+      "
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
+    volumes:
+      - app_logs:/app/log
+      - app_tmp:/app/tmp
+      - bundle_cache:/usr/local/bundle
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   postgres_data:
+    driver: local
   redis_data:
+    driver: local
+  app_logs:
+    driver: local
+  app_tmp:
+    driver: local
+  bundle_cache:
+    driver: local
+  postgres_backup:
+    driver: local
 
 networks:
   npm-network:
     external: true
     name: npm-network
+  backend-network:
+    driver: bridge
+    internal: false  # Разрешаем внешний доступ через npm-network
