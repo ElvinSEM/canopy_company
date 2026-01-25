@@ -294,48 +294,18 @@
 #    internal: false  # Разрешаем внешний доступ через npm-network
 
 
-
-version: '3.8'
-
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: canopy-postgres
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: canopy_company_production
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - npm-network
-
   app:
-    image: canopy-app:simple  # Используем собранный образ
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: canopy:prod
     container_name: canopy-app
-    environment:
-      RAILS_ENV: production
-      DATABASE_URL: postgres://admin:admin@postgres:5432/canopy_company_production
-      SECRET_KEY_BASE: 87cac7b78a4b9acdd446f15ab2487eac3f913ae41dddc35c7c0f1cf388d143c4
-      RAILS_MASTER_KEY: 525facf0c08745cc5bd86f7b171bdba6
+    env_file:
+      - .env.production
+    depends_on:
+      - pg
+      - redis
     ports:
       - "3000:3000"
-    depends_on:
-      - postgres
-    networks:
-      - npm-network
-    command: >
-      sh -c "
-        echo 'Waiting for DB...' &&
-        sleep 10 &&
-        bundle exec rails db:migrate &&
-        bundle exec rails server -b 0.0.0.0
-      "
-
-volumes:
-  postgres_data:
-
-networks:
-  npm-network:
-    external: true
-    name: npm-network
+    restart: unless-stopped
