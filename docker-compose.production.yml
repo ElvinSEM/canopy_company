@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile
     container_name: canopy-app-prod
     restart: unless-stopped
     env_file:
