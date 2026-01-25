@@ -1,113 +1,74 @@
-#services:
-#  app:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    container_name: canopy-local-app
-#    ports:
-#      - "3000:3000"
-#    depends_on:
-#      postgres:
-#        condition: service_healthy  # Ждем пока БД будет готова
-#    environment:
-#      RAILS_ENV: production
-#      PORT: 3000
-#      RAILS_HOSTS: localhost
-#      # Ключи для теста (можно сгенерировать):
-##      SECRET_KEY_BASE: test_secret_key_1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
-##      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-1234567890abcdef1234567890abcdef} # или создайте
-#      # Важно: БД подключается по имени сервиса 'postgres'
-#      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/canopy_local
-#    # Проверяем БД, делаем миграции, запускаем сервер
-#    command: >
-#      sh -c "
-#        echo 'Waiting for PostgreSQL...' &&
-#        until pg_isready -h postgres -p 5432; do sleep 2; done &&
-#        echo 'PostgreSQL is ready!' &&
-#        bundle exec rails db:create RAILS_ENV=production 2>/dev/null || echo 'Database exists or cannot create' &&
-#        bundle exec rails db:migrate RAILS_ENV=production &&
-#        echo 'Starting Rails server...' &&
-#        bundle exec rails server -b 0.0.0.0 -p 3000
-#      "
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:3000/up"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 3
-#
-#  postgres:
-#    image: postgres:16-alpine
-#    container_name: canopy-local-db
-#    environment:
-#      POSTGRES_PASSWORD: postgres
-#      POSTGRES_DB: canopy_local
-#    ports:
-#      - "5433:5432" # Чтобы не конфликтовать с локальной Postgres
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#    healthcheck:
-#      test: ["CMD-SHELL", "pg_isready -U postgres"]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 5
-#
-#volumes:
-#  postgres_data:
-
-
+version: '3.8'
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: welding-app  # Более подходящее имя для продакшена
-    # УДАЛЯЕМ порты! Доступ будет только через NPM по HTTPS
+      dockerfile: Dockerfile.production
+    container_name: canopy-app-prod
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      - VIRTUAL_HOST=${DOMAIN:-85.198.102.69}
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=${DOMAIN}
+      - LETSENCRYPT_EMAIL=${COMPANY_EMAIL:-admin@example.com}
+    expose:
+      - "3000"
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
-      RAILS_ENV: production
-      PORT: 3000
-      RAILS_HOSTS: welding-app,localhost  # Добавляем имя контейнера
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy_key_for_local_test}
-      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-postgres}@postgres:5432/welding_db
-      VITE_RUBY_HOST: welding-app  # Для Vite
-    command: >
-      sh -c "
-        echo 'Ожидание PostgreSQL...' &&
-        until pg_isready -h postgres -p 5432; do sleep 2; done &&
-        echo 'PostgreSQL готов!' &&
-        bundle exec rails db:create RAILS_ENV=production 2>/dev/null || true &&
-        bundle exec rails db:migrate RAILS_ENV=production &&
-        bundle exec rails assets:precompile RAILS_ENV=production &&
-        bundle exec rails server -b 0.0.0.0 -p 3000
-      "
-    # КЛЮЧЕВОЕ: подключаемся к сети NPM
+      redis:
+        condition: service_started
     networks:
       - npm-network
+    command: >
+      sh -c "
+        echo 'Waiting for PostgreSQL...' &&
+        until pg_isready -h postgres -p 5432 -U ${DATABASE_USERNAME:-admin}; do sleep 2; done &&
+        echo 'PostgreSQL ready!' &&
+        bundle exec rails db:prepare RAILS_ENV=production &&
+        bundle exec rails server -b 0.0.0.0 -p 3000 -e production
+      "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   postgres:
     image: postgres:16-alpine
-    container_name: welding-db  # Более подходящее имя
+    container_name: canopy-postgres-prod
+    restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}  # Используем переменную
-      POSTGRES_DB: welding_db
+      POSTGRES_USER: ${DATABASE_USERNAME:-admin}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME:-canopy_company_production}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - npm-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-admin}"]
+      interval: 10s
       timeout: 5s
       retries: 5
-    # БД тоже в сети NPM
+
+  redis:
+    image: redis:7-alpine
+    container_name: canopy-redis-prod
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
     networks:
       - npm-network
 
 volumes:
   postgres_data:
+  redis_data:
 
-# КЛЮЧЕВОЕ: используем внешнюю сеть NPM
 networks:
   npm-network:
-    external: true  # Сеть уже создана NPM
-    name: npm-network  # Явно указываем имя сети
+    external: true
+    name: npm-network

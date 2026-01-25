@@ -1,25 +1,26 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
-  username: <%= ENV['DATABASE_USER'] || 'postgres' %>
-  password: <%= ENV['DATABASE_PASSWORD'] || 'password' %>
   port: 5432
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
+  host: localhost
   username: admin
   password: admin
-
   database: canopy_company_dev
 
 test:
   <<: *default
+  host: localhost
+  username: admin
+  password: admin
   database: canopy_company_test
 
 production:
   <<: *default
+  host: pg                      # Критически важно для Docker!
+  username: admin
+  password: <%= ENV['DATABASE_PASSWORD'] %>
   database: canopy_company_production
-  username: canopy_company
-  password: <%= ENV["CANOPY_COMPANY_DATABASE_PASSWORD"] %>

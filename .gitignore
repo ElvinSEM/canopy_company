@@ -1,21 +1,3 @@
-## Игнорируем папки и файлы
-#/node_modules
-#/public/packs
-#/public/assets
-#.byebug_history
-#/log/*
-#/tmp/*
-#!/log/.keep
-#!/tmp/.keep
-#/storage/*
-#!/storage/.keep
-#.env
-#*.swp
-#.DS_Store
-#
-## Игнорируем файлы окружения
-#/config/master.key
-#/config/credentials.yml.enc
 
 # Node.js
 /node_modules
@@ -37,7 +19,7 @@
 
 # Local environment variables
 .env
-
+.env.production
 # Swap files & system
 *.swp
 .DS_Store
@@ -69,4 +51,4 @@ node_modules
 # Vite uses dotenv and suggests to ignore local-only env files. See
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
-
+.dockerignore
