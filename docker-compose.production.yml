@@ -1,18 +1,103 @@
+#version: '3.8'
+#services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: canopy-app-prod
+#    restart: unless-stopped
+#    env_file:
+#      - .env.production
+#    environment:
+#      - VIRTUAL_HOST=${DOMAIN:-85.198.102.69}
+#      - VIRTUAL_PORT=3000
+#      - LETSENCRYPT_HOST=${DOMAIN}
+#      - LETSENCRYPT_EMAIL=${COMPANY_EMAIL:-admin@example.com}
+#    expose:
+#      - "3000"
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#      redis:
+#        condition: service_started
+#    networks:
+#      - npm-network
+#    command: >
+#      sh -c "
+#        echo 'Waiting for PostgreSQL...' &&
+#        until pg_isready -h postgres -p 5432 -U ${DATABASE_USERNAME:-admin}; do sleep 2; done &&
+#        echo 'PostgreSQL ready!' &&
+#        bundle exec rails db:prepare RAILS_ENV=production &&
+#        bundle exec rails server -b 0.0.0.0 -p 3000 -e production
+#      "
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 3
+#
+#  postgres:
+#    image: postgres:16-alpine
+#    container_name: canopy-postgres-prod
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_USER: ${DATABASE_USERNAME:-admin}
+#      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+#      POSTGRES_DB: ${DATABASE_NAME:-canopy_company_production}
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    networks:
+#      - npm-network
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-admin}"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#
+#  redis:
+#    image: redis:7-alpine
+#    container_name: canopy-redis-prod
+#    restart: unless-stopped
+#    command: redis-server --appendonly yes
+#    volumes:
+#      - redis_data:/data
+#    networks:
+#      - npm-network
+#
+#volumes:
+#  postgres_data:
+#  redis_data:
+#
+#networks:
+#  npm-network:
+#    external: true
+#    name: npm-network
+
+
 version: '3.8'
+
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+      args:
+        - RAILS_ENV=production
+        - NODE_ENV=production
     container_name: canopy-app-prod
     restart: unless-stopped
     env_file:
       - .env.production
     environment:
-      - VIRTUAL_HOST=${DOMAIN:-85.198.102.69}
+      - VIRTUAL_HOST=${DOMAIN}
       - VIRTUAL_PORT=3000
       - LETSENCRYPT_HOST=${DOMAIN}
-      - LETSENCRYPT_EMAIL=${COMPANY_EMAIL:-admin@example.com}
+      - LETSENCRYPT_EMAIL=${COMPANY_EMAIL}
+      - RAILS_SERVE_STATIC_FILES=true
+      - RAILS_LOG_TO_STDOUT=true
+      - RAILS_LOG_LEVEL=info
+      - WEB_CONCURRENCY=2
+      - RAILS_MAX_THREADS=5
     expose:
       - "3000"
     depends_on:
@@ -22,34 +107,34 @@ services:
         condition: service_started
     networks:
       - npm-network
-    command: >
-      sh -c "
-        echo 'Waiting for PostgreSQL...' &&
-        until pg_isready -h postgres -p 5432 -U ${DATABASE_USERNAME:-admin}; do sleep 2; done &&
-        echo 'PostgreSQL ready!' &&
-        bundle exec rails db:prepare RAILS_ENV=production &&
-        bundle exec rails server -b 0.0.0.0 -p 3000 -e production
-      "
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/up"]
       interval: 30s
       timeout: 10s
       retries: 3
+    volumes:
+      - ./logs:/app/log:rw
+      - ./tmp:/app/tmp:rw
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   postgres:
     image: postgres:16-alpine
     container_name: canopy-postgres-prod
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DATABASE_USERNAME:-admin}
+      POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME:-canopy_company_production}
+      POSTGRES_DB: ${DATABASE_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - npm-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-admin}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
