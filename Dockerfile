@@ -45,20 +45,27 @@
 #
 #
 #
-
-FROM ruby:3.4.8-alpine3.23 AS miniapp
+FROM ruby:3.4.8-alpine3.23
 
 RUN apk --update add --no-cache \
     build-base \
     yaml-dev \
     tzdata \
-    yarn \
+    nodejs \          # yarn уже установит nodejs как зависимость
+    npm \
     libc6-compat \
     postgresql-dev \
     curl \
     ruby-dev \
     vips-dev \
     && rm -rf /var/cache/apk/*
+
+# Включаем Corepack (идет в составе Node.js 16.9+)
+RUN corepack enable
+
+# Подготавливаем Yarn 4.6.0 через Corepack
+RUN corepack prepare yarn@4.6.0 --activate
+RUN yarn set version 4.6.0
 
 ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
@@ -76,12 +83,9 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-# RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
-
 RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
-
-# RUN chown -R deploy:deploy /usr/local/bundle
-
 USER deploy:deploy
 
 EXPOSE 3000
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
