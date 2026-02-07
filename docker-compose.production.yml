@@ -293,19 +293,85 @@
 #    driver: bridge
 #    internal: false  # Разрешаем внешний доступ через npm-network
 
-
 services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: canopy:prod
-    container_name: canopy-app
+    container_name: canopy-app-prod
+    restart: unless-stopped
     env_file:
       - .env.production
+    #    environment:
+    #      - VIRTUAL_HOST=${DOMAIN:-85.198.102.69}
+    #      - VIRTUAL_PORT=3000
+    #      - LETSENCRYPT_HOST=${DOMAIN}
+    #      - LETSENCRYPT_EMAIL=${COMPANY_EMAIL:-admin@example.com}
+    # TODO: !!! все это закинь в .env.production так же добавить RAILS_ENV=production DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME
+    expose:
+      - "127.0.0.1:3000:3000"
+      - "172.17.0.1:3000:3000"
+    # открываем порты только внутри докер-сети npm-network, внешний доступ через nginx-proxy
     depends_on:
-      - pg
-      - redis
-    ports:
-      - "3000:3000"
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - network
+      - npm-network
+    command: >
+      sh -c "
+        echo 'Waiting for PostgreSQL...' &&
+        until pg_isready -h postgres -p 5432 -U ${DATABASE_USERNAME}; do sleep 2; done &&
+        echo 'PostgreSQL ready!' &&
+        bundle exec rails db:prepare &&
+        bundle exec rails assets:precompile &&
+        bundle exec rails server -b 0.0.0.0 -p 3000 -e production
+      "
+    volumes:
+      - gems_data:/usr/local/bundle
+      - .:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: canopy-postgres-prod
     restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-admin}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: canopy-redis-prod
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - network
+
+volumes:
+  postgres_data:
+  redis_data:
+  gems_data:
+
+networks:
+  network:
+  npm-network:
+    external: true
+    name: npm-network

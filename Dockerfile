@@ -47,71 +47,43 @@
 #
 
 
-FROM ruby:3.4.6-slim AS build
 
-ENV RAILS_ENV=production \
-    NODE_ENV=production \
-    BUNDLE_WITHOUT="development test"
+FROM ruby:3.4.8-alpine3.23 AS miniapp
 
-RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    build-essential \
-    git \
-    libpq-dev \
+RUN apk --update add --no-cache \
+    build-base \
+    yaml-dev \
+    tzdata \
+    yarn \
+    libc6-compat \
+    postgresql-dev \
     curl \
-    nodejs \
-    npm \
-    libvips \
-    && rm -rf /var/lib/apt/lists/*
+    ruby-dev \
+    vips-dev \
+    && rm -rf /var/cache/apk/*
+
+ENV BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development test"
 
 WORKDIR /app
 
-# Yarn
-RUN corepack enable && corepack prepare yarn@4.6.0 --activate
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
+RUN bundle check || bundle install --jobs=2 --retry=3
+RUN bundle clean --force
 
-# Node deps
 COPY package.json yarn.lock ./
 RUN yarn install --immutable
 
-# Ruby deps
-COPY Gemfile Gemfile.lock ./
-RUN bundle config set force_ruby_platform true && \
-    bundle install --jobs=4 --retry=3
-
-# App code
 COPY . .
 
-# Assets
-RUN bundle exec rails assets:precompile && \
-    bundle exec rails vite:build
+# RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
 
-############################
-# 2. RUNTIME STAGE
-############################
-FROM ruby:3.4.6-slim
+RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
 
-ENV RAILS_ENV=production \
-    NODE_ENV=production \
-    BUNDLE_WITHOUT="development test"
+# RUN chown -R deploy:deploy /usr/local/bundle
 
-RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    libpq5 \
-    libvips \
-    postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-
-# Ruby gems
-COPY --from=build /usr/local/bundle /usr/local/bundle
-
-# App
-COPY --from=build /app /app
-
-# Entrypoint
-COPY entrypoint.sh /usr/bin/entrypoint
-RUN chmod +x /usr/bin/entrypoint
+USER deploy:deploy
 
 EXPOSE 3000
-
-ENTRYPOINT ["entrypoint"]
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
