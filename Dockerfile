@@ -52,17 +52,13 @@ RUN apk --update add --no-cache \
     build-base \
     yaml-dev \
     tzdata \
-    nodejs \
-    npm \
+    yarn \
     libc6-compat \
     postgresql-dev \
     curl \
     ruby-dev \
     vips-dev \
     && rm -rf /var/cache/apk/*
-
-# Устанавливаем yarn через npm (версия 1.22.22, которая работает)
-RUN npm install -g yarn
 
 ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
@@ -75,9 +71,7 @@ RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
 RUN bundle check || bundle install --jobs=2 --retry=3
 RUN bundle clean --force
 
-# Временное решение для yarn 4.6.0
 COPY package.json yarn.lock ./
-RUN sed -i '/"packageManager"/d' package.json  # Убираем packageManager требование
 RUN yarn install --frozen-lockfile
 
 COPY . .
