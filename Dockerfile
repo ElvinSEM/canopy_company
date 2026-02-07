@@ -61,6 +61,10 @@ RUN apk --update add --no-cache \
     ruby-dev \
     vips-dev \
     && rm -rf /var/cache/apk/*
+# Включаем Corepack и устанавливаем Yarn 4.6.0
+RUN corepack enable
+RUN corepack prepare yarn@4.6.0 --activate
+RUN yarn set version 4.6.0
 
 ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
