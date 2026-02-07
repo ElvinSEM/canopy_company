@@ -46,9 +46,9 @@
 #
 #
 
-FROM ruby:3.4.8-alpine3.23 AS miniapp
+FROM ruby:3.4.8-alpine3.23
 
-RUN apk --update add --no-cache \
+RUN apk update && apk add --no-cache \
     build-base \
     yaml-dev \
     tzdata \
@@ -58,35 +58,22 @@ RUN apk --update add --no-cache \
     postgresql-dev \
     curl \
     ruby-dev \
-    vips \
     && rm -rf /var/cache/apk/*
 
-# Устанавливаем yarn через npm (глобально)
-RUN npm install -g yarn
-
-# Устанавливаем Corepack для Yarn 4.6.0
-RUN npm install -g corepack
-RUN corepack enable
-RUN corepack prepare yarn@4.6.0 --activate
-RUN yarn set version 4.6.0
-
-ENV BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development test"
+# Устанавливаем yarn и corepack
+RUN npm install -g yarn corepack
+RUN corepack enable && corepack prepare yarn@4.6.0 --activate
 
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
-RUN bundle check || bundle install --jobs=2 --retry=3
-RUN bundle clean --force
+RUN gem install bundler && bundle install --jobs=2
 
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 COPY . .
 
-RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
-USER deploy:deploy
-
 EXPOSE 3000
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
