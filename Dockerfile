@@ -46,34 +46,48 @@
 #
 #
 
-FROM ruby:3.4.8-alpine3.23
+FROM ruby:3.4.8-alpine3.23 AS miniapp
 
-RUN apk update && apk add --no-cache \
+RUN apk --update add --no-cache \
     build-base \
     yaml-dev \
     tzdata \
-    nodejs \
-    npm \
+    nodejs \          # Меняем yarn на nodejs
+    npm \             # Добавляем npm
     libc6-compat \
     postgresql-dev \
     curl \
     ruby-dev \
+    vips-dev \
     && rm -rf /var/cache/apk/*
 
-# Устанавливаем yarn и corepack
-RUN npm install -g yarn corepack
-RUN corepack enable && corepack prepare yarn@4.6.0 --activate
+# Устанавливаем yarn через npm (версия 1.22.22, которая работает)
+RUN npm install -g yarn
+
+ENV BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development test"
 
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler && bundle install --jobs=2
+RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
+RUN bundle check || bundle install --jobs=2 --retry=3
+RUN bundle clean --force
 
+# Временное решение для yarn 4.6.0
 COPY package.json yarn.lock ./
+RUN sed -i '/"packageManager"/d' package.json  # Убираем packageManager требование
 RUN yarn install --frozen-lockfile
 
 COPY . .
 
-EXPOSE 3000
+# RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
+
+# RUN chown -R deploy:deploy /usr/local/bundle
+
+USER deploy:deploy
+
+EXPOSE 3000
