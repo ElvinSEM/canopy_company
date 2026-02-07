@@ -48,7 +48,7 @@
 
 
 
-FROM ruby:3.4.8-alpine3.23 AS miniapp
+FROM ruby:3.4.6-alpine3.23 AS miniapp
 
 RUN apk --update add --no-cache \
     build-base \
