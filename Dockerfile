@@ -52,8 +52,8 @@ RUN apk --update add --no-cache \
     build-base \
     yaml-dev \
     tzdata \
-    nodejs \          # Меняем yarn на nodejs
-    npm \             # Добавляем npm
+    nodejs \
+    npm \
     libc6-compat \
     postgresql-dev \
     curl \
