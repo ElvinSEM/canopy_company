@@ -60,8 +60,9 @@ RUN apk --update add --no-cache \
     vips-dev \
     && rm -rf /var/cache/apk/*
 
-# Включаем Corepack (идет в составе Node.js 16.9+)
-RUN corepack enable
+# Устанавливаем Corepack через npm, а затем включаем его
+RUN npm i -g corepack && \
+    corepack enable
 
 # Подготавливаем Yarn 4.6.0 через Corepack
 RUN corepack prepare yarn@4.6.0 --activate
