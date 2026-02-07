@@ -47,20 +47,26 @@
 #
 
 
-
 FROM ruby:3.4.8-alpine3.23 AS miniapp
 
 RUN apk --update add --no-cache \
     build-base \
     yaml-dev \
     tzdata \
-    yarn \
+    nodejs \
+    npm \
     libc6-compat \
     postgresql-dev \
     curl \
     ruby-dev \
     vips-dev \
     && rm -rf /var/cache/apk/*
+
+# Устанавливаем Corepack и Yarn 4.6.0
+RUN npm install -g corepack
+RUN corepack enable
+RUN corepack prepare yarn@4.6.0 --activate
+RUN yarn set version 4.6.0
 
 ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
