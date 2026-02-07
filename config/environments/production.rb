@@ -1,16 +1,23 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.hosts = [
-    "canopy-company.onrender.com"
-  ]
-  config.hosts << /.*\.onrender\.com/
+  # config.hosts = [
+  #   "canopy-company.onrender.com"
+  # ]
+  # config.hosts << /.*\.onrender\.com/
 
   config.enable_reloading = false
   config.eager_load = true
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
   config.require_master_key = true
+  config.force_ssl = false
+
+  # config.force_ssl = true
+  config.ssl_options = {
+    hsts: { expires: 1.year, preload: true, subdomains: true },
+    redirect: { exclude: ->(request) { request.host == "localhost" } }
+  }
 
   config.assets.compile = false
   config.active_storage.service = :local
