@@ -51,7 +51,7 @@ RUN apk --update add --no-cache \
     build-base \
     yaml-dev \
     tzdata \
-    nodejs \          # yarn уже установит nodejs как зависимость
+    nodejs \
     npm \
     libc6-compat \
     postgresql-dev \
