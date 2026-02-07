@@ -64,6 +64,7 @@ RUN apk --update add --no-cache \
 RUN npm i -g corepack && \
     corepack enable
 
+
 # Подготавливаем Yarn 4.6.0 через Corepack
 RUN corepack prepare yarn@4.6.0 --activate
 RUN yarn set version 4.6.0

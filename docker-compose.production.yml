@@ -300,6 +300,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile  # Добавляем явное указание
+    image: canopy-app-prod:latest
     container_name: canopy-app-prod
     restart: unless-stopped
     env_file:
