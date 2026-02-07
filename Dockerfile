@@ -46,7 +46,6 @@
 #
 #
 
-
 FROM ruby:3.4.8-alpine3.23 AS miniapp
 
 RUN apk --update add --no-cache \
@@ -59,10 +58,13 @@ RUN apk --update add --no-cache \
     postgresql-dev \
     curl \
     ruby-dev \
-    vips-dev \
+    vips \
     && rm -rf /var/cache/apk/*
 
-# Устанавливаем Corepack и Yarn 4.6.0
+# Устанавливаем yarn через npm (глобально)
+RUN npm install -g yarn
+
+# Устанавливаем Corepack для Yarn 4.6.0
 RUN npm install -g corepack
 RUN corepack enable
 RUN corepack prepare yarn@4.6.0 --activate
@@ -84,12 +86,7 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-# RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
-
 RUN addgroup -g 1000 deploy && adduser -u 1000 -G deploy -D -s /bin/sh deploy
-
-# RUN chown -R deploy:deploy /usr/local/bundle
-
 USER deploy:deploy
 
 EXPOSE 3000
