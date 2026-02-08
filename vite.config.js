@@ -20,6 +20,8 @@ export default defineConfig(({ mode }) => {
 
         build: {
             sourcemap: false,
+            outDir: "public/vite",  // ✅ ключевая настройка для Rails production
+            emptyOutDir: true,      // очищает папку перед сборкой
         },
 
         // ⚠️ server / hmr ТОЛЬКО для development
