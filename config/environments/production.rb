@@ -1,28 +1,18 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  # config.hosts = [
-  #   "canopy-company.onrender.com"
-  # ]
-  # config.hosts << /.*\.onrender\.com/
-
   config.enable_reloading = false
   config.eager_load = true
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
   config.require_master_key = true
-  config.force_ssl = false
 
-  # config.force_ssl = true
-  config.ssl_options = {
-    hsts: { expires: 1.year, preload: true, subdomains: true },
-    redirect: { exclude: ->(request) { request.host == "localhost" } }
-  }
+  # ⚠️ ВАЖНО: ДОЛЖНО БЫТЬ false для получения SSL сертификата!
+  config.force_ssl = false
 
   config.assets.compile = false
   config.active_storage.service = :local
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
-  config.force_ssl = true
 
   config.logger =
     ActiveSupport::Logger.new(STDOUT)
@@ -37,25 +27,30 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # ============================================================
-  # 🔥 HOST AUTHORIZATION (РАБОТАЕТ НА RENDER БЕЗ ОШИБОК)
+  # 🔥 HOST AUTHORIZATION (ДЛЯ ВАШЕГО СЕРВЕРА)
   # ============================================================
 
   config.hosts.clear   # сначала очищаем дефолтные значения
 
-  # 1) Явно разрешаем свой Render-хост (ВАЖНО!)
-  config.hosts << "canopy-company.onrender.com"
+  # 1) Ваш домен для NPM
+  config.hosts << "elvin.solncevdome.net"
 
-  # 2) Разрешаем любые поддомены *.onrender.com (для превью и билдов)
-  config.hosts << /.*\.onrender\.com/
+  # 2) Имя контейнера Docker
+  config.hosts << "canopy-app-prod"
 
-  # 3) Если есть переменная среды RAILS_HOSTS — разбираем и добавляем
+  # 3) Локальные адреса
+  config.hosts << "localhost"
+  config.hosts << "127.0.0.1"
+
+
+  # 5) Если есть переменная среды RAILS_HOSTS — разбираем и добавляем
   if ENV["RAILS_HOSTS"].present?
     ENV["RAILS_HOSTS"].split(',').each do |host|
       config.hosts << host.strip
     end
   end
 
-  # 4) health check /up не проходит через HostAuthorization
+  # 6) health check /up не проходит через HostAuthorization
   config.host_authorization = {
     exclude: ->(request) { request.path == "/up" }
   }
