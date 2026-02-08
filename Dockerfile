@@ -121,10 +121,9 @@ COPY Gemfile Gemfile.lock ./
 RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)"
 
 RUN bundle install \
-    --jobs=2 \
+    --jobs=1 \
     --retry=3 \
-    --without development test \
-    && bundle clean --force
+    --verbose
 
 # ---- JS deps (кешируются) ----
 COPY package.json yarn.lock ./
