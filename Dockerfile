@@ -96,9 +96,7 @@ ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_WITHOUT="development test" \
     BUNDLE_PATH=/usr/local/bundle \
-    BUNDLE_FORCE_RUBY_PLATFORM=true \
     NOKOGIRI_USE_SYSTEM_LIBRARIES=1
-
 
 # Системные зависимости
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
@@ -126,7 +124,6 @@ RUN bundle install \
     --jobs=2 \
     --retry=3 \
     --without development test \
-    --no-cache \
     && bundle clean --force
 
 # ---- JS deps (кешируются) ----
