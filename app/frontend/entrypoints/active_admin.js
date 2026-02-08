@@ -7,8 +7,7 @@
 
 
 // app/frontend/entrypoints/login_controller.js
-import jquery from 'jquery';
-import jqueryUi from 'jquery-ui';
+import "jquery-ui/ui/widget"
 
 // Устанавливаем jQuery в глобальную область
 window.jQuery = jquery;
