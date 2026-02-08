@@ -96,8 +96,9 @@ ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_WITHOUT="development test" \
     BUNDLE_PATH=/usr/local/bundle \
-    BUNDLE_JOBS=4 \
-    BUNDLE_RETRY=3
+    BUNDLE_FORCE_RUBY_PLATFORM=true \
+    NOKOGIRI_USE_SYSTEM_LIBRARIES=1
+
 
 # Системные зависимости
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
@@ -122,9 +123,10 @@ COPY Gemfile Gemfile.lock ./
 RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)"
 
 RUN bundle install \
-    --jobs=4 \
+    --jobs=2 \
     --retry=3 \
     --without development test \
+    --no-cache \
     && bundle clean --force
 
 # ---- JS deps (кешируются) ----
