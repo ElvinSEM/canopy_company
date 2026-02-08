@@ -44,90 +44,48 @@
 #CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 #
 #
-#
-#FROM ruby:3.4.8-alpine3.23
-#
-#RUN apk --update add --no-cache \
-#    build-base \
-#    yaml-dev \
-#    tzdata \
-#    nodejs \
-#    npm \
-#    libc6-compat \
-#    postgresql-dev \
-#    curl \
-#    ruby-dev \
-#    vips-dev \
-#    && rm -rf /var/cache/apk/*
-#
-## Устанавливаем Corepack через npm, а затем включаем его
-#RUN npm i -g corepack && \
-#    corepack enable
-#
-#
-## Подготавливаем Yarn 4.6.0 через Corepack
-#RUN corepack prepare yarn@4.6.0 --activate
-#RUN yarn set version 4.6.0
-#
-#ENV BUNDLE_DEPLOYMENT="1" \
-#    BUNDLE_PATH="/usr/local/bundle" \
-#    BUNDLE_WITHOUT="development test"
-#
-#WORKDIR /app
-#
-#COPY Gemfile Gemfile.lock ./
-#RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
-#RUN bundle check || bundle install --jobs=2 --retry=3
-#RUN bundle clean --force
-#
-#COPY package.json yarn.lock ./
-#RUN yarn install --frozen-lockfile
-#
-#COPY . .
-#
-#EXPOSE 3000
-#
-#CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 
+FROM ruby:3.4.8-alpine3.23
 
-FROM ruby:3.4.8-slim
-
-ENV RAILS_ENV=production \
-    BUNDLE_DEPLOYMENT=1 \
-    BUNDLE_WITHOUT="development test" \
-    BUNDLE_PATH=/usr/local/bundle \
-    NOKOGIRI_USE_SYSTEM_LIBRARIES=1
-
-# Системные зависимости
-RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    build-essential \
-    curl \
-    git \
-    libpq-dev \
+RUN apk --update add --no-cache \
+    build-base \
+    yaml-dev \
+    tzdata \
     nodejs \
     npm \
-    libvips \
-    tzdata \
-    && rm -rf /var/lib/apt/lists/*
+    libc6-compat \
+    postgresql-dev \
+    curl \
+    ruby-dev \
+    vips-dev \
+    && rm -rf /var/cache/apk/*
 
-# Corepack + Yarn
-RUN npm install -g corepack && corepack enable
+# Устанавливаем Corepack через npm, а затем включаем его
+RUN npm i -g corepack && \
+    corepack enable
+
+
+# Подготавливаем Yarn 4.6.0 через Corepack
 RUN corepack prepare yarn@4.6.0 --activate
+RUN yarn set version 4.6.0
+
+ENV BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development test"
 
 WORKDIR /app
 
-# ---- Ruby deps (кешируются) ----
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler -v "$(tail -n 1 Gemfile.lock)"
+RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
+RUN bundle check || bundle install --jobs=2 --retry=3
+RUN bundle clean --force
 
-RUN bundle install \
-    --jobs=1 \
-    --retry=3 \
-    --verbose
-
-# ---- JS deps (кешируются) ----
 COPY package.json yarn.lock ./
-RUN yarn install --immutable
+RUN yarn install --frozen-lockfile
 
-# ---- App ----
 COPY . .
+
+EXPOSE 3000
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
