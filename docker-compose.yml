@@ -9,9 +9,9 @@ services:
       - /app/node_modules
       - /app/public/vite-dev
       - /app/tmp/pids  # Важно для server.pid
-    ports:
-      - "3000:3000"
-      - "3035:3035"    # Порт для Vite dev server
+#    ports:
+#      - "3000:3000"
+#      - "3035:3035"    # Порт для Vite dev server
     depends_on:
       - pg
       - redis

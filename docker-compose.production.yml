@@ -295,44 +295,37 @@
 
 
 
+
+
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile  # Добавляем явное указание
     image: canopy-app-prod:latest
     container_name: canopy-app-prod
     restart: unless-stopped
     env_file:
       - .env.production
-    ports:
-      - "3000:3000"  # Исправляем expose на ports
+    environment:
+      RAILS_ENV: production
+    expose:
+      - "3000"
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_started
     networks:
-      - canopy-network  # Переименовываем для ясности
+      - canopy-network
       - npm-network
     command: >
       sh -c "
-       echo 'Waiting for PostgreSQL...' &&
-        sleep 15 &&
-        echo 'Starting application...' &&
+        echo 'Waiting for PostgreSQL...' &&
+        sleep 10 &&
         bundle exec rails db:prepare &&
-        bundle exec rails assets:precompile &&
         bundle exec rails server -b 0.0.0.0 -p 3000 -e production
       "
     volumes:
-      - gems_data:/usr/local/bundle
-      - ./log:/app/log  # Добавляем логи
-      - ./tmp:/app/tmp  # Добавляем tmp
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 3
+      - ./log:/app/log
+      - ./tmp:/app/tmp
 
   postgres:
     image: postgres:16-alpine
@@ -365,7 +358,6 @@ services:
 volumes:
   postgres_data:
   redis_data:
-  gems_data:
 
 networks:
   canopy-network:
