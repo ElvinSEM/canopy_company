@@ -81,7 +81,7 @@ RUN bundle check || bundle install --jobs=2 --retry=3
 RUN bundle clean --force
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install --immutable
 
 COPY . .
 
