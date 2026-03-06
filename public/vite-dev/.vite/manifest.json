@@ -25,13 +25,13 @@
     "integrity": "sha384-yY5zI0F9P5zzvd4fkzylynJKk302kxoBwxT3L5NkUBlPfzgcMnJublawUP4tFLsN"
   },
   "entrypoints/active_admin.css": {
-    "file": "assets/active_admin-BnWJw_9z.css",
+    "file": "assets/active_admin-CQJFxa0V.css",
     "src": "entrypoints/active_admin.css",
     "isEntry": true,
-    "integrity": "sha384-9mj50/b67MVP/H1CGZ+YirgHCM2neH0Zorf51n/uuGGImDT9X9wvPFcFyvwLgkEN"
+    "integrity": "sha384-wKHqxkaS9lkAcXMNk6unirJHiyouGoApbcFfT2cx7NBJ3CT07JX8pfBFZAfA18kY"
   },
   "entrypoints/active_admin.js": {
-    "file": "assets/active_admin-Co8L6ZIx.js",
+    "file": "assets/active_admin-CqzQ6vfk.js",
     "name": "entrypoints/active_admin.js",
     "src": "entrypoints/active_admin.js",
     "isEntry": true,
@@ -39,25 +39,25 @@
       "_stimulus-uMCqvyjL.js"
     ],
     "css": [
-      "assets/active_admin-BnWJw_9z.css"
+      "assets/active_admin-CQJFxa0V.css"
     ],
-    "integrity": "sha384-MZhDapI08s8jUsg2T4Kfmn+Lb2mZsv/dnfOSqdSckiVvsz5VyN+Bgyq34xtsRBUD"
+    "integrity": "sha384-F4tOQEE4hFUiQxHtQullZY+RHvm84sE45M4wfZakxex25zE/hmniab7dluVYieHE"
   },
   "entrypoints/application.css": {
-    "file": "assets/application-C9LsqHtp.css",
+    "file": "assets/application-Bc93qaRA.css",
     "src": "entrypoints/application.css",
     "isEntry": true,
-    "integrity": "sha384-Ros3RbBYNvQwcUDaCv/62o6xv8hTpGS2Ce3cAnjcwKJt+yNR6FQeTGO18xwC80jv"
+    "integrity": "sha384-7MgKQytox9QI63eLpDuuXUnPeWXXewWxxYIf5h9M1uUCOMm+AebsAWPqnPRiok4D"
   },
   "entrypoints/application.js": {
-    "file": "assets/application-qkFDMLZR.js",
+    "file": "assets/application-COJBDcQD.js",
     "name": "entrypoints/application.js",
     "src": "entrypoints/application.js",
     "isEntry": true,
     "imports": [
       "_stimulus-uMCqvyjL.js"
     ],
-    "integrity": "sha384-f2E71swrAn0X6avXD2tjEa9hepNeVYsEsVYunzJE1TkgN9Q4HwIWSvFiMPhqbq/5"
+    "integrity": "sha384-i46IDaPwiFwmbi74CEXK8PAFvAC8j904R+ihXtmkVyFdmP+XQJqoT/TEih03QtZ0"
   },
   "logo.jpeg": {
     "file": "assets/logo-D8XcvPkz.jpeg",
@@ -88,5 +88,20 @@
     "file": "assets/workflow3-v36B_u9R.jpeg",
     "src": "workflow3.jpeg",
     "integrity": "sha384-L8oRkPsL+MvVTCYTOXeOwo8HwKlntcGTYNvSALprQyKso3OrrjMkyiU+QUcHk/jq"
+  },
+  "workflow4.jpeg": {
+    "file": "assets/workflow4-DY06_BBq.jpeg",
+    "src": "workflow4.jpeg",
+    "integrity": "sha384-+qZ6mC9x0y9H684wQbf/nb8534XHBI+UyfucmcwKh/zPwoz7p7retzlqxHlUPYVH"
+  },
+  "workflow5.jpeg": {
+    "file": "assets/workflow5-CU-cn5Dx.jpeg",
+    "src": "workflow5.jpeg",
+    "integrity": "sha384-53CdStB9k/xWnupxvH5FgLI/7ig6/dvlTq2zMdXrynY72D2+5RqUj+D/xm/VlU8L"
+  },
+  "на высоте.jpeg": {
+    "file": "assets/на высоте-D40gn2ZI.jpeg",
+    "src": "на высоте.jpeg",
+    "integrity": "sha384-uztkpvhCX2PxbMZ0doXBJbHRgN4StYCitm6dDcSvmzkMnYVAM1EEJulqcLBPRquP"
   }
 }

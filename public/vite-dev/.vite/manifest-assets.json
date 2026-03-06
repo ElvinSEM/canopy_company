@@ -38,5 +38,20 @@
     "file": "assets/workflow3-v36B_u9R.jpeg",
     "src": "images/workflow3.jpeg",
     "integrity": "sha384-L8oRkPsL+MvVTCYTOXeOwo8HwKlntcGTYNvSALprQyKso3OrrjMkyiU+QUcHk/jq"
+  },
+  "images/workflow4.jpeg": {
+    "file": "assets/workflow4-DY06_BBq.jpeg",
+    "src": "images/workflow4.jpeg",
+    "integrity": "sha384-+qZ6mC9x0y9H684wQbf/nb8534XHBI+UyfucmcwKh/zPwoz7p7retzlqxHlUPYVH"
+  },
+  "images/workflow5.jpeg": {
+    "file": "assets/workflow5-CU-cn5Dx.jpeg",
+    "src": "images/workflow5.jpeg",
+    "integrity": "sha384-53CdStB9k/xWnupxvH5FgLI/7ig6/dvlTq2zMdXrynY72D2+5RqUj+D/xm/VlU8L"
+  },
+  "images/на высоте.jpeg": {
+    "file": "assets/на высоте-D40gn2ZI.jpeg",
+    "src": "images/на высоте.jpeg",
+    "integrity": "sha384-uztkpvhCX2PxbMZ0doXBJbHRgN4StYCitm6dDcSvmzkMnYVAM1EEJulqcLBPRquP"
   }
 }

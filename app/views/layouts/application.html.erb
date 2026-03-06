@@ -1,13 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="ru" class="h-full scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= page_title %></title>
+
+  <!-- SEO Title -->
+  <title>Навесы из поликарбоната в Крыму — изготовление и установка в Симферополе</title>
+
+  <!-- SEO Description -->
+  <meta name="description" content="Производство и монтаж навесов из поликарбоната в Крыму. Работаем в Симферополе и по всему региону. Бесплатный замер и расчет.">
+
+  <!-- Google Search Console -->
+  <meta name="google-site-verification" content="ВАШ_КОД_ОТ_GOOGLE">
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png">
 
   <!-- Vite assets -->
   <%= vite_client_tag %>
@@ -25,7 +35,6 @@
   <!-- Preload critical resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 </head>
 
 <body class="<%= body_classes %>"
@@ -33,7 +42,7 @@
 
 <!-- Основной сайт -->
 <%# unless admin_section? %>
-  <%#= render "shared/header" %>
+<%#= render "shared/header" %>
 <%# end %>
 
 <!-- Основной контент -->
@@ -43,7 +52,7 @@
 
 <!-- Футер (только для основного сайта) -->
 <%# unless admin_section? %>
-  <%#= render "shared/footer" %>
+<%#= render "shared/footer" %>
 <%# end %>
 
 <!-- Модалки и уведомления (только для основного сайта) -->

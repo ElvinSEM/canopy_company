@@ -7,15 +7,15 @@ default: &default
 development:
   <<: *default
   host: localhost
-  username: admin
-  password: admin
+  username: hello
+  password:
   database: canopy_company_dev
 
 test:
   <<: *default
   host: localhost
-  username: admin
-  password: admin
+  username: hello
+  password:
   database: canopy_company_test
 
 production:
