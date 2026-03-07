@@ -113,7 +113,7 @@ COPY Gemfile Gemfile.lock ./
 RUN gem install bundler -v 2.6.9
 
 # --- устанавливаем Bundler и зависимости Ruby ---
-RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
+#RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
 RUN bundle check || bundle install --jobs=2 --retry=3
 RUN bundle clean --force
 

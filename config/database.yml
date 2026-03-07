@@ -20,7 +20,7 @@ test:
 
 production:
   <<: *default
-  host: pg                      # Критически важно для Docker!
+  host: canopy-postgres-prod                      # Критически важно для Docker!
   username: admin
   password: <%= ENV['DATABASE_PASSWORD'] %>
   database: canopy_company_production
