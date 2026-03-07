@@ -109,6 +109,9 @@ WORKDIR /app
 # --- копируем Gemfile и Gemfile.lock ---
 COPY Gemfile Gemfile.lock ./
 
+# --- устанавливаем конкретную версию bundler ---
+RUN gem install bundler -v 2.6.9
+
 # --- устанавливаем Bundler и зависимости Ruby ---
 RUN gem install bundler -v $(tail -n 1 Gemfile.lock)
 RUN bundle check || bundle install --jobs=2 --retry=3
