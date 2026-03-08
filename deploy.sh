@@ -37,7 +37,6 @@
 
 
 
-
 #!/bin/bash
 set -e
 
@@ -79,15 +78,17 @@ notify_failure() {
 
 trap notify_failure ERR
 
-echo "📥 Pulling latest code..."
-git pull origin main
+echo "📥 Syncing with GitHub..."
+
+git fetch origin
+git reset --hard origin/main
 
 echo "🐳 Building Docker image..."
 docker build -t $IMAGE_NAME .
 
 echo "💾 Creating DB backup..."
 
-docker exec $POSTGRES_CONTAINER pg_dump -U postgres postgres > backup_$DATE.sql || true
+docker exec $POSTGRES_CONTAINER pg_dump -U postgres postgres | gzip > backup_$DATE.sql.gz || true
 
 echo "🔄 Restarting app container..."
 
@@ -103,6 +104,15 @@ docker run -d \
 echo "🗄 Running migrations..."
 
 docker exec $APP_CONTAINER bundle exec rails db:migrate
+
+echo "🩺 Checking application health..."
+
+sleep 5
+
+if ! curl -f http://localhost:3000 > /dev/null; then
+  echo "❌ Healthcheck failed"
+  exit 1
+fi
 
 echo "🧹 Cleaning old docker images..."
 
