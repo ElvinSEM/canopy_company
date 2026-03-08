@@ -27,6 +27,9 @@ docker compose -f docker-compose.production.yml run --rm app bundle exec rails d
 echo "🔁 Restart app container..."
 docker compose -f docker-compose.production.yml up -d app
 
+echo "🧹 Clean docker build cache..."
+docker builder prune -af
+
 echo "🧹 Clean old docker images..."
 docker image prune -af
 
