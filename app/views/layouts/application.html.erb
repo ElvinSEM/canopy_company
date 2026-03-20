@@ -2,63 +2,79 @@
 <html lang="ru" class="h-full scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- SEO Title -->
-  <title>Навесы из поликарбоната в Крыму — изготовление и установка в Симферополе</title>
+  <!-- Primary SEO -->
+  <title>Навесы из поликарбоната в Крыму | Изготовление и установка</title>
 
-  <!-- SEO Description -->
-  <meta name="description" content="Производство и монтаж навесов из поликарбоната в Крыму. Работаем в Симферополе и по всему региону. Бесплатный замер и расчет.">
+  <meta name="description" content="Изготавливаем навесы из поликарбоната в Крыму. Навесы для автомобиля, дома и террасы. Бесплатный замер и расчет.">
 
-  <!-- Google Search Console -->
-  <meta name="google-site-verification" content="ВАШ_КОД_ОТ_GOOGLE">
+  <meta name="keywords" content="навесы из поликарбоната Крым, навес для машины Симферополь, навесы Крым">
 
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+  <link rel="canonical" href="https://elvin.solncevdome.net">
+
+  <meta name="robots" content="index, follow">
+
+  <!-- Geo -->
+  <meta name="geo.region" content="RU-KRYM">
+  <meta name="geo.placename" content="Крым">
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Навесы из поликарбоната в Крыму">
+  <meta property="og:description" content="Изготовление и монтаж навесов из поликарбоната">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://elvin.solncevdome.net">
+  <meta property="og:image" content="https://elvin.solncevdome.net/preview.jpg">
+  <meta property="og:site_name" content="Навесы из поликарбоната">
+  <meta property="og:locale" content="ru_RU">
+
+  <!-- Google verification -->
+  <meta name="google-site-verification" content="glbtxJeQjQhpKvMsiO2Sf3VpMNKoRCCmxX5wRpRH6k0">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" href="/favicon.ico">
+
+  <%= csrf_meta_tags %>
+
+  <!-- Structured data (SEO boost) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Навесы из поликарбоната",
+    "description": "Изготовление навесов из поликарбоната в Крыму",
+    "areaServed": "Крым",
+    "url": "https://elvin.solncevdome.net",
+    "image": "https://elvin.solncevdome.net/preview.jpg"
+  }
+  </script>
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Vite assets -->
   <%= vite_client_tag %>
-
-  <!-- Основные ассеты приложения -->
   <%= vite_stylesheet_tag 'application' %>
   <%= vite_javascript_tag 'application' %>
 
-  <!-- Админские ассеты (только для админ-разделов) -->
   <% if admin_section? %>
     <%= vite_javascript_tag 'active_admin' %>
     <%= vite_stylesheet_tag 'active_admin' %>
   <% end %>
-
-  <!-- Preload critical resources -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 
 <body class="<%= body_classes %>"
       data-controller="<%= body_data_controllers %>">
 
-<!-- Основной сайт -->
-<%# unless admin_section? %>
-<%#= render "shared/header" %>
-<%# end %>
-
-<!-- Основной контент -->
 <main class="<%= main_classes %>">
   <%= yield %>
 </main>
 
-<!-- Футер (только для основного сайта) -->
-<%# unless admin_section? %>
-<%#= render "shared/footer" %>
-<%# end %>
-
-<!-- Модалки и уведомления (только для основного сайта) -->
 <% unless admin_section? %>
   <%= render "shared/lead_modal" %>
   <div class="fixed bottom-4 right-4 z-50 space-y-2" id="toast-container"></div>
 <% end %>
+
 </body>
 </html>

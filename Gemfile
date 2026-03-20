@@ -29,7 +29,7 @@ gem 'telegram-bot-ruby', '~> 2.5'
 gem 'vite_rails'
 gem 'redis', '~> 5.4', '>= 5.4.1'
 gem 'sidekiq', '~> 8.1'
-
+gem 'sitemap_generator'
 
 group :development, :test do
   gem 'rspec-rails'

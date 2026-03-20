@@ -2,11 +2,12 @@
 module MetaHelper
   def default_meta_tags
     {
-      site: @company&.name || ENV["COMPANY_NAME"] || "ELVINCompany",
+      site: "Навесы из поликарбоната",
+      title: "Навесы из поликарбоната в Крыму",
       reverse: true,
       separator: '|',
-      description: 'Профессиональные услуги веб-разработки и дизайна',
-      keywords: 'веб-разработка, дизайн, Ruby on Rails',
+      description: 'Изготавливаем навесы из поликарбоната в Крыму. Навесы для авто, дома и террасы.',
+      keywords: 'навесы из поликарбоната Крым, навес для машины Крым, навесы Севастополь',
       canonical: request.original_url,
       noindex: !Rails.env.production?,
       icon: [
